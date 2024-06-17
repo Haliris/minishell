@@ -1,6 +1,6 @@
 name: 42 Norminette
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   norminette_job:
