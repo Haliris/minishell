@@ -5,7 +5,11 @@ CFLAGS	= -Wall -Werror -Wextra -pthread -g3
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
-		  parse.c
+		  parse.c \
+		  execute_path.c \
+		  get_execpaths.c \
+		  execution_main.c \
+
 SRC		= $(addprefix $(SRCDIR)/, $(CFILES))
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 INCS	= -I./include

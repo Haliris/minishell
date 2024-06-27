@@ -16,5 +16,6 @@ int	main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
+	// fork to call execute_commands
 	return (0);
 }
