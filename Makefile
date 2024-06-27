@@ -8,7 +8,8 @@ CFILES	= main.c \
 		  parse.c
 SRC		= $(addprefix $(SRCDIR)/, $(CFILES))
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
-INCS	= -I./include
+INCS	=	-I ./include \
+			-I ./libft
 
 all: $(OBJDIR) $(NAME)
 	@echo "Making minishell..."
@@ -20,14 +21,17 @@ $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(INCS) -o $(NAME) $(OBJS)
+	make -C ./libft all
+	$(CC) $(CFLAGS) $(INCS) -L ./libft/ -lft -o $(NAME) $(OBJS)
 
 clean:
 	@echo "Cleaning object files..."
+	make -C ./libft/ clean
 	@rm -rf $(OBJDIR)
 
 fclean: clean
 	@echo "Removing minishell..."
+	rm -f ./libft/libft.a
 	rm -f $(NAME)
 
 re: fclean all
