@@ -11,16 +11,28 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <time.h>
-#include <stdlib.h>
+#include "minishell.h"
 #include "get_next_line.h"
 
 // call unlink on the returned fd to remove said file once it is parsed in the main process
 int	get_random_nbr(int lower, int upper);
 {
 	int	nbr;
+	int	fd;
 
-	nbr = ((rand() % (upper - lower + 1)) + lower);
+	fd = open("/dev/urandom", O_RDONLY);
+	if (fd < 0)
+	{
+		exit(EXIT_FAILURE);
+	}
+	if (read(fd, &nbr, sizeof(nbr)) < 0)
+	{
+		close(fd);
+		exit(EXIT_FAILURE);
+	}
+	close(fd);
+	nbr = nbr & 0x7FFFFFFF;
+	nbr = lower + (nbr % (upper - lower + 1));
 	return (nbr);
 }
 
