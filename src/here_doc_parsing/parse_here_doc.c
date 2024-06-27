@@ -14,21 +14,19 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-// call unlink on the returned fd to remove said file once it is parsed in the main process
-int	get_random_nbr(int lower, int upper);
+//call unlink() in main process once we are done with the file
+int	get_random_nbr(int lower, int upper)
 {
 	int	nbr;
 	int	fd;
 
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
-	{
-		exit(EXIT_FAILURE);
-	}
+		return (-1);
 	if (read(fd, &nbr, sizeof(nbr)) < 0)
 	{
 		close(fd);
-		exit(EXIT_FAILURE);
+		return (-1);
 	}
 	close(fd);
 	nbr = nbr & 0x7FFFFFFF;
@@ -36,33 +34,40 @@ int	get_random_nbr(int lower, int upper);
 	return (nbr);
 }
 
-void	randomize(char *str)
+int	randomize(char *str)
 {
-	char	charset[24];
+	char	charset[25];
 	int		index;
 	int		random;
 
-	charset = "0123456789abcdefgABCDEFG";
 	index = 0;
+	ft_strlcpy(charset, "0123456789abcdefgABCDEFG", 24);
 	while (index < 20)
 	{
-		random = get_random_nbr(0, 23); 
+		random = get_random_nbr(0, 23);
+		if (random == -1)
+			return (-1);
 		str[index] = charset[random];
 		index++;
 	}
+	return (1);
 }
 
-int	create_here_file(void)
+int	create_here_file(t_heredoc *heredoc)
 {
-	char	random_str[20];
 	int		here_fd;
 
-	randomize(random_str);
-	here_fd = open(random_str, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	heredoc->path[0] = '.';
+	if (randomize(&heredoc->path[1]) == -1)
+		return (-1);
+	here_fd = open(heredoc->path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+	if (here_fd < 0)
+		return (-1);
+	heredoc->fd = here_fd;
 	return (here_fd);
 }
 
-void	put_line(char *limiter)
+int	put_line(char *limiter, int here_fd)
 {
 	char	*gnl_line;
 	int		len;
@@ -74,27 +79,27 @@ void	put_line(char *limiter)
 		if (ft_strncmp(gnl_line, limiter, len) == 0 && gnl_line[len] == '\n')
 		{
 			free(gnl_line);
-			exit(EXIT_SUCCESS);
+			return (1);
 		}
 		if (!gnl_line)
-			handle_error("Couldn't find LIMITER in here_doc", EXIT_FAILURE);
-		ft_putstr_fd(gnl_line, STDOUT_FILENO);
+			return (-1);
+		ft_putstr_fd(gnl_line, here_fd);
 		free(gnl_line);
 	}
 }
 
-int	process_here_doc(char *limiter)
+t_heredoc	*process_here_doc(char *limiter)
 {
-	int		here_fd;
+	int			here_fd;
+	t_heredoc	*heredoc;
 
-	here_fd = create_here_file();
-	put_line(limiter);
-	return (here_fd);
-}
-
-int main(int ac, char *av[])
-{
-	void(ac);
-	process_here_doc(av[1]);
-	return (0);
+	heredoc = ft_calloc(1, sizeof(t_heredoc));
+	if (!heredoc)
+		return (NULL);
+	here_fd = create_here_file(heredoc);
+	if (here_fd == -1)
+		return (NULL);
+	if (put_line(limiter, here_fd) < 0)
+		return (NULL);
+	return (heredoc);
 }

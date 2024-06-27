@@ -28,7 +28,16 @@
 # include <termios.h>
 # include <curses.h>
 # include <term.h>
+# include <fcntl.h>
 
 # include "libft.h"
+# include "get_next_line.h"
 
+typedef struct s_heredoc
+{
+	int		fd;
+	char	path[22];
+}	t_heredoc;
+
+t_heredoc	*process_here_doc(char *limiter);
 #endif
