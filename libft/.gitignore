@@ -1,0 +1,17 @@
+**/*.out
+**/*.a
+**/*.o
+**/.vscode
+**/.gch
+**/main
+**/*.swp
+srcs/libftTester/
+./libtest/
+srcs/libft.h
+srcs/libft.h.gch
+srcs/libft.so
+srcs/Makefile
+srcs/libft.a
+libft-war-machine/*
+test_dump.c
+test_main.c

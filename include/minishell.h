@@ -29,4 +29,6 @@
 # include <curses.h>
 # include <term.h>
 
+# include "libft.h"
+
 #endif
