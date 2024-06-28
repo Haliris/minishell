@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/27 20:14:28 by bthomas          ###   ########.fr       */
+/*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
+/*   Updated: 2024/06/28 18:01:07 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-void	lexer(void)
+bool	is_space(unsigned char c)
 {
-	return ;
+	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+t_token *lexer(char *input)
+{
+	t_token	*token;
+
+	token = NULL;
+	return (token);
 }

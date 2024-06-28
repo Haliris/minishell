@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/25 13:21:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/06/28 17:39:48 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <curses.h>
 # include <term.h>
 # include <fcntl.h>
+# include <limits.h>
+# include <stdbool.h>
 
 # include "libft.h"
 # include "get_next_line.h"
@@ -40,4 +42,5 @@ typedef struct s_heredoc
 }	t_heredoc;
 
 t_heredoc	*process_here_doc(char *limiter);
+
 #endif

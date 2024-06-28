@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/27 20:05:20 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/06/28 19:31:05 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,65 @@
  *			is transitioning.
  */
 
+typedef struct s_data
+{
+	char		*input;
+	size_t		buffer_size;
+}	t_data;
+
+/*
+Identifiers:
+	variables, functions, commands, labels
+	typically names of commands.
+
+Numbers:
+	stand-alone numbers 
+
+Operators:
+	'+' '-' '*' '/' '%'
+
+Keywords:
+	if, then, else, while, do, for,
+	break, continue, return, exit
+
+Redirections:
+	'>', '>>', '<', etc.
+
+Pipe:
+	'|'
+
+Background:
+	'&'
+
+Subshell:
+	'(' ')'
+
+Logical operators:
+	AND	&&
+	OR	||
+
+Command separators:
+	';'
+
+Assignment:
+	'='
+*/
+
 typedef enum e_tokentype
 {
 	TK_IDENTIFIER,
 	TK_NUMBER,
 	TK_OPERATOR,
 	TK_STRING,
-	TK_WHITESPACE
+	TK_KEYWORD,
+	TK_REDIRECTION,
+	TK_PIPE,
+	TK_BACKGROUND,
+	TK_SUBSHELL,
+	TK_LOGICAL_AND,
+	TK_LOGICAL_OR,
+	TK_COMMAND_SEPARATOR,
+	TK_ASSIGNMENT
 }	t_tokentype;
 
 typedef enum e_state
@@ -49,7 +101,9 @@ typedef struct s_token
 	char		*lexstr;
 }	t_token;
 
-/* unsure if the below is feasible
+# define MAX_INPUT_LEN 4096
+# define INIT_BUFF_SIZE 1024
+/* Could use the below for subshell
 typedef struct s_token
 {
 	t_tokentype	type;
