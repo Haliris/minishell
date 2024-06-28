@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.c                                            :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/06/28 19:55:56 by bento            ###   ########.fr       */
+/*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
+/*   Updated: 2024/06/28 20:18:35 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token *lexer(char *input)
+t_token	get_token(char *lexstr, t_tokentype type)
 {
-	t_token	*token;
+	t_token	token;
 
-	token = NULL;
+	token.lexstr = lexstr;
+	token.type = type;
 	return (token);
 }

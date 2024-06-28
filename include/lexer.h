@@ -6,7 +6,7 @@
 /*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/28 19:31:05 by bento            ###   ########.fr       */
+/*   Updated: 2024/06/28 20:43:12 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ Redirections:
 Pipe:
 	'|'
 
-Background:
-	'&'
-
-Subshell:
-	'(' ')'
-
 Logical operators:
 	AND	&&
 	OR	||
@@ -77,11 +71,8 @@ typedef enum e_tokentype
 	TK_KEYWORD,
 	TK_REDIRECTION,
 	TK_PIPE,
-	TK_BACKGROUND,
-	TK_SUBSHELL,
 	TK_LOGICAL_AND,
 	TK_LOGICAL_OR,
-	TK_COMMAND_SEPARATOR,
 	TK_ASSIGNMENT
 }	t_tokentype;
 
@@ -103,13 +94,8 @@ typedef struct s_token
 
 # define MAX_INPUT_LEN 4096
 # define INIT_BUFF_SIZE 1024
-/* Could use the below for subshell
-typedef struct s_token
-{
-	t_tokentype	type;
-	t_token		**sub_tokens;
-	char		*lexstr;
-}
-*/
+
+t_token	get_token(char *lexstr, t_tokentype type);
+bool	is_space(unsigned char c);
 
 #endif
