@@ -6,7 +6,7 @@
 /*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/28 20:43:12 by bento            ###   ########.fr       */
+/*   Updated: 2024/06/29 20:22:56 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ Assignment:
 
 typedef enum e_tokentype
 {
+	TK_INVALID,
+	TK_BUILTIN,
+	TK_ENVVAR,
+	TK_EXECUTABLE,
 	TK_IDENTIFIER,
 	TK_NUMBER,
 	TK_OPERATOR,
@@ -86,16 +90,23 @@ typedef enum e_state
 	STATE_END
 }	t_state;
 
+/* subtoken used for subshell () - nested tokens*/
 typedef struct s_token
 {
 	t_tokentype	type;
 	char		*lexstr;
+	t_token		**subtoken;
 }	t_token;
 
 # define MAX_INPUT_LEN 4096
 # define INIT_BUFF_SIZE 1024
 
 t_token	get_token(char *lexstr, t_tokentype type);
+
+/* utilities */
 bool	is_space(unsigned char c);
+bool	in(unsigned char c, const char *str);
+char	*get_substr(char *input, size_t start_idx);
+bool	is_builtin(char *input, size_t start_idx);
 
 #endif
