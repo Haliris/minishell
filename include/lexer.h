@@ -6,7 +6,7 @@
 /*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/29 20:22:56 by bento            ###   ########.fr       */
+/*   Updated: 2024/06/29 20:26:49 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ Assignment:
 typedef enum e_tokentype
 {
 	TK_INVALID,
+	TK_WILDCARD,
 	TK_BUILTIN,
 	TK_ENVVAR,
 	TK_EXECUTABLE,
