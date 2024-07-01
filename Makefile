@@ -12,14 +12,14 @@ CFILES	= main.c \
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src src/here_doc_parsing src/here_doc_parsing/get_next_line
+vpath %.c ./ src src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 
 all: $(OBJDIR) $(NAME)
 	@echo "Making minishell..."
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR) 
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 $(OBJDIR):
