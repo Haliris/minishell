@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/29 20:26:49 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/01 10:44:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,9 @@ bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 char	*get_substr(char *input, size_t start_idx);
 bool	is_builtin(char *input, size_t start_idx);
+t_token	get_num_tk(char *input, size_t start_idx);
+t_token	get_op_tk(char *input, size_t start_idx);
+t_token	get_executable(char *input, size_t start_idx);
+t_token	get_string_tk(char *input, size_t start_idx);
 
 #endif

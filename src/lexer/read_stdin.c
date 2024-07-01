@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_stdin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/28 19:55:57 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/01 11:00:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	read_stdin(char **argv, t_data *data)
 		return (1);
 	ft_bzero(data->input, data->buffer_size);
 	bytes_read = 0;
-	while (read(0, &c, 1) > 0 && c!= '\n' && c != EOF)
+	while (read(0, &c, 1) > 0 && c != '\n' && c != EOF)
 	{
 		data->input[bytes_read] = c;
 		bytes_read++;
@@ -50,8 +50,10 @@ int	read_stdin(char **argv, t_data *data)
 	data->input[bytes_read] = '\0';
 	return (0);
 }
-/* cc -I./include -I./libft src/read_stdin.c libft/ft_memmove.c libft/ft_bzero.c */
-int		main(int argc, char **argv)
+
+/* cc -I./include -I./libft src/read_stdin.c libft/ft_memmove.c 
+	libft/ft_bzero.c */
+int	main(int argc, char **argv)
 {
 	t_data	data;
 

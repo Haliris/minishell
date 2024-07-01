@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_retrieve_tk1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/06/30 08:10:29 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/01 10:58:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,9 @@ t_token	get_op_tk(char *input, size_t start_idx)
 
 t_token	get_executable(char *input, size_t start_idx)
 {
-	size_t	i;
 	char	*lexstr;
 
-	i = start_idx;
-	while (input[i] && !is_space(input[i]) && !in(input[i], "|<>"))
-		i++;
-	lexstr = ft_substr(input, start_idx, i - start_idx);
+	lexstr = get_substr(input, start_idx);
 	if (!lexstr)
 		return (get_token("", TK_INVALID));
 	return (get_token(lexstr, TK_EXECUTABLE));

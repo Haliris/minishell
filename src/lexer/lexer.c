@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/06/30 08:26:08 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/01 10:59:45 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	build_lex_tab2(t_token *token, char *input, size_t start_idx, size_t i)
 {
-	//
+	return ;
 }
 
+/* The invalid token is necessary for development, can delete later */
 void	build_lex_tab1(t_token *token, char *input)
 {
 	size_t	i;
@@ -35,7 +36,7 @@ void	build_lex_tab1(t_token *token, char *input)
 		else if (input[start_idx] == '"' || input[start_idx] == '\'')
 			token[i] = get_string_tk(input, start_idx);
 		if (token[i].type == TK_INVALID)
-		{ // temporary, just while in development
+		{
 			printf("Invalid token: %s\n", token[i].lexstr);
 			exit(1);
 		}
