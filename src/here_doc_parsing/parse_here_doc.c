@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_here_doc_bonus.c                           :+:      :+:    :+:   */
+/*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/16 12:29:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:17:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "get_next_line.h"
-
+#define FILENAME_TAKEN -1
+#define URANDOM_ERROR -2
 //call unlink() in main process once we are done with the file
 int	get_random_nbr(int lower, int upper)
 {
@@ -46,20 +47,28 @@ int	randomize(char *str)
 	{
 		random = get_random_nbr(0, 23);
 		if (random == -1)
-			return (-1);
+			return (URANDOM_ERROR);
 		str[index] = charset[random];
 		index++;
 	}
-	return (1);
+	if (access(str, F_OK) == 0)
+		return (FILENAME_TAKEN);
+	return (0);
 }
 
 int	create_here_file(t_heredoc *heredoc)
 {
 	int		here_fd;
+	int		randomize_status;
 
 	heredoc->path[0] = '.';
-	if (randomize(&heredoc->path[1]) == -1)
-		return (-1);
+	randomize_status = 1;
+	while (randomize_status)
+	{
+		randomize_status = randomize(&heredoc->path[1]);
+		if (randomize_status == URANDOM_ERROR)
+			return (-1);
+	}
 	here_fd = open(heredoc->path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (here_fd < 0)
 		return (-1);
@@ -98,8 +107,17 @@ t_heredoc	*process_here_doc(char *limiter)
 		return (NULL);
 	here_fd = create_here_file(heredoc);
 	if (here_fd == -1)
+	{
+		free(heredoc);
 		return (NULL);
+	}
 	if (put_line(limiter, here_fd) < 0)
+	{
+		free(heredoc);
 		return (NULL);
+	}
 	return (heredoc);
 }
+
+#undef FILENAME_TAKEN
+#undef URANDOM_ERROR
