@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/05 11:39:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:42:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@
 #define SYS_ERROR -2
 #define SUCCESS 1
 //call unlink() in main process once we are done with the file
-#include <stdio.h>
 
 int	get_random_nbr(int lower, int upper)
 {
@@ -56,7 +55,7 @@ int	randomize(char *str)
 	}
 	if (access(str, F_OK) == 0)
 		return (FILENAME_TAKEN);
-	return (0);
+	return (SUCCESS);
 }
 
 int	create_here_file(t_heredoc *heredoc)
