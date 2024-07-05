@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/01 17:52:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/05 15:45:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ typedef enum e_state
 }	t_state;
 
 /* subtoken used for subshell () - nested tokens*/
+typedef struct s_token t_token;
 typedef struct s_token
 {
 	t_tokentype	type;

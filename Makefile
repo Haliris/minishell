@@ -5,7 +5,8 @@ CFLAGS	= -Wall -Werror -Wextra -pthread -g3
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
-		  parse.c \
+		  parser.c \
+		  parser_utils.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c
