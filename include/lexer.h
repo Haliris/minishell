@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/06 19:36:33 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/06 19:43:26 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ typedef struct s_token t_token;
 typedef struct s_data
 {
 	char		*input;
-	char		**cmd_hist;
 	char		**env;
 	t_token		*token;
 	size_t		buffer_size;
