@@ -6,7 +6,7 @@
 /*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/06/28 17:39:48 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/06 12:00:54 by bento            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # include <fcntl.h>
 # include <limits.h>
 # include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # include "libft.h"
 # include "get_next_line.h"

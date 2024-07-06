@@ -1,6 +1,6 @@
 NAME	= minishell
 CC		= cc
-CFLAGS	= -Wall -Werror -Wextra -pthread -g3
+CFLAGS	= -Wall -Werror -Wextra -pthread -lreadline -g3
 
 SRCDIR	= src
 OBJDIR	= obj

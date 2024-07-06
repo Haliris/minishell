@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/01 10:58:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/06 19:35:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ t_token	get_num_tk(char *input, size_t start_idx)
 	return (get_token(ft_substr(input, start_idx, i - start_idx), TK_NUMBER));
 }
 
+/* Need to rethink the below with wildcards (*) 
+	- used both as a math operator and as a wildcard
+*/
 t_token	get_op_tk(char *input, size_t start_idx)
 {
 	if (!in(input[start_idx], "+-*/%%"))

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/01 10:44:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/06 19:36:33 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,14 @@
 
 # include "minishell.h"
 
-/* To experiment with / discuss:
- *
- * Different schools of thought for a state-machine:
- * 		1. you can explicitely define states like the below
- * 			1A. you then need to define how to transition between them.
- *		2. you can have your functions be the states & calling them
- *			is transitioning.
- */
+typedef struct s_token t_token;
 
 typedef struct s_data
 {
 	char		*input;
+	char		**cmd_hist;
+	char		**env;
+	t_token		*token;
 	size_t		buffer_size;
 }	t_data;
 
@@ -109,6 +105,12 @@ bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 char	*get_substr(char *input, size_t start_idx);
 bool	is_builtin(char *input, size_t start_idx);
+t_token	get_num_tk(char *input, size_t start_idx);
+t_token	get_op_tk(char *input, size_t start_idx);
+t_token	get_executable(char *input, size_t start_idx);
+t_token	get_string_tk(char *input, size_t start_idx);
+
+/* token retrieval */
 t_token	get_num_tk(char *input, size_t start_idx);
 t_token	get_op_tk(char *input, size_t start_idx);
 t_token	get_executable(char *input, size_t start_idx);
