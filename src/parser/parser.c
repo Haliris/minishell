@@ -19,38 +19,59 @@
 
 #include "parser.h"
 #include "lexer_dummy.h"
-
+#define FORWARD 0
+#define BACKWARD 1
 // if first command is cd, then execute it FIRST because the change affects all the children
 
-void	build_cmd1_str(t_token *lexer)
+char	*re_join_lexstr(char *lexstr, char *s2, int mode)
+{
+	char	*temp_new;
+	char	*new;
+
+	if (mode == FORWARD)
+		temp_new = ft_strjoin(lexstr, " ");
+	else
+		temp_new = ft_strjoin(" ", lexstr);
+	free(lexstr);
+	if (!temp_new)
+		return (NULL);
+	if (mode == FORWARD)
+		new = ft_strjoin(temp_new, s2);	
+	else
+		new = ft_strjoin(s2, temp_new);	
+	free(temp_new);
+	if (!new)
+		return (NULL);
+	return (new);
+}
+
+int	build_cmd1_str(t_token *lexer)
 {
 	t_token	*roaming;
+	t_token	*trash;
 	int		error;
-	char	*char_temp;
 
 	roaming = lexer;
 	error = FALSE;
-	while (roaming->prev || roaming->next != TK_EXECUTABLE)
+	while (roaming && roaming->next->type != TK_EXECUTABLE)
 	{
-		char_temp = roaming->lexstr;
-		roaming->lexstr = ft_strjoin(" ", roaming->lexstr);
-		free(char_temp);
-		char_temp = roaming->lexstr;
-		roaming->lexstr = ft_strjoin(roaming->prev->lexstr, roaming->lexstr); //free previous lexstr here;
-		free(char_temp);
+		trash = roaming;
+		roaming->lexstr = re_join_lexstr(roaming->lexstr, roaming->next->lexstr, BACKWARD);
 		roaming = roaming->prev;
-		if (roaming->type != TK_STRING || roaming->type != TK_EXECUTABLE)
+		if (roaming->type != TK_STRING && roaming->type != TK_EXECUTABLE)
 		{
 			error = TRUE;
 			break;
 		}
+		remove_token(trash);
 	}
+	return (error);
 }
 
-void	build_cmd2_str(t_token *lexer)
+int	build_cmd2_str(t_token *lexer)
 {
 	t_token	*roaming;
-	char	*char_temp;
+	t_token	*trash;
 	int		error;
 
 	roaming = lexer;
@@ -58,17 +79,16 @@ void	build_cmd2_str(t_token *lexer)
 	if (roaming->type != TK_EXECUTABLE)
 		error = TRUE;
 	roaming = roaming->next;
-	while (roaming->next && roaming->type == TK_STRING)
+	while (roaming && roaming->type == TK_STRING)
 	{
-		char_temp = roaming->lexstr;
-		roaming->lexstr = ft_strjoin(roaming->lexstr, " ");
-		free(char_temp);
-		char_temp = roaming->lexstr;
-		roaming->lexstr = ft_strjoin(roaming->lexstr, roaming->next->lexstr);
-		if (!roaming->next)
+		trash = roaming;
+		roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
+		if (!roaming->lexstr) //stupid safety logic, need better token removal
 			break ;
 		roaming = roaming->next;
+		remove_token(trash);
 	}
+	return (error);
 }
 
 void	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
@@ -90,18 +110,19 @@ void	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 	pipe_table = ft_calloc(1, sizeof(t_pipe_table));
 	if (!pipe_table)
 		return ;
-	pipe_table->cmd1 = lexer->prev->lexstr;
 	if (lexer->next->type != TK_EXECUTABLE)
 		error = TRUE;
-	build_cmd1_str(lexer);
+	if (build_cmd1_str(lexer->prev) == 1)
+		error = TRUE;
+	pipe_table->cmd1 = lexer->prev->lexstr;
+	if (build_cmd2_str(lexer->next) == 1)
+		error = TRUE;
 	pipe_table->cmd2 = lexer->next->lexstr;
 	parsed->table = pipe_table;
 	if (error == TRUE)
 		parsed_table_add_back(parsed, pipe_table, TK_INVALID);
 	else
 		parsed_table_add_back(parsed, pipe_table, TK_PIPE);
-	remove_token(lexer->prev);
-	remove_token(lexer->next);
 	remove_token(lexer);
 }
 
@@ -134,7 +155,7 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	{
 		if (roaming->type == TK_PIPE)
 			build_pipe_table(parsed, roaming);
-		else if (roaming->type == TK_INFILE)
+		else if (roaming->type == TK_REDIRECTION) // GARBAGE TOKEN TYPES!!!
 			build_redirect_table(parsed, roaming);
 		else if (roaming->type == TK_REDIRECTION)
 			build_redirect_table(parsed, roaming);
