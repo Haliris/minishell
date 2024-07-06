@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 #include "lexer_dummy.h"
-#include "parser.h"
+
 
 bool	check_invalid_token(t_token *tokens)
 {
@@ -36,7 +36,33 @@ void	remove_token(t_token *tokens)
 		tokens->prev->next = tokens->next;
 	if (tokens->next)
 		tokens->next->prev = tokens->prev;
+	tokens->prev = NULL;
+	tokens->next = NULL;
+	tokens->type = TK_INVALID;
+	tokens->lexstr = NULL;
 	free(tokens);
+}
+
+char	*re_join_lexstr(char *lexstr, char *s2, int mode)
+{
+	char	*temp_new;
+	char	*new;
+
+	if (mode == FORWARD)
+		temp_new = ft_strjoin(lexstr, " ");
+	else
+		temp_new = ft_strjoin(" ", lexstr);
+	// free(lexstr);
+	if (!temp_new)
+		return (NULL);
+	if (mode == FORWARD)
+		new = ft_strjoin(temp_new, s2);	
+	else
+		new = ft_strjoin(s2, temp_new);
+	free(temp_new);
+	if (!new)
+		return (NULL);
+	return (new);
 }
 
 void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
@@ -44,6 +70,11 @@ void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
 
+	if (!parsed->next)
+	{
+		parsed->table = table; //REFACTOR THIS SHIT JUST TAKE LSTADDBACK FROM LIBFT!!!
+		return ;
+	}
 	new_node = ft_calloc(1, sizeof(t_lex_parser));
 	if (!new_node)
 		return ;

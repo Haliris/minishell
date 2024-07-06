@@ -17,50 +17,74 @@
 int	main(int ac, char **av)
 {
 	t_token		*lexer;
-	t_token		*lexer2;
-	t_token		*lexer3;
-	t_token		*lexer4;
+	t_token		*temp_lexer;
+	t_token		*last;
 	t_lex_parser	*parser;
 	t_lex_parser	*roaming;
+	t_pipe_table	*pipe;
 
-	lexer = ft_calloc(1, sizeof(t_token));
-	lexer2 = ft_calloc(1, sizeof(t_token));
-	lexer3 = ft_calloc(1, sizeof(t_token));
-	lexer4 = ft_calloc(1, sizeof(t_token));
-	parser = ft_calloc(1, sizeof(t_lex_parser));
-	roaming = ft_calloc(1, sizeof(t_lex_parser));
+	int	i = 0;
 
+	lexer = malloc(sizeof(t_token));
+	temp_lexer = NULL;
 	lexer->lexstr = "cat";
 	lexer->type = TK_EXECUTABLE;
-	lexer2->lexstr = "|";
-	lexer2->type = TK_PIPE;
-	lexer3->lexstr = "grep";
-	lexer3->type = TK_EXECUTABLE;
-	lexer4->lexstr = "cc";
-	lexer4->type = TK_STRING;
-
 	lexer->prev = NULL;
-	lexer->next = lexer2;
-	lexer2->prev = lexer;
-	lexer2->next = lexer3;
-	lexer3->prev = lexer2;
-	lexer3->next = lexer4;
-	lexer4->prev = lexer3;
-	lexer4->next = NULL;
-
+	lexer->next = temp_lexer;
+	while (i < 4)
+	{
+		last = lexer;
+		temp_lexer = malloc(sizeof(t_token));
+		while(last->next)
+			last = last->next;
+		switch (i)
+		{
+			case 0:
+			{
+				temp_lexer->lexstr = "-e";
+				temp_lexer->type = TK_STRING;
+				break ;
+			}	
+			case 1:
+			{
+				temp_lexer->lexstr = "|";
+				temp_lexer->type = TK_PIPE;
+				break ;
+			}
+			case 2:
+			{
+				temp_lexer->lexstr = "grep";
+				temp_lexer->type = TK_EXECUTABLE;
+				break ;
+			}
+			case 3:
+			{
+				temp_lexer->lexstr = "cc";
+				temp_lexer->type = TK_STRING;
+				break ;
+			}
+			case 4:
+			{
+				temp_lexer->lexstr = "ls";
+				temp_lexer->type = TK_EXECUTABLE;
+				break ;
+			}
+		}
+		last->next = temp_lexer;
+		temp_lexer->next = NULL;
+		temp_lexer->prev = last;
+		i++;
+	}
 	parser = interprete_lexer(lexer);
 	roaming = parser;
 	while (roaming)
 	{
 		printf("%p\n", roaming->table);
+		pipe = roaming->table;
+		printf("%s\n", pipe->cmd1);
+		printf("%s\n", pipe->cmd2);
 		roaming = roaming->next;
 	}
-	// free(lexer);
-	// free(lexer2);
-	// free(lexer3);
-	// free(lexer4);
-	// free(parser);
-	// free(roaming);
 	(void)ac;
 	(void)av;
 	return (0);

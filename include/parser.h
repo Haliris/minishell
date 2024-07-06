@@ -13,7 +13,8 @@
 #ifndef PARSER_H
 # define PARSER_H
 # include "minishell.h"
-
+# define FORWARD 1
+# define BACKWARD 2
 typedef enum e_parsed_token
 {
 	TK_CMD,
@@ -48,5 +49,7 @@ bool			check_invalid_token(t_token *tokens);
 void			remove_token(t_token *tokens);
 void			parsed_table_add_back(t_lex_parser *parsed, void *table, int type);
 t_lex_parser	*interprete_lexer(t_token *tokens_list);
+void			build_pipe_table(t_lex_parser *parsed, t_token *lexer);
+char			*re_join_lexstr(char *lexstr, char *s2, int mode);
 
 #endif
