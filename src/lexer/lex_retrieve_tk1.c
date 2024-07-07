@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_retrieve_tk1.c                               :+:      :+:    :+:   */
+/*   lex_retrieve_tk1.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/06 19:35:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:27:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,11 @@ t_token	get_num_tk(char *input, size_t start_idx)
 	return (get_token(ft_substr(input, start_idx, i - start_idx), TK_NUMBER));
 }
 
-/* Need to rethink the below with wildcards (*) 
-	- used both as a math operator and as a wildcard
-*/
-t_token	get_op_tk(char *input, size_t start_idx)
-{
-	if (!in(input[start_idx], "+-*/%%"))
-		return (get_token("", TK_INVALID));
-	return (get_token(ft_substr(input, start_idx, 1), TK_OPERATOR));
-}
-
-t_token	get_executable(char *input, size_t start_idx)
-{
-	char	*lexstr;
-
-	lexstr = get_substr(input, start_idx);
-	if (!lexstr)
-		return (get_token("", TK_INVALID));
-	return (get_token(lexstr, TK_EXECUTABLE));
-}
-
 t_token	get_string_tk(char *input, size_t start_idx)
 {
-	size_t	i;
-	char	*lexstr;
-	char	quote;
+	size_t			i;
+	char			*lexstr;
+	unsigned char	quote;
 
 	i = start_idx + 1;
 	quote = input[start_idx];
@@ -54,6 +34,26 @@ t_token	get_string_tk(char *input, size_t start_idx)
 		i++;
 	lexstr = ft_substr(input, start_idx, i - start_idx + 1);
 	if (!lexstr)
-		return (get_token("", TK_INVALID));
+		return (get_token(NULL, TK_INVALID));
 	return (get_token(lexstr, TK_STRING));
+}
+
+t_token	get_word_tk(char *input, size_t start_idx)
+{
+	char	*lexstr;
+
+	lexstr = get_substr(input, start_idx);
+	if (!lexstr)
+		return (get_token(NULL, TK_INVALID));
+	return (get_token(lexstr, TK_WORD));
+}
+
+t_token	get_flag_tk(char *input, size_t start_idx)
+{
+	char	*lexstr;
+
+	lexstr = get_substr(input, start_idx);
+	if (!lexstr)
+		return (get_token(NULL, TK_INVALID));
+	return (get_token(lexstr, TK_FLAG));
 }

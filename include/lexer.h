@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/06 19:43:26 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/07 17:09:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,59 +60,37 @@ Assignment:
 typedef enum e_tokentype
 {
 	TK_INVALID,
-	TK_WILDCARD,
-	TK_BUILTIN,
-	TK_ENVVAR,
-	TK_EXECUTABLE,
-	TK_IDENTIFIER,
+	TK_WORD,
 	TK_NUMBER,
-	TK_OPERATOR,
+	TK_FLAG,
 	TK_STRING,
-	TK_KEYWORD,
-	TK_REDIRECTION,
-	TK_PIPE,
-	TK_LOGICAL_AND,
-	TK_LOGICAL_OR,
-	TK_ASSIGNMENT
 }	t_tokentype;
 
-typedef enum e_state
-{
-	STATE_START,
-	STATE_IN_IDENTIFIER,
-	STATE_IN_NUMBER,
-	STATE_IN_OPERATOR,
-	STATE_IN_STRING,
-	STATE_END
-}	t_state;
-
-/* subtoken used for subshell () - nested tokens*/
 typedef struct s_token
 {
 	t_tokentype	type;
 	char		*lexstr;
-	t_token		**subtoken;
+	t_token		*next;
+	t_token		*prev;
 }	t_token;
 
-# define MAX_INPUT_LEN 4096
-# define INIT_BUFF_SIZE 1024
-
 t_token	get_token(char *lexstr, t_tokentype type);
+void	lex_add_token(t_data *data, t_token *token);
+t_token	*lex_get_last_token(t_data *data);
 
 /* utilities */
 bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 char	*get_substr(char *input, size_t start_idx);
 bool	is_builtin(char *input, size_t start_idx);
-t_token	get_num_tk(char *input, size_t start_idx);
-t_token	get_op_tk(char *input, size_t start_idx);
-t_token	get_executable(char *input, size_t start_idx);
-t_token	get_string_tk(char *input, size_t start_idx);
+void	free_tokens(t_token *token);
+int		lex_clean_exit(t_data *data, int exit_code);
+bool	is_valid_input(char *input);
 
 /* token retrieval */
 t_token	get_num_tk(char *input, size_t start_idx);
-t_token	get_op_tk(char *input, size_t start_idx);
-t_token	get_executable(char *input, size_t start_idx);
+t_token	get_string_tk(char *input, size_t start_idx);
+t_token	get_num_tk(char *input, size_t start_idx);
 t_token	get_string_tk(char *input, size_t start_idx);
 
 #endif

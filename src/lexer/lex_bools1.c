@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_bools1.c                                     :+:      :+:    :+:   */
+/*   lex_bools1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
-/*   Updated: 2024/06/29 20:20:24 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/07 17:28:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,7 @@ bool	in(unsigned char c, const char *str)
 	return (false);
 }
 
-bool	is_executable(char *input, size_t start_idx)
-{
-	char	*lexstr;
-	bool	ret;
-
-	ret = false;
-	lexstr = get_substr(input, start_idx);
-	if (!lexstr)
-		return (ret);
-	if (access(lexstr, X_OK) != -1)
-		ret = true;
-	free(lexstr);
-	return (ret);
-}
-
+/* Not sure if I'll use the below or not */
 bool	is_builtin(char *input, size_t start_idx)
 {
 	char	*lexstr;
