@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/05 17:54:13 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:49:59 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,26 +21,19 @@
 #include "lexer_dummy.h"
 // if first command is cd, then execute it FIRST because the change affects all the children
 
-
-
-
 void	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for infile or outfile
 {
-	// conditional error if orphan operator
 	t_redirect_table	*redir_table;
 
-	if (lexer->type == TK_REDIRECTION && !lexer->next)
-	{
-		// bash: syntax error near unexpected token `newline'
+	if (!lexer->next)
 		return ;
-	}
 	redir_table = ft_calloc(1, sizeof(t_redirect_table));
 	if (!redir_table)
 		return ;
-	redir_table->redir_str = lexer->lexstr;
+	redir_table->redir_str = lexer->next->lexstr;
 	parsed_table_add_back(parsed, redir_table, TK_INFILE); //TK_INFILE IS WRONG HERE
-	remove_token(lexer->next);
-	// remove_token(lexer);
+	reserve_token(lexer->next);
+	reserve_token(lexer);
 }
 
 
@@ -63,16 +56,40 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 
 void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 {
-	(void)parsed;
-	(void)tokens;
-	return ;
+	t_token		*roaming;
+	t_cmd_table	*table;
+
+	table = ft_calloc(1, sizeof(t_cmd_table));
+	if (!table)
+		return ;
+	roaming = tokens;
+	while (roaming)
+	{
+		if (roaming->prev && roaming->type != TK_RESERVED)
+			roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
+		reserve_token(roaming);
+		if (!roaming->next)
+			break ;
+		roaming = roaming->next;
+	}
+	parsed_table_add_back(parsed, table, TK_CMD);
+	table->cmd = roaming->lexstr;
 }
 
-void	parse_files(t_lex_parser *parsed, t_token *tokens)
+int	check_remaining_tokens(t_token *tokens)
 {
-	(void)parsed;
-	(void)tokens;
-	return ;
+	int		remaining;
+	t_token	*roaming;
+
+	remaining = 0;
+	roaming = tokens;
+	while (roaming)
+	{
+		if (roaming->type != TK_RESERVED)
+			remaining++;
+		roaming = roaming->next;
+	}
+	return (remaining);
 }
 
 t_lex_parser	*interprete_lexer(t_token *tokens_list)
@@ -86,7 +103,8 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 		return (NULL); // fuck you nmap
 	parsed_lex->next = NULL;
 	parse_operators(parsed_lex, tokens_list);
-	parse_commands(parsed_lex, tokens_list);
+	if (check_remaining_tokens(tokens_list) > 0)
+		parse_commands(parsed_lex, tokens_list);
 	return (parsed_lex);
 }
 // GRAMMAR

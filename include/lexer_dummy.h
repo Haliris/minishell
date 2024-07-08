@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/05 15:45:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 14:41:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ typedef enum e_tokentype
 	TK_PIPE,
 	TK_LOGICAL_AND,
 	TK_LOGICAL_OR,
-	TK_ASSIGNMENT
+	TK_ASSIGNMENT,
+	TK_MARKED,
+	TK_RESERVED,
 }	t_tokentype;
 
 typedef enum e_state

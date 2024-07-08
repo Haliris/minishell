@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/05 15:24:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 15:55:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ bool	check_invalid_token(t_token *tokens)
 	return (FALSE);
 }
 
-void	remove_token(t_token *tokens)
+void	reserve_token(t_token *tokens)
 {
-	if (!tokens)
-		return ; //wtf call, should not happen
-	if (tokens->prev)
-		tokens->prev->next = tokens->next;
-	if (tokens->next)
-		tokens->next->prev = tokens->prev;
-	tokens->prev = NULL;
-	tokens->next = NULL;
-	tokens->type = TK_INVALID;
-	tokens->lexstr = NULL;
-	free(tokens);
+	t_token	*roaming;
+
+	roaming = tokens;
+	while (roaming->prev)
+		roaming = roaming->prev;
+	while (roaming)
+	{
+		if (roaming->type == TK_MARKED)
+			roaming->type = TK_RESERVED;
+		roaming = roaming->next;
+	}
 }
 
 char	*re_join_lexstr(char *lexstr, char *s2, int mode)
@@ -56,7 +56,7 @@ char	*re_join_lexstr(char *lexstr, char *s2, int mode)
 	if (!temp_new)
 		return (NULL);
 	if (mode == FORWARD)
-		new = ft_strjoin(temp_new, s2);	
+		new = ft_strjoin(temp_new, s2);
 	else
 		new = ft_strjoin(s2, temp_new);
 	free(temp_new);
@@ -73,6 +73,7 @@ void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	if (!parsed->next)
 	{
 		parsed->table = table; //REFACTOR THIS SHIT JUST TAKE LSTADDBACK FROM LIBFT!!!
+		parsed->type = type;
 		return ;
 	}
 	new_node = ft_calloc(1, sizeof(t_lex_parser));
