@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:42:40 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:18:43 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	main(int ac, char **av)
 
 	lexer = malloc(sizeof(t_token));
 	temp_lexer = NULL;
-	lexer->lexstr = "<";
-	lexer->type = TK_REDIRECTION;
+	lexer->lexstr = "cat";
+	lexer->type = TK_EXECUTABLE;
 	lexer->prev = NULL;
 	lexer->next = temp_lexer;
 	while (i < 8)
@@ -40,49 +40,49 @@ int	main(int ac, char **av)
 		{
 			case 0:
 			{
-				temp_lexer->lexstr = "MAKEFILE";
-				temp_lexer->type = TK_STRING;
+				temp_lexer->lexstr = "<";
+				temp_lexer->type = TK_REDIRECTION;
 				break ;
 			}
 			case 1:
 			{
-				temp_lexer->lexstr = "cat";
-				temp_lexer->type = TK_EXECUTABLE;
+				temp_lexer->lexstr = "MAKEFILE";
+				temp_lexer->type = TK_STRING;
 				break ;
 			}
 			case 2:
-			{
-				temp_lexer->lexstr = "-e";
-				temp_lexer->type = TK_STRING;
-				break ;
-			}
-			case 3:
-			{
-				temp_lexer->lexstr = "|";
-				temp_lexer->type = TK_PIPE;
-				break ;
-			}
-			case 4:
-			{
-				temp_lexer->lexstr = "grep";
-				temp_lexer->type = TK_EXECUTABLE;
-				break ;
-			}
-			case 5:
-			{
-				temp_lexer->lexstr = "cc";
-				temp_lexer->type = TK_STRING;
-				break ;
-			}
-			case 6:
 			{
 				temp_lexer->lexstr = "ls";
 				temp_lexer->type = TK_EXECUTABLE;
 				break ;
 			}
-			case 7:
+			case 3:
 			{
 				temp_lexer->lexstr = "-a";
+				temp_lexer->type = TK_STRING;
+				break ;
+			}
+			case 4:
+			{
+				temp_lexer->lexstr = "|";
+				temp_lexer->type = TK_PIPE;
+				break ;
+			}
+			case 5:
+			{
+				temp_lexer->lexstr = "grep";
+				temp_lexer->type = TK_EXECUTABLE;
+				break ;
+			}
+			case 6:
+			{
+				temp_lexer->lexstr = "cc";
+				temp_lexer->type = TK_STRING;
+				break ;
+			}
+			case 7:
+			{
+				temp_lexer->lexstr = "-e";
 				temp_lexer->type = TK_STRING;
 				break ;
 			}
@@ -103,18 +103,18 @@ int	main(int ac, char **av)
 		if (roaming->type == TK_INFILE)
 		{
 			redir = roaming->table;
-			printf("%s\n", redir->redir_str);
+			printf("redir:%s\n", redir->redir_str);
 		}
 		if (roaming->type == TK_PIPE)
 		{
 			pipe = roaming->table;
-			printf("%s\n", pipe->cmd1);
-			printf("%s\n", pipe->cmd2);
+			printf("cmd1:%s\n", pipe->cmd1);
+			printf("cmd2:%s\n", pipe->cmd2);
 		}
 		else if (roaming->type == TK_CMD)
 		{
 			cmd = roaming->table;
-			printf("%s\n", cmd->cmd);
+			printf("lone command:%s\n", cmd->cmd);
 		}
 		roaming = roaming->next;
 	}

@@ -10,16 +10,17 @@ int	build_cmd1_str(t_token *lexer)
 	error = FALSE;
 	if (roaming->type == TK_OPERATOR)
 		return (error);
+	roaming->type = TK_MARKED;
 	roaming = roaming->prev;
-	while (roaming->next->type != TK_EXECUTABLE)
+	while (roaming->next->type != TK_EXECUTABLE && roaming->type != TK_RESERVED)
 	{
-		if (roaming->type != TK_STRING && roaming->type != TK_EXECUTABLE)
+		if (roaming->type == TK_OPERATOR)
 		{
 			error = TRUE;
 			break;
 		}
-		roaming->next->type = TK_MARKED;
-		roaming->next->lexstr = re_join_lexstr(roaming->next->lexstr, roaming->lexstr, BACKWARD);
+		roaming->type = TK_MARKED;
+		roaming->lexstr = re_join_lexstr(roaming->next->lexstr, roaming->lexstr, BACKWARD);
 		if (!roaming->prev)
 		{
 			roaming->type = TK_MARKED;
