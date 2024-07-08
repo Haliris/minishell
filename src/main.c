@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 18:18:43 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:53:01 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int ac, char **av)
 	lexer->type = TK_EXECUTABLE;
 	lexer->prev = NULL;
 	lexer->next = temp_lexer;
-	while (i < 8)
+	while (i < 6)
 	{
 		last = lexer;
 		temp_lexer = malloc(sizeof(t_token));
@@ -46,43 +46,31 @@ int	main(int ac, char **av)
 			}
 			case 1:
 			{
-				temp_lexer->lexstr = "MAKEFILE";
+				temp_lexer->lexstr = "Makefile";
 				temp_lexer->type = TK_STRING;
 				break ;
 			}
 			case 2:
 			{
-				temp_lexer->lexstr = "ls";
-				temp_lexer->type = TK_EXECUTABLE;
+				temp_lexer->lexstr = "grep";
+				temp_lexer->type = TK_STRING;
 				break ;
 			}
 			case 3:
 			{
-				temp_lexer->lexstr = "-a";
-				temp_lexer->type = TK_STRING;
+				temp_lexer->lexstr = ">";
+				temp_lexer->type = TK_REDIRECTION;
 				break ;
 			}
 			case 4:
 			{
-				temp_lexer->lexstr = "|";
-				temp_lexer->type = TK_PIPE;
+				temp_lexer->lexstr = "outfile";
+				temp_lexer->type = TK_STRING;
 				break ;
 			}
 			case 5:
 			{
-				temp_lexer->lexstr = "grep";
-				temp_lexer->type = TK_EXECUTABLE;
-				break ;
-			}
-			case 6:
-			{
 				temp_lexer->lexstr = "cc";
-				temp_lexer->type = TK_STRING;
-				break ;
-			}
-			case 7:
-			{
-				temp_lexer->lexstr = "-e";
 				temp_lexer->type = TK_STRING;
 				break ;
 			}

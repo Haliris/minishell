@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 16:00:55 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 18:23:37 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ void	reserve_token(t_token *tokens)
 			roaming->type = TK_RESERVED;
 		roaming = roaming->next;
 	}
+}
+
+int	check_remaining_tokens(t_token *tokens)
+{
+	int		remaining;
+	t_token	*roaming;
+
+	remaining = 0;
+	roaming = tokens;
+	while (roaming)
+	{
+		if (roaming->type != TK_RESERVED)
+			remaining++;
+		roaming = roaming->next;
+	}
+	return (remaining);
 }
 
 char	*re_join_lexstr(char *lexstr, char *s2, int mode)

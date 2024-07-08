@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 18:20:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 19:13:11 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,6 @@
 #include "parser.h"
 #include "lexer_dummy.h"
 // if first command is cd, then execute it FIRST because the change affects all the children
-
-void	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for infile or outfile
-{
-	t_redirect_table	*redir_table;
-
-	if (!lexer->next)
-		return ;
-	redir_table = ft_calloc(1, sizeof(t_redirect_table));
-	if (!redir_table)
-		return ;
-	redir_table->redir_str = lexer->next->lexstr;
-	lexer->next->type = TK_RESERVED;
-	lexer->type = TK_RESERVED;
-	parsed_table_add_back(parsed, redir_table, TK_INFILE); //TK_INFILE IS WRONG HERE
-}
-
 
 void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 {
@@ -58,44 +42,33 @@ void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 {
 	t_token		*roaming;
 	t_cmd_table	*table;
+	char		*cmd_buffer;
 
 	table = ft_calloc(1, sizeof(t_cmd_table));
 	if (!table)
 		return ;
-	table->cmd = NULL;
-	roaming = tokens;
-	while (roaming)
-	{
-		if (!roaming->prev && roaming->type != TK_RESERVED)
-			table->cmd = roaming->lexstr;
-		else if (roaming->prev && roaming->prev->type == TK_RESERVED && roaming->type != TK_RESERVED)
-			table->cmd = roaming->lexstr;
-		else if (roaming->prev && roaming->prev->type != TK_RESERVED && roaming->type != TK_RESERVED)
-			roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
-		else if (!roaming->next && roaming->type != TK_RESERVED)
-			break ;
-		if (!roaming->next)
-			break ;
-		roaming = roaming->next;
-	}
-	if (table->cmd)
-		parsed_table_add_back(parsed, table, TK_CMD);
-}
-
-int	check_remaining_tokens(t_token *tokens)
-{
-	int		remaining;
-	t_token	*roaming;
-
-	remaining = 0;
+	cmd_buffer = NULL;
 	roaming = tokens;
 	while (roaming)
 	{
 		if (roaming->type != TK_RESERVED)
-			remaining++;
+		{
+			if (cmd_buffer)
+				cmd_buffer = re_join_lexstr(cmd_buffer, roaming->lexstr, FORWARD);
+			else
+				cmd_buffer = roaming->lexstr;
+		}
+		if (!roaming->next)
+			break ;
 		roaming = roaming->next;
 	}
-	return (remaining);
+	if (cmd_buffer)
+	{
+		table->cmd = cmd_buffer;
+		parsed_table_add_back(parsed, table, TK_CMD);
+	}
+	else
+		free(table);
 }
 
 t_lex_parser	*interprete_lexer(t_token *tokens_list)
