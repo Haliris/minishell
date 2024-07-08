@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
-/*   Updated: 2024/07/07 17:28:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:42:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ bool	is_builtin(char *input, size_t start_idx)
 	lexstr = get_substr(input, start_idx);
 	if (!lexstr)
 		return (ret);
-	if (ft_strcmp(lexstr, "echo") == 0)
+	if (ft_strncmp(lexstr, "echo", 4) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "cd") == 0)
+	else if (ft_strncmp(lexstr, "cd", 2) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "pwd") == 0)
+	else if (ft_strncmp(lexstr, "pwd", 3) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "export") == 0)
+	else if (ft_strncmp(lexstr, "export", 6) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "unset") == 0)
+	else if (ft_strncmp(lexstr, "unset", 5) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "env") == 0)
+	else if (ft_strncmp(lexstr, "env", 3) == 0)
 		ret = true;
-	else if (ft_strcmp(lexstr, "exit") == 0)
+	else if (ft_strncmp(lexstr, "exit", 4) == 0)
 		ret = true;
 	free(lexstr);
 	return (ret);

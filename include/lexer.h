@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/07 17:09:04 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:47:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-typedef struct s_token t_token;
+typedef struct s_token	t_token;
 
 typedef struct s_data
 {
@@ -74,9 +74,7 @@ typedef struct s_token
 	t_token		*prev;
 }	t_token;
 
-t_token	get_token(char *lexstr, t_tokentype type);
-void	lex_add_token(t_data *data, t_token *token);
-t_token	*lex_get_last_token(t_data *data);
+int		lexer(t_data *data);
 
 /* utilities */
 bool	is_space(unsigned char c);
@@ -86,11 +84,17 @@ bool	is_builtin(char *input, size_t start_idx);
 void	free_tokens(t_token *token);
 int		lex_clean_exit(t_data *data, int exit_code);
 bool	is_valid_input(char *input);
+t_token	get_token(char *lexstr, t_tokentype type);
+void	lex_add_token(t_data *data, t_token token);
+t_token	*lex_get_last_token(t_data *data);
+void	print_token(t_token *token);
 
 /* token retrieval */
-t_token	get_num_tk(char *input, size_t start_idx);
-t_token	get_string_tk(char *input, size_t start_idx);
-t_token	get_num_tk(char *input, size_t start_idx);
-t_token	get_string_tk(char *input, size_t start_idx);
+t_token	get_num_tk(char *input, size_t *start_idx);
+t_token	get_string_tk(char *input, size_t *start_idx);
+t_token	get_num_tk(char *input, size_t *start_idx);
+t_token	get_string_tk(char *input, size_t *start_idx);
+t_token	get_flag_tk(char *input, size_t *start_idx);
+t_token	get_word_tk(char *input, size_t *start_idx);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/07 17:29:43 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:51:18 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,14 @@ char	*get_prompt(char *orig_prompt)
 }
 
 /* cc -lreadline -I./include -I./libft src/lexer/read_stdin.c 
-	libft/ft_memmove.c libft/ft_strdup.c
-	libft/ft_bzero.c libft/ft_strjoin.c libft/ft_strlen.c libft/ft_substr.c */
+	src/lexer/lex_utils.c 
+	src/lexer/lex_token_utils.c src/lexer/lex_retrieve_tk1.c 
+	src/lexer/lex_clean_exit.c 
+	src/lexer/lexer.c libft/ft_memmove.c libft/ft_strdup.c 
+	libft/ft_bzero.c libft/ft_strjoin.c 
+	libft/ft_strlen.c libft/ft_substr.c src/lexer/lex_bools1.c 
+	libft/ft_strncmp.c 
+	libft/ft_isdigit.c */
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
@@ -88,11 +94,13 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (data.input)
 			add_history(data.input);
-		printf("%s\n", data.input);
+		if (lexer(&data))
+			break ;
 		free(data.input);
 		data.input = NULL;
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
+		free_tokens(data.token);
 	}
 	if (prompt)
 		free(prompt);

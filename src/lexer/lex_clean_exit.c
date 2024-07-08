@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/07 17:30:00 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:11:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	lex_clean_exit(t_data *data, int exit_code)
 		free_tokens(data->token);
 	if (data->input)
 		free(data->input);
-	if (data->env)
-		free(data->env);
 	rl_clear_history();
 	return (exit_code);
 }

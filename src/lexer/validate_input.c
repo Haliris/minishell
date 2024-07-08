@@ -6,11 +6,15 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/07 17:29:54 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:34:17 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+/* catch non -n flags */
+
+/* Add in orphan operators check, e.g., nothing before pipe */
 
 static bool	unclosed_quotes(char *input, size_t len)
 {
