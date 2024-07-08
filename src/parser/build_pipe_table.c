@@ -88,7 +88,6 @@ void	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 		if (build_cmd2_str(lexer->next) == 1)
 			error = TRUE;
 	pipe_table->cmd2 = get_cmd_lexstr(lexer, FORWARD);
-	parsed->table = pipe_table;
 	if (error == TRUE)
 		parsed_table_add_back(parsed, pipe_table, TK_INVALID);
 	else

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 16:16:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:53:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #include "lexer_dummy.h"
 // if first command is cd, then execute it FIRST because the change affects all the children
 
+#include <stdio.h>
+t_redirect_table	*redir;
+
 void	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for infile or outfile
 {
 	t_redirect_table	*redir_table;
@@ -31,9 +34,9 @@ void	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for 
 	if (!redir_table)
 		return ;
 	redir_table->redir_str = lexer->next->lexstr;
+	lexer->next->type = TK_RESERVED;
+	lexer->type = TK_RESERVED;
 	parsed_table_add_back(parsed, redir_table, TK_INFILE); //TK_INFILE IS WRONG HERE
-	reserve_token(lexer->next);
-	reserve_token(lexer);
 }
 
 
@@ -51,6 +54,8 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 		else if (roaming->type == TK_REDIRECTION)
 			build_redirect_table(parsed, roaming);
 		roaming = roaming->next;
+		redir = parsed->table;
+		printf("In parse_op: %s\n", redir->redir_str);
 	}
 }
 
@@ -67,9 +72,9 @@ void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 	{
 		if (!roaming->prev && roaming->type != TK_RESERVED)
 			table->cmd = roaming->lexstr;
-		else if (roaming->prev && roaming->prev->type == TK_RESERVED)
+		else if (roaming->prev && roaming->prev->type == TK_RESERVED && roaming->type != TK_RESERVED)
 			table->cmd = roaming->lexstr;
-		else if (roaming->next && roaming->next->type != TK_RESERVED && roaming->type != TK_RESERVED)
+		else if (roaming->prev && roaming->prev->type != TK_RESERVED && roaming->type != TK_RESERVED)
 			roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
 		else if (!roaming->next && roaming->type != TK_RESERVED)
 			break ;
@@ -108,6 +113,7 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 		return (NULL); // fuck you nmap
 	parsed_lex->next = NULL;
 	parse_operators(parsed_lex, tokens_list);
+	redir = parsed_lex->table;
 	if (check_remaining_tokens(tokens_list) > 0)
 		parse_commands(parsed_lex, tokens_list);
 	return (parsed_lex);

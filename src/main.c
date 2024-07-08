@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:18:49 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:42:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	main(int ac, char **av)
 
 	lexer = malloc(sizeof(t_token));
 	temp_lexer = NULL;
-	lexer->lexstr = "cat";
-	lexer->type = TK_EXECUTABLE;
+	lexer->lexstr = "<";
+	lexer->type = TK_REDIRECTION;
 	lexer->prev = NULL;
 	lexer->next = temp_lexer;
-	while (i < 5)
+	while (i < 8)
 	{
 		last = lexer;
 		temp_lexer = malloc(sizeof(t_token));
@@ -40,32 +40,50 @@ int	main(int ac, char **av)
 		{
 			case 0:
 			{
-				temp_lexer->lexstr = "-e";
+				temp_lexer->lexstr = "MAKEFILE";
 				temp_lexer->type = TK_STRING;
 				break ;
 			}
 			case 1:
 			{
+				temp_lexer->lexstr = "cat";
+				temp_lexer->type = TK_EXECUTABLE;
+				break ;
+			}
+			case 2:
+			{
+				temp_lexer->lexstr = "-e";
+				temp_lexer->type = TK_STRING;
+				break ;
+			}
+			case 3:
+			{
 				temp_lexer->lexstr = "|";
 				temp_lexer->type = TK_PIPE;
 				break ;
 			}
-			case 2:
+			case 4:
 			{
 				temp_lexer->lexstr = "grep";
 				temp_lexer->type = TK_EXECUTABLE;
 				break ;
 			}
-			case 3:
+			case 5:
 			{
 				temp_lexer->lexstr = "cc";
 				temp_lexer->type = TK_STRING;
 				break ;
 			}
-			case 4:
+			case 6:
 			{
 				temp_lexer->lexstr = "ls";
 				temp_lexer->type = TK_EXECUTABLE;
+				break ;
+			}
+			case 7:
+			{
+				temp_lexer->lexstr = "-a";
+				temp_lexer->type = TK_STRING;
 				break ;
 			}
 		}
@@ -77,10 +95,16 @@ int	main(int ac, char **av)
 	parser = interprete_lexer(lexer);
 	roaming = parser;
 
-	t_pipe_table	*pipe;
-	t_cmd_table		*cmd;
+	t_pipe_table		*pipe;
+	t_redirect_table	*redir;
+	t_cmd_table			*cmd;
 	while (roaming)
 	{
+		if (roaming->type == TK_INFILE)
+		{
+			redir = roaming->table;
+			printf("%s\n", redir->redir_str);
+		}
 		if (roaming->type == TK_PIPE)
 		{
 			pipe = roaming->table;
