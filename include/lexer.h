@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 13:47:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:23:34 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,18 @@ void	free_tokens(t_token *token);
 int		lex_clean_exit(t_data *data, int exit_code);
 bool	is_valid_input(char *input);
 t_token	get_token(char *lexstr, t_tokentype type);
-void	lex_add_token(t_data *data, t_token token);
+void	lex_add_token(t_data *data, t_token *token);
 t_token	*lex_get_last_token(t_data *data);
 void	print_token(t_token *token);
+void	free_lexmem(t_data *data);
+int		init_lex(t_data *data);
 
 /* token retrieval */
-t_token	get_num_tk(char *input, size_t *start_idx);
-t_token	get_string_tk(char *input, size_t *start_idx);
-t_token	get_num_tk(char *input, size_t *start_idx);
-t_token	get_string_tk(char *input, size_t *start_idx);
-t_token	get_flag_tk(char *input, size_t *start_idx);
-t_token	get_word_tk(char *input, size_t *start_idx);
+t_token	get_num_tk(char *input, size_t start_idx);
+t_token	get_string_tk(char *input, size_t start_idx);
+t_token	get_num_tk(char *input, size_t start_idx);
+t_token	get_string_tk(char *input, size_t start_idx);
+t_token	get_flag_tk(char *input, size_t start_idx);
+t_token	get_word_tk(char *input, size_t start_idx);
 
 #endif

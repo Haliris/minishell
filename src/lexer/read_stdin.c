@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 13:51:18 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:23:55 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ char	*get_prompt(char *orig_prompt)
 	src/lexer/lexer.c libft/ft_memmove.c libft/ft_strdup.c 
 	libft/ft_bzero.c libft/ft_strjoin.c 
 	libft/ft_strlen.c libft/ft_substr.c src/lexer/lex_bools1.c 
-	libft/ft_strncmp.c 
-	libft/ft_isdigit.c */
+	libft/ft_strncmp.c libft/ft_isdigit.c */
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	char	*prompt;
 
+	init_lex(&data);
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigquit);
 	prompt = get_prompt(NULL);
@@ -96,11 +96,10 @@ int	main(int argc, char **argv, char **env)
 			add_history(data.input);
 		if (lexer(&data))
 			break ;
-		free(data.input);
-		data.input = NULL;
+		free_lexmem(&data);
+		free(prompt);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
-		free_tokens(data.token);
 	}
 	if (prompt)
 		free(prompt);

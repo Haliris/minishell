@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 13:34:17 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/08 15:14:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 /* catch non -n flags */
 
 /* Add in orphan operators check, e.g., nothing before pipe */
+
+/* "cd with only a relative or absolute path" */
 
 static bool	unclosed_quotes(char *input, size_t len)
 {
