@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 15:49:59 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:16:04 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,14 @@ void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 	roaming = tokens;
 	while (roaming)
 	{
-		if (roaming->prev && roaming->type != TK_RESERVED)
+		if (!roaming->prev && roaming->type != TK_RESERVED)
+			table->cmd = roaming->lexstr;
+		else if (roaming->prev && roaming->prev->type == TK_RESERVED)
+			table->cmd = roaming->lexstr;
+		else if (roaming->next && roaming->next->type != TK_RESERVED && roaming->type != TK_RESERVED)
 			roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
-		reserve_token(roaming);
+		else if (!roaming->next && roaming->type != TK_RESERVED)
+			break ;
 		if (!roaming->next)
 			break ;
 		roaming = roaming->next;

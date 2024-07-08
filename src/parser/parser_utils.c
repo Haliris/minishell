@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 15:55:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:00:55 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
 
-	if (!parsed->next)
+	if (!parsed->type)
 	{
 		parsed->table = table; //REFACTOR THIS SHIT JUST TAKE LSTADDBACK FROM LIBFT!!!
 		parsed->type = type;

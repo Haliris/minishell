@@ -1,8 +1,6 @@
 #include "minishell.h"
 #include "lexer_dummy.h"
 
-#include <stdio.h>
-
 int	build_cmd1_str(t_token *lexer)
 {
 	t_token	*roaming;
