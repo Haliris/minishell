@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 14:48:16 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:15:42 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,22 @@ int	check_remaining_tokens(t_token *tokens)
 	return (remaining);
 }
 
-char	*re_join_lexstr(char *lexstr, char *s2, int mode)
+char	*re_join_lexstr(char *s1, char *lexstr, int mode)
 {
 	char	*temp_new;
 	char	*new;
 
 	if (mode == FORWARD)
-		temp_new = ft_strjoin(lexstr, " ");
+		temp_new = ft_strjoin(s1, " ");
 	else
-		temp_new = ft_strjoin(" ", lexstr);
+		temp_new = ft_strjoin(" ", s1);
 	if (!temp_new)
-		return (NULL);
+		return (free(lexstr), NULL);
 	if (mode == FORWARD)
-		new = ft_strjoin(temp_new, s2);
+		new = ft_strjoin(temp_new, lexstr);
 	else
-		new = ft_strjoin(s2, temp_new);
+		new = ft_strjoin(lexstr, temp_new);
+	free(lexstr);
 	free(temp_new);
 	if (!new)
 		return (NULL);
@@ -86,7 +87,7 @@ int	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 
 	if (!parsed->type)
 	{
-		parsed->table = table; //REFACTOR THIS SHIT JUST TAKE LSTADDBACK FROM LIBFT!!!
+		parsed->table = table;
 		parsed->type = type;
 		return ;
 	}

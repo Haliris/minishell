@@ -6,20 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 14:02:32 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:16:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-//Parse tokens
-//If command, recognize it as such
-//Else
-//Trim '' and ""
-//Handle expansion if needed
-//We might need lexstr to be **char instead of *char
-
 #include "parser.h"
 #include "lexer_dummy.h"
-// if first command is cd, then execute it FIRST because the change affects all the children
 
 void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 {

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 14:03:25 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:54:12 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	get_redir_type(t_token *lexer)
 		return (TK_OUT_APPEND);
 }
 
-int	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for infile or outfile
+int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)
 {
 	t_redirect_table	*redir_table;
 
@@ -36,7 +36,7 @@ int	build_redirect_table(t_lex_parser *parsed, t_token *lexer) // to adapt for i
 	redir_table->type = get_redir_type(lexer);
 	lexer->next->type = TK_RESERVED;
 	lexer->type = TK_RESERVED;
-	if (parsed_table_add_back(parsed, redir_table, TK_REDIR) == PANIC) //TK_INFILE IS WRONG HERE
+	if (parsed_table_add_back(parsed, redir_table, TK_REDIR) == PANIC)
 		return (PANIC);
 	return (SUCCESS);
 }

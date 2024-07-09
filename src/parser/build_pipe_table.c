@@ -6,11 +6,15 @@ int	build_cmd1_str(t_token *lexer)
 	t_token	*roaming;
 
 	roaming = lexer;
-	while (roaming->type != TK_RESERVED)
+	while (roaming && roaming->type != TK_RESERVED)
 	{
 		if (roaming->next->type != TK_PIPE)
+		{
 			roaming->lexstr = re_join_lexstr(roaming->next->lexstr, roaming->lexstr, BACKWARD);
-		if (!roaming->prev || roaming->type == TK_EXECUTABLE)
+			if (!roaming->lexstr)
+				return (PANIC);
+		}
+		if (roaming->type == TK_EXECUTABLE)
 		 {
 			roaming->type = TK_MARKED;
 			break ;
@@ -18,23 +22,27 @@ int	build_cmd1_str(t_token *lexer)
 		roaming->type = TK_MARKED;
 		roaming = roaming->prev;
 	}
+	return (SUCCESS);
 }
 
-void	build_cmd2_str(t_token *lexer)
+int	build_cmd2_str(t_token *lexer)
 {
 	t_token	*roaming;
 
 	roaming = lexer;
+	if (roaming->type != TK_EXECUTABLE)
+		return (PANIC);
 	roaming->type = TK_MARKED;
 	roaming = roaming->next;
 	while (roaming && roaming->type == TK_STRING)
 	{
 		roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
+		if (!roaming->lexstr)
+				return (PANIC);
 		roaming->type = TK_MARKED;
-		if (!roaming->lexstr) //stupid safety logic, need better token removal
-			break ;
 		roaming = roaming->next;
 	}
+	return (SUCCESS);
 }
 
 char	*get_cmd_lexstr(t_token *tokens, int mode)
@@ -56,6 +64,8 @@ int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 	t_pipe_table	*pipe_table;
 
 	if (check_parsing_error(lexer, TK_PIPE) == TRUE)
+		return (PANIC);
+	if (build_cmd1_str(lexer) == PANIC || build_cmd2_str(lexer) == PANIC)
 		return (PANIC);
 	pipe_table = ft_calloc(1, sizeof(t_pipe_table));
 	if (!pipe_table)
