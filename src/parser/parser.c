@@ -6,12 +6,17 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:16:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:29:08 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-#include "lexer_dummy.h"
+
+void	panic(t_lex_parser *parsed)
+{
+	(void)parsed;
+	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
+}
 
 void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 {
@@ -32,7 +37,7 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 
 void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 {
-	t_token		*roaming;
+	t_token		*r;
 	t_cmd_table	*table;
 	char		*cmd_buffer;
 
@@ -40,21 +45,21 @@ void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 	if (!table)
 		return ;
 	cmd_buffer = NULL;
-	roaming = tokens;
-	while (roaming)
+	r = tokens;
+	while (r)
 	{
-		if (roaming->type != TK_RESERVED)
+		if (r->type != TK_RESERVED)
 		{
 			if (cmd_buffer)
-				cmd_buffer = re_join_lexstr(cmd_buffer, roaming->lexstr, FORWARD);
+				cmd_buffer = re_join_lexstr(cmd_buffer, r->lexstr, FORWARD);
 			else
-				cmd_buffer = roaming->lexstr;
+				cmd_buffer = r->lexstr;
 		}
-		roaming = roaming->next;
+		r = r->next;
 	}
 	table->cmd = cmd_buffer;
 	if (table->cmd)
-		parsed_table_add_back(parsed, table, TK_CMD);
+		parsed_add_back(parsed, table, TK_CMD);
 	else
 		free(table);
 }
@@ -67,7 +72,7 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 		return (NULL);
 	parsed_lex = ft_calloc(1, sizeof(t_lex_parser));
 	if (!parsed_lex)
-		return (NULL); // fuck you nmap
+		return (NULL);
 	parsed_lex->next = NULL;
 	parse_operators(parsed_lex, tokens_list);
 	if (check_remaining_tokens(tokens_list) > 0)

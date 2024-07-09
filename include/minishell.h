@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/05 15:26:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:22:36 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 
 # include "libft.h"
 # include "get_next_line.h"
-# include "lexer_dummy.h"
 # include "parser.h"
+
 typedef struct s_heredoc
 {
 	int		fd;

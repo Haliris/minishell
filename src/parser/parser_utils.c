@@ -6,12 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:15:42 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:28:59 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "lexer_dummy.h"
 
 bool	check_invalid_token(t_token *tokens)
 {
@@ -80,7 +79,7 @@ char	*re_join_lexstr(char *s1, char *lexstr, int mode)
 	return (new);
 }
 
-int	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
+int	parsed_add_back(t_lex_parser *parsed, void *table, int type)
 {
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
@@ -93,7 +92,7 @@ int	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	}
 	new_node = ft_calloc(1, sizeof(t_lex_parser));
 	if (!new_node)
-		return (PANIC) ;
+		return (PANIC);
 	new_node->table = table;
 	new_node->type = type;
 	new_node->next = NULL;

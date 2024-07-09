@@ -1,46 +1,57 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build_pipe_table.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/09 15:23:53 by jteissie          #+#    #+#             */
+/*   Updated: 2024/07/09 15:23:53 by jteissie         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-#include "lexer_dummy.h"
 
 int	build_cmd1_str(t_token *lexer)
 {
-	t_token	*roaming;
+	t_token	*r;
 
-	roaming = lexer;
-	while (roaming && roaming->type != TK_RESERVED)
+	r = lexer;
+	while (r && r->type != TK_RESERVED)
 	{
-		if (roaming->next->type != TK_PIPE)
+		if (r->next->type != TK_PIPE)
 		{
-			roaming->lexstr = re_join_lexstr(roaming->next->lexstr, roaming->lexstr, BACKWARD);
-			if (!roaming->lexstr)
+			r->lexstr = re_join_lexstr(r->next->lexstr, r->lexstr, BACKWARD);
+			if (!r->lexstr)
 				return (PANIC);
 		}
-		if (roaming->type == TK_EXECUTABLE)
-		 {
-			roaming->type = TK_MARKED;
+		if (r->type == TK_EXECUTABLE)
+		{
+			r->type = TK_MARKED;
 			break ;
-		 }
-		roaming->type = TK_MARKED;
-		roaming = roaming->prev;
+		}
+		r->type = TK_MARKED;
+		r = r->prev;
 	}
 	return (SUCCESS);
 }
 
 int	build_cmd2_str(t_token *lexer)
 {
-	t_token	*roaming;
+	t_token	*r;
 
-	roaming = lexer;
-	if (roaming->type != TK_EXECUTABLE)
+	r = lexer;
+	if (r->type != TK_EXECUTABLE)
 		return (PANIC);
-	roaming->type = TK_MARKED;
-	roaming = roaming->next;
-	while (roaming && roaming->type == TK_STRING)
+	r->type = TK_MARKED;
+	r = r->next;
+	while (r && r->type == TK_STRING)
 	{
-		roaming->lexstr = re_join_lexstr(roaming->prev->lexstr, roaming->lexstr, FORWARD);
-		if (!roaming->lexstr)
-				return (PANIC);
-		roaming->type = TK_MARKED;
-		roaming = roaming->next;
+		r->lexstr = re_join_lexstr(r->prev->lexstr, r->lexstr, FORWARD);
+		if (!r->lexstr)
+			return (PANIC);
+		r->type = TK_MARKED;
+		r = r->next;
 	}
 	return (SUCCESS);
 }
@@ -72,7 +83,7 @@ int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 		return (PANIC);
 	pipe_table->cmd1 = get_cmd_lexstr(lexer, BACKWARD);
 	pipe_table->cmd2 = get_cmd_lexstr(lexer, FORWARD);
-	parsed_table_add_back(parsed, pipe_table, TK_PIPE);
+	parsed_add_back(parsed, pipe_table, TK_PIPE);
 	lexer->type = TK_MARKED;
 	reserve_token(lexer);
 	return (SUCCESS);

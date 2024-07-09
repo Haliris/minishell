@@ -6,18 +6,17 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 14:54:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:26:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "lexer_dummy.h"
 
 int	get_redir_type(t_token *lexer)
 {
-	if (lexer->type = TK_IN)
+	if (lexer->type == TK_IN)
 		return (TK_IN);
-	else if (lexer->type = TK_OUT)
+	else if (lexer->type == TK_OUT)
 		return (TK_OUT);
 	else if (lexer->type == TK_OUT_APPEND)
 		return (TK_OUT_APPEND);
@@ -36,7 +35,7 @@ int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)
 	redir_table->type = get_redir_type(lexer);
 	lexer->next->type = TK_RESERVED;
 	lexer->type = TK_RESERVED;
-	if (parsed_table_add_back(parsed, redir_table, TK_REDIR) == PANIC)
+	if (parsed_add_back(parsed, redir_table, TK_REDIR) == PANIC)
 		return (PANIC);
 	return (SUCCESS);
 }

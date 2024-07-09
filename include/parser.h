@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 14:03:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:24:22 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # define SUCCESS 1
 # define PANIC 0
 
-typedef struct s_lex_parser t_lex_parser;
+typedef struct s_lex_parser	t_lex_parser;
 typedef enum e_parsed_token
 {
 	TK_CMD,
@@ -31,7 +31,7 @@ typedef enum e_redir_token
 	TK_IN,
 	TK_OUT,
 	TK_OUT_APPEND,
-} t_redir_token;
+}	t_redir_token;
 typedef struct s_cmd_table
 {
 	char	*cmd;
@@ -63,5 +63,5 @@ int				check_parsing_error(t_token *lexer, t_tokentype mode);
 
 bool			check_invalid_token(t_token *tokens);
 void			reserve_token(t_token *tokens);
-int				parsed_table_add_back(t_lex_parser *parsed, void *table, int type);
+int				parsed_add_back(t_lex_parser *parsed, void *table, int type);
 #endif
