@@ -6,12 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 18:41:27 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 19:18:37 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+// Redirections are processed from left to right with the respective LAST one taking effect
 void	redirect(int *p_fd, int *file_fd)
 {
 	close(p_fd[0]);
@@ -21,25 +21,65 @@ void	redirect(int *p_fd, int *file_fd)
 	close(p_fd[1]);
 }
 
-int	check_redir(t_lex_parser *parsed)
+void	get_redirections(t_lex_parser *table, char *out, char *in)
 {
-	int	redir_count;
+	t_lex_parser		*roaming;
+	t_redirect_table	*redir;
 
-	redir_count = 0;
-	if (parsed->prev->type == TK_REDIR)
-		redir_count++;
-	if (parsed->next->type == TK_REDIR)
-		redir_count++;
-	return (redir_count);
+	roaming = NULL;
+	if (table->prev)
+		roaming = table->prev;
+	while (roaming && roaming->type == TK_IN)
+	{
+		redir = roaming->table;
+		in = redir->redir_str;
+		roaming = roaming->prev;
+	}
+	if (table->next)
+		roaming = table->next;
+	while (roaming && roaming->type == TK_OUT)
+	{
+		redir = roaming->table;
+		out = redir->redir_str;
+		roaming = roaming->next;
+	}
+}
+
+void	execute_single_cmd(t_lex_parser *parsed, char **envp)
+{
+	int			p_fd[2];
+	char		*infile;
+	char		*outfile;
+	t_cmd_table	*cmd;
+	pid_t		pid_child;
+
+	infile = NULL;
+	outfile = NULL;
+	cmd = parsed->table;
+	get_redirections(parsed, outfile, infile);
+	if (pipe(p_fd) == -1)
+		return ;
+	pid_child = fork();
+	if (pid_child < 0)
+		return ;
+	if (pid_child == 0)
+	{
+		redirect(p_fd, outfile, infile);
+		execute(cmd->cmd, envp);
+	}
+	else
+	{
+		close(p_fd[1]);
+		dup2(p_fd[0], STDIN_FILENO);
+		close(p_fd[0]);
+	}
 }
 
 void	process_command(t_lex_parser *parsed, char **env, int *child_count)
 {
 	int	pid_child;
-	int	redirection;
 	int	p_fd[2];
 
-	redirection = check_redir(parsed);
 	if (parsed->type == TK_CMD)
 	{
 		execute_single_cmd(parsed, **env);
@@ -52,7 +92,7 @@ void	process_command(t_lex_parser *parsed, char **env, int *child_count)
 		handle_error("Could not fork middle child", EXIT_FAILURE);
 	if (pid_child == 0)
 	{
-		redirect(p_fd, fd);
+		redirect(p_fd);
 		execute(parsed, env);
 	}
 	else
