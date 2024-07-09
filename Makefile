@@ -5,21 +5,25 @@ CFLAGS	= -Wall -Werror -Wextra -pthread -g3
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
-		  parse.c \
+		  parser.c \
+		  parser_utils.c \
+		  build_pipe_table.c \
+		  build_redirect_table.c \
+		  check_parsing_errors.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src src/here_doc_parsing src/here_doc_parsing/get_next_line
+vpath %.c ./ src src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 
 all: $(OBJDIR) $(NAME)
 	@echo "Making minishell..."
 
-$(OBJDIR)/%.o: %.c | $(OBJDIR) 
+$(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 $(OBJDIR):
