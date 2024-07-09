@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/09 15:17:03 by jteissie         ###   ########.fr       */
+/*   Created: 2024/05/18 14:25:01 by jteissie          #+#    #+#             */
+/*   Updated: 2024/05/18 14:35:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+int	ft_lstsize(t_list *lst)
 {
-	(void)ac;
-	(void)av;
-	// fork to call execute_commands
-	return (0);
+	t_list	*temp;
+	int		counter;
+
+	counter = 0;
+	temp = lst;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		counter++;
+	}
+	return (counter);
 }

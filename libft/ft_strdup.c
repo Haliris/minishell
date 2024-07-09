@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/09 15:17:03 by jteissie         ###   ########.fr       */
+/*   Created: 2024/03/23 16:46:49 by jteissie          #+#    #+#             */
+/*   Updated: 2024/05/15 15:10:58 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int ac, char **av)
+char	*ft_strdup(const char *s)
 {
-	(void)ac;
-	(void)av;
-	// fork to call execute_commands
-	return (0);
+	int		i;
+	int		s_len;
+	char	*dup;
+
+	i = 0;
+	s_len = ft_strlen(s);
+	dup = malloc(sizeof(char) * s_len + 1);
+	if (!dup)
+		return (NULL);
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
 }
