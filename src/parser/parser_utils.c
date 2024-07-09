@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:28:59 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:54:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,5 +100,6 @@ int	parsed_add_back(t_lex_parser *parsed, void *table, int type)
 	while (last->next)
 		last = last->next;
 	last->next = new_node;
+	new_node->prev = last;
 	return (SUCCESS);
 }

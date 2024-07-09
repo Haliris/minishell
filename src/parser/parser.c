@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:30:03 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 18:03:54 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 	if (!parsed_lex)
 		return (NULL);
 	parsed_lex->next = NULL;
+	parsed_lex->prev = NULL;
 	parse_operators(parsed_lex, tokens_list);
 	if (check_remaining_tokens(tokens_list) > 0)
 		parse_commands(parsed_lex, tokens_list);

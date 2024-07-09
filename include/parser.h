@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:24:22 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:54:00 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef struct s_lex_parser
 	void			*table;
 	t_parsed_token	type;
 	t_lex_parser	*next;
+	t_lex_parser	*prev;
 }	t_lex_parser;
 
 t_lex_parser	*interprete_lexer(t_token *tokens_list);
