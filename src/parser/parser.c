@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:29:08 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 15:30:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	panic(t_lex_parser *parsed)
 {
 	(void)parsed;
 	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
+	ft_putstr_fd("probably exit the process too\n", STDERR_FILENO);
 }
 
 void	parse_operators(t_lex_parser *parsed, t_token *tokens)
