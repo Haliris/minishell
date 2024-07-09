@@ -6,13 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 18:23:37 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:48:16 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "lexer_dummy.h"
-
 
 bool	check_invalid_token(t_token *tokens)
 {
@@ -68,7 +67,6 @@ char	*re_join_lexstr(char *lexstr, char *s2, int mode)
 		temp_new = ft_strjoin(lexstr, " ");
 	else
 		temp_new = ft_strjoin(" ", lexstr);
-	// free(lexstr);
 	if (!temp_new)
 		return (NULL);
 	if (mode == FORWARD)
@@ -81,7 +79,7 @@ char	*re_join_lexstr(char *lexstr, char *s2, int mode)
 	return (new);
 }
 
-void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
+int	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 {
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
@@ -94,7 +92,7 @@ void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	}
 	new_node = ft_calloc(1, sizeof(t_lex_parser));
 	if (!new_node)
-		return ;
+		return (PANIC) ;
 	new_node->table = table;
 	new_node->type = type;
 	new_node->next = NULL;
@@ -102,4 +100,5 @@ void	parsed_table_add_back(t_lex_parser *parsed, void *table, int type)
 	while (last->next)
 		last = last->next;
 	last->next = new_node;
+	return (SUCCESS);
 }

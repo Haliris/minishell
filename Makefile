@@ -9,6 +9,7 @@ CFILES	= main.c \
 		  parser_utils.c \
 		  build_pipe_table.c \
 		  build_redirect_table.c \
+		  check_parsing_errors.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c

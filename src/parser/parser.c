@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 19:13:11 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:02:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,11 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	while (roaming != NULL)
 	{
 		if (roaming->type == TK_PIPE)
-			build_pipe_table(parsed, roaming);
-		else if (roaming->type == TK_REDIRECTION) // GARBAGE TOKEN TYPES!!!
-			build_redirect_table(parsed, roaming);
+			if (build_pipe_table(parsed, roaming) == PANIC)
+				panic(parsed);
 		else if (roaming->type == TK_REDIRECTION)
-			build_redirect_table(parsed, roaming);
+			if (build_redirect_table(parsed, roaming) == PANIC)
+				panic(parsed);
 		roaming = roaming->next;
 	}
 }
@@ -58,15 +58,11 @@ void	parse_commands(t_lex_parser *parsed, t_token *tokens)
 			else
 				cmd_buffer = roaming->lexstr;
 		}
-		if (!roaming->next)
-			break ;
 		roaming = roaming->next;
 	}
-	if (cmd_buffer)
-	{
-		table->cmd = cmd_buffer;
+	table->cmd = cmd_buffer;
+	if (table->cmd)
 		parsed_table_add_back(parsed, table, TK_CMD);
-	}
 	else
 		free(table);
 }
@@ -86,17 +82,3 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 		parse_commands(parsed_lex, tokens_list);
 	return (parsed_lex);
 }
-// GRAMMAR
-// " x " prevents from interepreting meta characters EXCEPT $
-// 'x' same except for ALL meta characters
-// < redirects input
-// > redirects output
-// << here_doc delimiter from file
-// >> redirect output in append mode
-// | redirects output of cmd1 and input of cmd2
-// $ env variable that needs to be expanded
-// $? exist status of the most recently executed foreground pipeline
-// ctrl-C ctrl-D and ctrl-\ like bash
-// in interactive mode, ctrl-C displays new prompt and interrupts, ctrl-D exits, ctrl-\ does nothing
-// builtins are:
-//	echo (-n), cd, pwd, export, unset, env, exit

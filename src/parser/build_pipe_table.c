@@ -4,19 +4,10 @@
 int	build_cmd1_str(t_token *lexer)
 {
 	t_token	*roaming;
-	int		error;
 
 	roaming = lexer;
-	error = FALSE;
-	if (roaming->type == TK_OPERATOR)
-		return (error);
 	while (roaming->type != TK_RESERVED)
 	{
-		if (roaming->type == TK_OPERATOR)
-		{
-			error = TRUE;
-			break;
-		}
 		if (roaming->next->type != TK_PIPE)
 			roaming->lexstr = re_join_lexstr(roaming->next->lexstr, roaming->lexstr, BACKWARD);
 		if (!roaming->prev || roaming->type == TK_EXECUTABLE)
@@ -27,18 +18,13 @@ int	build_cmd1_str(t_token *lexer)
 		roaming->type = TK_MARKED;
 		roaming = roaming->prev;
 	}
-	return (error);
 }
 
-int	build_cmd2_str(t_token *lexer)
+void	build_cmd2_str(t_token *lexer)
 {
 	t_token	*roaming;
-	int		error;
 
 	roaming = lexer;
-	error = FALSE;
-	if (roaming->type != TK_EXECUTABLE)
-		error = TRUE;
 	roaming->type = TK_MARKED;
 	roaming = roaming->next;
 	while (roaming && roaming->type == TK_STRING)
@@ -49,7 +35,6 @@ int	build_cmd2_str(t_token *lexer)
 			break ;
 		roaming = roaming->next;
 	}
-	return (error);
 }
 
 char	*get_cmd_lexstr(t_token *tokens, int mode)
@@ -66,32 +51,19 @@ char	*get_cmd_lexstr(t_token *tokens, int mode)
 	return (roaming->lexstr);
 }
 
-void	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
+int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 {
 	t_pipe_table	*pipe_table;
-	int				error;
 
-	error = FALSE;
-	if (!lexer->prev)
-		return ;
+	if (check_parsing_error(lexer, TK_PIPE) == TRUE)
+		return (PANIC);
 	pipe_table = ft_calloc(1, sizeof(t_pipe_table));
 	if (!pipe_table)
-		return ;
-	pipe_table->cmd2 = NULL;
-	if (build_cmd1_str(lexer->prev) == 1)
-		error = TRUE;
+		return (PANIC);
 	pipe_table->cmd1 = get_cmd_lexstr(lexer, BACKWARD);
-	if (!lexer->next)
-		while(!pipe_table->cmd2)
-			pipe_table->cmd2 = get_next_line(STDIN_FILENO);
-	else
-		if (build_cmd2_str(lexer->next) == 1)
-			error = TRUE;
 	pipe_table->cmd2 = get_cmd_lexstr(lexer, FORWARD);
-	if (error == TRUE)
-		parsed_table_add_back(parsed, pipe_table, TK_INVALID);
-	else
-		parsed_table_add_back(parsed, pipe_table, TK_PIPE);
+	parsed_table_add_back(parsed, pipe_table, TK_PIPE);
 	lexer->type = TK_MARKED;
 	reserve_token(lexer);
+	return (SUCCESS);
 }
