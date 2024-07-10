@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/15 17:16:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:46:10 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,21 @@
 // 	}
 // 	free(array);
 // }
+
+void	open_files(int file_fd[], char *outfile, char *infile)
+{
+	if (infile)
+		file_fd[0] = open(infile, O_CREAT | O_TRUNC, 064);
+	if (outfile)
+		file_fd[1] = open(outfile, O_CREAT | O_TRUNC, 064);
+}
+
+void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)
+{
+	roaming = parsed;
+	while (roaming->prev && roaming->prev->type != TK_PIPE)
+		roaming = roaming->prev;
+}
 
 char	*ft_str_realloc_join(char *stash, char *add)
 {

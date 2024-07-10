@@ -6,10 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 13:07:50 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 17:35:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef EXECUTION_H
 # define EXECUTION_H
 # include <errno.h>
 # include <fcntl.h>
@@ -30,6 +31,11 @@ char	*ft_str_realloc_join(char *stash, char *add);
 void	try_absolute_path(char **command, char **env);
 void	execute(char *av, char **env);
 
+
 void	execute_single_cmd(t_lex_parser *parsed, char **envp);
+void	process_pipe(t_lex_parser *parser, char **env);
+
+void	open_files(int file_fd[], char *outfile, char *infile);
+void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed);
 
 #endif

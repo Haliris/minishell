@@ -6,26 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 14:06:44 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 16:46:43 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	open_files(int file_fd[], char *outfile, char *infile)
-{
-	if (infile)
-		file_fd[0] = open(infile, O_CREAT | O_TRUNC, 064);
-	if (outfile)
-		file_fd[1] = open(outfile, O_CREAT | O_TRUNC, 064);
-}
-
-void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)
-{
-	roaming = parsed;
-	while (roaming->prev && roaming->prev->type != TK_PIPE)
-		roaming = roaming->prev;
-}
 
 void	redirect(char *outfile, char *infile)
 {
@@ -54,7 +39,7 @@ void	redirect(char *outfile, char *infile)
 		dup_status += dup2(file_fd[1], STDOUT_FILENO);
 		close(file_fd[1]);
 	}
-	if (dup_status > 0)
+	if (dup_status < 0)
 		return ; //dup error
 }
 
