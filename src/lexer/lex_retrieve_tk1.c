@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/10 09:22:47 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 14:05:31 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,27 +33,22 @@ t_token	*get_string_tk(t_data *data, char *input, size_t start_idx)
 	while (input[i] && input[i] != quote)
 		i++;
 	lexstr = ft_substr(input, start_idx, i - start_idx + 1);
-	if (!lexstr)
-		return (get_token(data, NULL, TK_INVALID));
 	return (get_token(data, lexstr, TK_STRING));
 }
 
 t_token	*get_word_tk(t_data *data, char *input, size_t start_idx)
 {
-	char	*lexstr;
-
-	lexstr = get_substr(input, start_idx);
-	if (!lexstr)
-		return (get_token(data, NULL, TK_INVALID));
-	return (get_token(data, lexstr, TK_WORD));
+	return (get_token(data, get_substr(input, start_idx), TK_WORD));
 }
 
 t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*lexstr;
+	size_t	i;
 
-	lexstr = get_substr(input, start_idx);
-	if (!lexstr)
-		return (get_token(data, NULL, TK_INVALID));
-	return (get_token(data, lexstr, TK_FLAG));
+	i = start_idx;
+	if (input[i + 1] == 'n' && (is_space(input[i + 2]))
+		|| input[i + 1] == 0)
+		return (get_token(data, ft_strdup("-n"), TK_FLAG));
+	return (get_token(data, NULL, TK_INVALID));
 }

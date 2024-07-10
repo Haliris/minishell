@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 09:07:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 14:14:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*get_prompt(char *orig_prompt)
 }
 
 /* cc -lreadline -I./include -I./libft src/lexer/read_stdin.c 
-	src/lexer/lex_utils.c 
+	src/lexer/lex_utils.c
 	src/lexer/lex_token_utils.c src/lexer/lex_retrieve_tk1.c 
 	src/lexer/lex_clean_exit.c 
 	src/lexer/lexer.c libft/ft_memmove.c libft/ft_strdup.c 
@@ -88,14 +88,19 @@ int	main(int argc, char **argv, char **env)
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigquit);
 	prompt = get_prompt(NULL);
-	data.env = env;
 	data.input = readline(prompt);
 	while (data.input)
 	{
 		if (data.input)
 			add_history(data.input);
-		if (lexer(&data))
-			break ;
+		
+		if (valid_input(data.input))
+			if (lexer(&data))
+				break ;
+		if (valid_tokens(data.token))
+			printf("Error: Invalid token found\n");
+		else
+			printf("All tokens valid\n");
 		free_lexmem(&data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);

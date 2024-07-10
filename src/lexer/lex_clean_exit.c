@@ -6,11 +6,22 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 09:34:20 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 11:51:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+void	free_strarray(char **array)
+{
+	size_t	i;
+
+	i = 0;
+	while (array && array[i])
+		free(array[i++]);
+	if (array)
+		free(array);
+}
 
 void	free_tokens(t_token *token)
 {

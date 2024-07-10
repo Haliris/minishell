@@ -6,11 +6,24 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
-/*   Updated: 2024/07/08 13:42:11 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 13:50:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+/* e.g., '' or  "" , we can ignore them */
+bool	empty_quote(char *input, size_t start_idx)
+{
+	char	quote;
+
+	if (input[start_idx] != '\'' && input[start_idx] != '\"')
+		return (false);
+	quote = input[start_idx];
+	if (input[start_idx + 1] == quote)
+		return (true);
+	return (false);
+}
 
 bool	is_space(unsigned char c)
 {
