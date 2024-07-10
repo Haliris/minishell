@@ -6,15 +6,31 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:19:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:34:20 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
+void	free_tokens(t_token *token)
+{
+	t_token	*tmp;
+
+	while (token)
+	{
+		tmp = token->next;
+		if (token->lexstr)
+			free(token->lexstr);
+		free(token);
+		token = NULL;
+		token = tmp;
+	}
+}
+
 void	free_lexmem(t_data *data)
 {
 	free_tokens(data->token);
+	data->token = NULL;
 	if (data->input)
 	{
 		free(data->input);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 16:13:21 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:30:51 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:10:49 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 int	init_lex(t_data *data)
 {
+	data->token = NULL;
 	return (0);
 }

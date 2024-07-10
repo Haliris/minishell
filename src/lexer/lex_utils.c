@@ -6,20 +6,26 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/08 15:59:48 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:25:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	get_token(char *lexstr, t_tokentype type)
+t_token	*get_token(t_data *data, char *lexstr, t_tokentype type)
 {
-	t_token	token;
+	t_token	*token;
 
-	token.lexstr = lexstr;
-	token.type = type;
-	token.next = NULL;
-	token.prev = NULL;
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		write(2, "Error: bad malloc\n", 19);
+		exit(lex_clean_exit(data, 1));
+	}
+	token->lexstr = lexstr;
+	token->type = type;
+	token->next = NULL;
+	token->prev = NULL;
 	return (token);
 }
 

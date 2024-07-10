@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:23:55 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:07:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,10 @@ int	main(int argc, char **argv, char **env)
 		if (lexer(&data))
 			break ;
 		free_lexmem(&data);
-		free(prompt);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
 	}
 	if (prompt)
 		free(prompt);
-	return (lex_clean_exit(&data, 0));
+	return (0);
 }

@@ -6,23 +6,23 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/08 15:17:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:22:47 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	get_num_tk(char *input, size_t start_idx)
+t_token	*get_num_tk(t_data *data, char *input, size_t start_idx)
 {
 	size_t	i;
 
 	i = start_idx;
 	while (ft_isdigit(input[i]))
 		i++;
-	return (get_token(ft_substr(input, start_idx, i - start_idx), TK_NUMBER));
+	return (get_token(data, ft_substr(input, start_idx, i - start_idx), TK_NUMBER));
 }
 
-t_token	get_string_tk(char *input, size_t start_idx)
+t_token	*get_string_tk(t_data *data, char *input, size_t start_idx)
 {
 	size_t			i;
 	char			*lexstr;
@@ -34,26 +34,26 @@ t_token	get_string_tk(char *input, size_t start_idx)
 		i++;
 	lexstr = ft_substr(input, start_idx, i - start_idx + 1);
 	if (!lexstr)
-		return (get_token(NULL, TK_INVALID));
-	return (get_token(lexstr, TK_STRING));
+		return (get_token(data, NULL, TK_INVALID));
+	return (get_token(data, lexstr, TK_STRING));
 }
 
-t_token	get_word_tk(char *input, size_t start_idx)
+t_token	*get_word_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*lexstr;
 
 	lexstr = get_substr(input, start_idx);
 	if (!lexstr)
-		return (get_token(NULL, TK_INVALID));
-	return (get_token(lexstr, TK_WORD));
+		return (get_token(data, NULL, TK_INVALID));
+	return (get_token(data, lexstr, TK_WORD));
 }
 
-t_token	get_flag_tk(char *input, size_t start_idx)
+t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*lexstr;
 
 	lexstr = get_substr(input, start_idx);
 	if (!lexstr)
-		return (get_token(NULL, TK_INVALID));
-	return (get_token(lexstr, TK_FLAG));
+		return (get_token(data, NULL, TK_INVALID));
+	return (get_token(data, lexstr, TK_FLAG));
 }

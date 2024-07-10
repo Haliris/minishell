@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/08 16:18:10 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/10 09:33:43 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 t_token	*lex_get_last_token(t_data *data)
 {
-	while (data->token->next)
-		data->token = data->token->next;
-	return (data->token);
+	t_token	*curr_tk;
+
+	if (!data->token)
+		return (NULL);
+	curr_tk = data->token;
+	while (curr_tk && curr_tk->next)
+		curr_tk = curr_tk->next;
+	return (curr_tk);
 }
 
 void	lex_add_token(t_data *data, t_token *token)
@@ -29,18 +34,13 @@ void	lex_add_token(t_data *data, t_token *token)
 		return ;
 	}
 	last = lex_get_last_token(data);
-	last->next = token;
-	token->prev = last;
-}
-
-void	free_tokens(t_token *token)
-{
-	while (token)
+	if (last)
 	{
-		if (token->lexstr)
-			free(token->lexstr);
-		token = token->next;
+		last->next = token;
+		token->prev = last;
 	}
+	else
+		data->token = token;
 }
 
 void	print_token(t_token *token)
