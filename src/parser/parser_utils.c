@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 17:54:32 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 15:18:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,21 @@ char	*re_join_lexstr(char *s1, char *lexstr, int mode)
 	char	*temp_new;
 	char	*new;
 
+	if (!s1)
+		return (lexstr);
+	if (!lexstr)
+		return (s1);
 	if (mode == FORWARD)
 		temp_new = ft_strjoin(s1, " ");
 	else
 		temp_new = ft_strjoin(" ", s1);
 	if (!temp_new)
-		return (free(lexstr), NULL);
+		return (free(s1), NULL);
 	if (mode == FORWARD)
 		new = ft_strjoin(temp_new, lexstr);
 	else
 		new = ft_strjoin(lexstr, temp_new);
-	free(lexstr);
+	free(s1);
 	free(temp_new);
 	if (!new)
 		return (NULL);
