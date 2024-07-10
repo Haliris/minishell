@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 13:07:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:06:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@ void	open_files(int file_fd[], char *outfile, char *infile)
 		file_fd[0] = open(infile, O_CREAT | O_TRUNC, 064);
 	if (outfile)
 		file_fd[1] = open(outfile, O_CREAT | O_TRUNC, 064);
+}
+
+void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)
+{
+	roaming = parsed;
+	while (roaming->prev && roaming->prev->type != TK_PIPE)
+		roaming = roaming->prev;
 }
 
 void	redirect(char *outfile, char *infile)
@@ -57,20 +64,18 @@ void	get_redirections(t_lex_parser *table, char *out, char *in)
 	t_redirect_table	*redir;
 
 	roaming = NULL;
-	if (table->prev)
-		roaming = table->prev;
-	while (roaming && roaming->type == TK_IN)
+	go_to_first_table(roaming, table);
+	while (roaming && roaming->type != TK_PIPE)
 	{
-		redir = roaming->table;
-		in = redir->redir_str;
-		roaming = roaming->prev;
-	}
-	if (table->next)
-		roaming = table->next;
-	while (roaming && roaming->type == TK_OUT)
-	{
-		redir = roaming->table;
-		out = redir->redir_str;
+		if (roaming->type == TK_REDIR)
+		{
+			redir = roaming->table;
+			if (redir->type == TK_IN)
+				in = redir->redir_str;
+			else if (redir->type == TK_OUT)
+				out = redir->redir_str;
+			roaming->type = TK_RESERVED;
+		}
 		roaming = roaming->next;
 	}
 }
