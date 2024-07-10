@@ -6,100 +6,62 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 19:18:37 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 13:23:59 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 // Redirections are processed from left to right with the respective LAST one taking effect
-void	redirect(int *p_fd, int *file_fd)
+
+void	execute_pipe(t_lex_parser *parser, char **env)
 {
-	close(p_fd[0]);
-	close(file_fd[1]);
-	close(file_fd[0]);
-	dup2(p_fd[1], STDOUT_FILENO);
-	close(p_fd[1]);
-}
+	int				pid_child;
+	int				p_fd[2];
+	char			cmds[2];
+	t_pipe_table	*pipe_table;
+	int				index;
 
-void	get_redirections(t_lex_parser *table, char *out, char *in)
-{
-	t_lex_parser		*roaming;
-	t_redirect_table	*redir;
-
-	roaming = NULL;
-	if (table->prev)
-		roaming = table->prev;
-	while (roaming && roaming->type == TK_IN)
-	{
-		redir = roaming->table;
-		in = redir->redir_str;
-		roaming = roaming->prev;
-	}
-	if (table->next)
-		roaming = table->next;
-	while (roaming && roaming->type == TK_OUT)
-	{
-		redir = roaming->table;
-		out = redir->redir_str;
-		roaming = roaming->next;
-	}
-}
-
-void	execute_single_cmd(t_lex_parser *parsed, char **envp)
-{
-	int			p_fd[2];
-	char		*infile;
-	char		*outfile;
-	t_cmd_table	*cmd;
-	pid_t		pid_child;
-
-	infile = NULL;
-	outfile = NULL;
-	cmd = parsed->table;
-	get_redirections(parsed, outfile, infile);
+	index = 0;
+	pipe_table = parser->table;
+	if (pipe_table->cmd1)
+		cmds[0] == pipe_table->cmd1;
+	if (pipe_table->cmd2)
+		cmds[1] == pipe_table->cmd2;
 	if (pipe(p_fd) == -1)
-		return ;
-	pid_child = fork();
-	if (pid_child < 0)
-		return ;
-	if (pid_child == 0)
+		handle_error("Could not open pipe for middle child", EXIT_FAILURE);
+	while (index < 2)
 	{
-		redirect(p_fd, outfile, infile);
-		execute(cmd->cmd, envp);
+		pid_child = fork();
+		if (pid_child < 0)
+			handle_error("Could not fork middle child", EXIT_FAILURE);
+		if (pid_child == 0)
+		{
+			redirect(p_fd);
+			execute(cmds[0], env);
+		}
+		else
+		{
+			close(p_fd[1]);
+			if (index == 0)
+			dup2(p_fd[0], STDIN_FILENO);
+			close(p_fd[0]);
+		}
+		index++
 	}
-	else
-	{
-		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
-		close(p_fd[0]);
-	}
+
 }
 
 void	process_command(t_lex_parser *parsed, char **env, int *child_count)
 {
-	int	pid_child;
-	int	p_fd[2];
-
 	if (parsed->type == TK_CMD)
 	{
 		execute_single_cmd(parsed, **env);
 		*child_count = *child_count + 1;
 	}
-	if (pipe(p_fd) == -1)
-		handle_error("Could not open pipe for middle child", EXIT_FAILURE);
-	pid_child = fork();
-	if (pid_child < 0)
-		handle_error("Could not fork middle child", EXIT_FAILURE);
-	if (pid_child == 0)
+	else if (parsed->type == TK_PIPE)
 	{
-		redirect(p_fd);
-		execute(parsed, env);
-	}
-	else
-	{
-		close(p_fd[1]);
-		dup2(p_fd[0], STDIN_FILENO);
-		close(p_fd[0]);
+		execute_pipe(parsed, **env);
+		*child_count = *child_count + 2;
 	}
 }
 
