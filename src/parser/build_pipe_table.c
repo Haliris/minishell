@@ -62,39 +62,6 @@ int	build_cmd2_str(t_token *lexer)
 	return (SUCCESS);
 }
 
-char	*get_cmd_lexstr(t_token *tokens, int mode, t_lex_parser *parsed)
-{
-	t_token	*roaming;
-	char	*temp_cmd;
-	char	*cmd;
-
-	roaming = tokens;
-	temp_cmd = NULL;
-	cmd = NULL;
-	if (mode == FORWARD)
-	{
-		while (roaming && roaming->type != TK_PIPE)
-		{
-			if (roaming->type == TK_MARKED)
-				temp_cmd = roaming->lexstr;
-			roaming = roaming->next;
-		}
-	}
-	else
-	{
-		while (roaming && roaming->type != TK_PIPE)
-		{
-			if (roaming->type == TK_MARKED)
-				temp_cmd = roaming->lexstr;
-			roaming = roaming->prev;
-		}
-	}
-	cmd = ft_strdup(temp_cmd);
-	if (!cmd)
-		panic(parsed);
-	return (cmd);
-}
-
 int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 {
 	t_pipe_table	*pipe_table;
@@ -108,8 +75,8 @@ int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 	pipe_table = ft_calloc(1, sizeof(t_pipe_table));
 	if (!pipe_table)
 		return (PANIC);
-	pipe_table->cmd1 = get_cmd_lexstr(lexer, BACKWARD, parsed);
-	pipe_table->cmd2 = get_cmd_lexstr(lexer, FORWARD, parsed);
+	pipe_table->cmd1 = get_cmd_pipe(lexer, BACKWARD, parsed);
+	pipe_table->cmd2 = get_cmd_pipe(lexer, FORWARD, parsed);
 	parsed_add_back(parsed, pipe_table, TK_PIPE);
 	lexer->type = TK_MARKED;
 	reserve_token(lexer);

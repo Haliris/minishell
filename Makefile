@@ -8,6 +8,7 @@ CFILES	= main.c \
 		  parser.c \
 		  parser_utils.c \
 		  build_pipe_table.c \
+		  get_cmd_pipe.c \
 		  build_redirect_table.c \
 		  check_parsing_errors.c \
 		  parse_here_doc.c \
