@@ -6,17 +6,39 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 13:23:59 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/10 14:35:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 // Redirections are processed from left to right with the respective LAST one taking effect
 
-void	execute_pipe(t_lex_parser *parser, char **env)
+void	execute_pipe(char cmds[], char **env, int index)
 {
-	int				pid_child;
-	int				p_fd[2];
+	int	pid_child;
+	int	p_fd[2];
+
+	if (pipe(p_fd) == -1)
+		handle_error("Could not open pipe for middle child", EXIT_FAILURE);
+	pid_child = fork();
+	if (pid_child < 0)
+		handle_error("Could not fork middle child", EXIT_FAILURE);
+	if (pid_child == 0)
+	{
+		redirect_pipe();
+		execute(cmds[index], env);
+	}
+	else
+	{
+		close(p_fd[1]);
+		if (index == 0)
+			dup2(p_fd[0], STDIN_FILENO);
+		close(p_fd[0]);
+	}
+}
+
+void	process_pipe(t_lex_parser *parser, char **env)
+{
 	char			cmds[2];
 	t_pipe_table	*pipe_table;
 	int				index;
@@ -27,28 +49,11 @@ void	execute_pipe(t_lex_parser *parser, char **env)
 		cmds[0] == pipe_table->cmd1;
 	if (pipe_table->cmd2)
 		cmds[1] == pipe_table->cmd2;
-	if (pipe(p_fd) == -1)
-		handle_error("Could not open pipe for middle child", EXIT_FAILURE);
 	while (index < 2)
 	{
-		pid_child = fork();
-		if (pid_child < 0)
-			handle_error("Could not fork middle child", EXIT_FAILURE);
-		if (pid_child == 0)
-		{
-			redirect(p_fd);
-			execute(cmds[0], env);
-		}
-		else
-		{
-			close(p_fd[1]);
-			if (index == 0)
-			dup2(p_fd[0], STDIN_FILENO);
-			close(p_fd[0]);
-		}
-		index++
+		execute_pipe(cmds, env, index);
+		index++;
 	}
-
 }
 
 void	process_command(t_lex_parser *parsed, char **env, int *child_count)
@@ -60,7 +65,7 @@ void	process_command(t_lex_parser *parsed, char **env, int *child_count)
 	}
 	else if (parsed->type == TK_PIPE)
 	{
-		execute_pipe(parsed, **env);
+		process_pipe(parsed, **env);
 		*child_count = *child_count + 2;
 	}
 }
@@ -119,7 +124,7 @@ int	count_commands(t_lex_parser *tables)
 	{
 		if (roaming->type == TK_PIPE)
 			cmd_count += 2;
-		else if (roaming->TK_cmd_count)
+		else if (roaming->type == TK_CMD)
 			cmd_count++;
 		roaming = roaming->next;
 	}
