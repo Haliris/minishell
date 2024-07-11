@@ -82,3 +82,4 @@ int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 	reserve_token(lexer);
 	return (SUCCESS);
 }
+
