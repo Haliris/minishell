@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 11:58:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:32:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,17 @@ char	*make_cmd_buffer(t_token *roaming)
 	char	*cmd_buff;
 
 	cmd_buff = NULL;
-	while (r && r->type != TK_PIPE)
+	while (roaming && roaming->type != TK_PIPE)
 	{
-		if (r->type != TK_RESERVED)
+		if (roaming->type != TK_RESERVED)
 		{
-			if (cmd_buffer)
-				cmd_buffer = re_join_lexstr(cmd_buffer, r->lexstr, FORWARD);
+			if (cmd_buff)
+				cmd_buff = re_join_lexstr(cmd_buff, roaming->lexstr, FORWARD);
 			else
-				cmd_buffer = r->lexstr;
-			r->type = TK_RESERVED;
+				cmd_buff = roaming->lexstr;
+			roaming->type = TK_RESERVED;
 		}
-		r = r->next;
+		roaming = roaming->next;
 	}
 	return (NULL);
 }
@@ -50,7 +50,7 @@ void	parse_command(t_lex_parser *parsed, t_token *tokens)
 		return ;
 	cmd_buffer = NULL;
 	r = tokens;
-	while (r && r->prev != TK_PIPE)
+	while (r && r->prev->type != TK_PIPE)
 		r = r->prev;
 	table->cmd = make_cmd_buffer(r);
 	if (table->cmd)
@@ -68,7 +68,7 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	{
 		while (roaming && roaming->type != TK_PIPE)
 		{
-			if (roaming->type == TK_REDIRECTION)
+			if (roaming->type == TK_REDIR)
 				if (build_redirect_table(parsed, roaming) == PANIC)
 					panic(parsed);
 			roaming = roaming->next;

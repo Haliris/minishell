@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:27:05 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 15:24:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	get_redir_type(t_token *lexer)
 		return (TK_OUT);
 	else if (lexer->type == TK_OUT_APPEND)
 		return (TK_OUT_APPEND);
+	return (TK_INVALID);
 }
 
 int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)
