@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 09:27:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 10:03:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static bool	special_chars(char *input, size_t len)
 		if (input[i] == '\"' || input[i] == '\'')
 		{
 			quote = input[i];
+			i++;
 			while (i < len && input[i] != quote)
 				i++;
 		}
