@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 11:52:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 12:18:35 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 		return (NULL);
 	search_str++;
 	path = get_env_var(search_str);
+	search_str--;
 	return (get_token(data, search_str, path, TK_PATH));
 }
