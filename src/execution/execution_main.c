@@ -6,32 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 17:32:02 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:27:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 // Redirections are processed from left to right with the respective LAST one taking effect
-
-
-void	process_command(t_lex_parser *parsed, char **env, int *child_count)
-{
-	t_pipe_table	*pipe;
-
-	if (parsed->type == TK_CMD)
-	{
-		execute_single_cmd(parsed, **env);
-		*child_count = *child_count + 1;
-	}
-	else if (parsed->type == TK_PIPE)
-	{
-		process_pipe(parsed, **env);
-		if (pipe->cmd1)
-			*child_count = *child_count + 2;
-		else
-			*child_count = *child_count + 1;
-	}
-}
 
 void	wait_for_children(int index)
 {
@@ -68,7 +48,7 @@ int	execute_commands(int cmd_count, t_lex_parser *tables, char *envp[])
 	roaming = tables;
 	while (roaming)
 	{
-		if (roaming->type == TK_PIPE || roaming->type == TK_CMD)
+		if (roaming->type == TK_CMD)
 			process_command(roaming, envp, &child_count);
 		roaming = roaming->next;
 	}
@@ -85,9 +65,7 @@ int	count_commands(t_lex_parser *tables)
 	cmd_count = 0;
 	while (roaming)
 	{
-		if (roaming->type == TK_PIPE)
-			cmd_count += 2;
-		else if (roaming->type == TK_CMD)
+		if (roaming->type == TK_CMD)
 			cmd_count++;
 		roaming = roaming->next;
 	}

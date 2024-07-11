@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 16:46:43 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:27:39 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	get_redirections(t_lex_parser *table, char *out, char *in)
 	}
 }
 
-void	execute_single_cmd(t_lex_parser *parsed, char **envp)
+void	process_command(t_lex_parser *parsed, char **envp, int count)
 {
 	char		*infile;
 	char		*outfile;
