@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 13:42:02 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:11:23 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_lex_parser
 t_lex_parser	*interprete_lexer(t_token *tokens_list);
 int				build_pipe_table(t_lex_parser *parsed, t_token *lexer);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
+char			*get_pipe_cmd(t_token *tokens, int mode, t_lex_parser *parsed);
 
 char			*re_join_lexstr(char *lexstr, char *s2, int mode);
 int				check_remaining_tokens(t_token *tokens);
