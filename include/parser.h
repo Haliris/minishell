@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 16:05:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:27:18 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_lex_parser
 }	t_lex_parser;
 
 t_lex_parser	*interprete_lexer(t_token *tokens_list);
-int				build_pipe_table(t_lex_parser *parsed, t_token *lexer);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
 char			*get_pipe_cmd(t_token *tokens, int mode, t_lex_parser *parsed);
 

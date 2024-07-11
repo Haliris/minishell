@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 11:26:11 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:58:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,26 @@ void	panic(t_lex_parser *parsed)
 	(void)parsed;
 	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
 	ft_putstr_fd("probably exit the process too\n", STDERR_FILENO);
+}
+
+char	*make_cmd_buffer(t_token *roaming)
+{
+	char	*cmd_buff;
+
+	cmd_buff = NULL;
+	while (r && r->type != TK_PIPE)
+	{
+		if (r->type != TK_RESERVED)
+		{
+			if (cmd_buffer)
+				cmd_buffer = re_join_lexstr(cmd_buffer, r->lexstr, FORWARD);
+			else
+				cmd_buffer = r->lexstr;
+			r->type = TK_RESERVED;
+		}
+		r = r->next;
+	}
+	return (NULL);
 }
 
 void	parse_command(t_lex_parser *parsed, t_token *tokens)
@@ -32,18 +52,7 @@ void	parse_command(t_lex_parser *parsed, t_token *tokens)
 	r = tokens;
 	while (r && r->prev != TK_PIPE)
 		r = r->prev;
-	while (r)
-	{
-		if (r->type != TK_RESERVED)
-		{
-			if (cmd_buffer)
-				cmd_buffer = re_join_lexstr(cmd_buffer, r->lexstr, FORWARD);
-			else
-				cmd_buffer = r->lexstr;
-		}
-		r = r->next;
-	}
-	table->cmd = cmd_buffer;
+	table->cmd = make_cmd_buffer(r);
 	if (table->cmd)
 		parsed_add_back(parsed, table, TK_CMD);
 	else
