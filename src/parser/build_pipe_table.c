@@ -19,7 +19,7 @@ int	build_cmd1_str(t_token *lexer)
 
 	r = lexer;
 	cmd_str = NULL;
-	while (r->type != TK_PIPE)
+	while (r->type != TK_PARS_PIPE)
 	{
 		if (r->type == TK_STRING)
 		{
@@ -44,7 +44,7 @@ int	build_cmd2_str(t_token *lexer)
 
 	r = lexer;
 	cmd_str = NULL;
-	while (r->type != TK_PIPE)
+	while (r->type != TK_PARS_PIPE)
 	{
 		if (r->type == TK_STRING)
 		{
@@ -68,7 +68,7 @@ int	build_pipe_table(t_lex_parser *parsed, t_token *lexer)
 
 	pipe_table->cmd1 = NULL;
 	pipe_table->cmd2 = NULL;
-	if (check_parsing_error(lexer, TK_PIPE) == TRUE)
+	if (check_parsing_error(lexer, TK_PARS_PIPE) == TRUE)
 		return (PANIC);
 	if (build_cmd1_str(lexer) == PANIC || build_cmd2_str(lexer) == PANIC)
 		return (PANIC);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/11 11:50:41 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 13:02:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,14 @@ t_token	*get_num_tk(t_data *data, char *input, size_t start_idx)
 t_token	*get_string_tk(t_data *data, char *input, size_t start_idx)
 {
 	size_t			i;
-	char			*lexstr;
 	unsigned char	quote;
 
 	i = start_idx + 1;
 	quote = input[start_idx];
 	while (input[i] && input[i] != quote)
 		i++;
-	lexstr = ft_substr(input, start_idx, i - start_idx + 1);
-	return (get_token(data, lexstr, NULL, TK_STRING));
+	return (get_token(data, ft_substr(input, start_idx, i - start_idx + 1),
+			NULL, TK_STRING));
 }
 
 t_token	*get_word_tk(t_data *data, char *input, size_t start_idx)

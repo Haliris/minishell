@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 11:49:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 13:25:39 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,74 +14,6 @@
 # define LEXER_H
 
 # include "minishell.h"
-
-typedef struct s_token	t_token;
-
-typedef struct s_data
-{
-	char		*input;
-	char		**env;
-	t_token		*token;
-	size_t		buffer_size;
-}	t_data;
-
-/*
-Identifiers:
-	variables, functions, commands, labels
-	typically names of commands.
-
-Numbers:
-	stand-alone numbers 
-
-Operators:
-	'+' '-' '*' '/' '%'
-
-Keywords:
-	if, then, else, while, do, for,
-	break, continue, return, exit
-
-Redirections:
-	'>', '>>', '<', etc.
-
-Pipe:
-	'|'
-
-Logical operators:
-	AND	&&
-	OR	||
-
-Command separators:
-	';'
-
-Assignment:
-	'='
-*/
-
-typedef enum e_tokentype
-{
-	TK_INVALID,
-	TK_WORD,
-	TK_BUILTIN,
-	TK_EXECUTABLE,
-	TK_NUMBER,
-	TK_PATH,
-	TK_HEREDOC,
-	TK_PIPE,
-	TK_REDIR,
-	TK_OPERATOR,
-	TK_FLAG,
-	TK_STRING,
-	TK_EXITSTATUS,
-}	t_tokentype;
-
-typedef struct s_token
-{
-	t_tokentype	type;
-	char		*lexstr;
-	char		*path;
-	t_token		*next;
-	t_token		*prev;
-}	t_token;
 
 int		lexer(t_data *data);
 
@@ -92,7 +24,6 @@ int		lex_clean_exit(t_data *data, int exit_code);
 void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
 void	free_lexmem(t_data *data);
-int		init_lex(t_data *data, char **env);
 void	free_strarray(char **array);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);

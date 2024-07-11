@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 16:05:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:31:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,35 @@
 typedef struct s_lex_parser	t_lex_parser;
 typedef enum e_parsed_token
 {
-	TK_CMD,
-	TK_REDIR,
-	TK_PIPE,
+	TK_PARS_CMD,
+	TK_PARS_REDIR,
+	TK_PARS_PIPE,
 }	t_parsed_token;
 
 typedef enum e_redir_token
 {
-	TK_IN,
-	TK_OUT,
-	TK_OUT_APPEND,
+	TK_PARS_IN,
+	TK_PARS_OUT,
+	TK_PARS_OUT_APPEND,
 }	t_redir_token;
+
 typedef struct s_cmd_table
 {
 	char	*cmd;
 }	t_cmd_table;
+
 typedef struct s_pipe_table
 {
 	char	*cmd1;
 	char	*cmd2;
 }	t_pipe_table;
+
 typedef struct s_redirect_table
 {
 	char			*redir_str;
 	t_redir_token	type;
 }	t_redirect_table;
+
 typedef struct s_lex_parser
 {
 	void			*table;
