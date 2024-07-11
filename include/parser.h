@@ -6,11 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2024/07/11 11:11:23 by jteissie         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/11 13:08:46 by jteissie         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2024/07/11 14:42:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +24,6 @@ typedef enum e_parsed_token
 	TK_CMD,
 	TK_REDIR,
 	TK_PIPE,
-	TK_RESERVED,
 }	t_parsed_token;
 
 typedef enum e_redir_token
