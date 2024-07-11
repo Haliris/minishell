@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 11:20:35 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 11:26:11 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	parse_command(t_lex_parser *parsed, t_token *tokens)
 		return ;
 	cmd_buffer = NULL;
 	r = tokens;
+	while (r && r->prev != TK_PIPE)
+		r = r->prev;
 	while (r)
 	{
 		if (r->type != TK_RESERVED)
@@ -81,7 +83,5 @@ t_lex_parser	*interprete_lexer(t_token *tokens_list)
 	parsed_lex->next = NULL;
 	parsed_lex->prev = NULL;
 	parse_operators(parsed_lex, tokens_list);
-	if (check_remaining_tokens(tokens_list) > 0)
-		parse_commands(parsed_lex, tokens_list);
 	return (parsed_lex);
 }
