@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 18:31:13 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 09:20:56 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static char	*is_executable(char *path, char *cmd)
+static char	*path_join(char *path, char *cmd)
 {
 	char	*executable;
 	char	*temp;
@@ -32,14 +32,15 @@ static char	*is_executable(char *path, char *cmd)
 	return (executable);
 }
 
-static char	*get_exec_path(char *input, size_t start_idx)
+char	*get_exec_path(char *input, size_t start_idx)
 {
-		char	*cmd;
+	char	*cmd;
 	char	*path;
 	char	**split_path;
 	char	*exec_path;
 	size_t	i;
 
+	exec_path = NULL;
 	cmd = get_substr(input, start_idx);
 	if (!cmd)
 		return (NULL);
@@ -51,8 +52,8 @@ static char	*get_exec_path(char *input, size_t start_idx)
 		return (NULL);
 	i = -1;
 	while (split_path[++i] && !exec_path)
-		exec_path = is_executable(split_path[i], cmd);
-	free_split(split_path);
+		exec_path = path_join(split_path[i], cmd);
+	free_strarray(split_path);
 	return (exec_path);
 }
 
@@ -68,6 +69,6 @@ t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx)
 		return (get_token(data, cmd, TK_EXECUTABLE));
 	exec_path = get_exec_path(input, start_idx);
 	if (!exec_path)
-		return (NULL);
+		return (get_token(data, NULL, TK_INVALID));
 	return (get_token(data, exec_path, TK_EXECUTABLE));
 }

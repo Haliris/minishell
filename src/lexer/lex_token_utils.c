@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 18:31:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 09:15:42 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	lex_add_token(t_data *data, t_token *token)
 
 void	print_token(t_token *token)
 {
+	if (!token)
+		return ;
 	printf("Token type: %d\n", token->type);
 	printf("Token lexstr: %s\n", token->lexstr);
 }

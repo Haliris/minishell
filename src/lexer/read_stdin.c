@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:29:27 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 14:14:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 09:36:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,12 @@ char	*get_prompt(char *orig_prompt)
 	return (prompt);
 }
 
-/* cc -lreadline -I./include -I./libft src/lexer/read_stdin.c 
-	src/lexer/lex_utils.c
-	src/lexer/lex_token_utils.c src/lexer/lex_retrieve_tk1.c 
-	src/lexer/lex_clean_exit.c 
-	src/lexer/lexer.c libft/ft_memmove.c libft/ft_strdup.c 
-	libft/ft_bzero.c libft/ft_strjoin.c 
-	libft/ft_strlen.c libft/ft_substr.c src/lexer/lex_bools1.c 
-	libft/ft_strncmp.c libft/ft_isdigit.c */
 int	main(int argc, char **argv, char **env)
 {
 	t_data	data;
 	char	*prompt;
 
-	init_lex(&data);
+	init_lex(&data, env);
 	signal(SIGINT, sigint);
 	signal(SIGQUIT, sigquit);
 	prompt = get_prompt(NULL);
@@ -93,14 +85,10 @@ int	main(int argc, char **argv, char **env)
 	{
 		if (data.input)
 			add_history(data.input);
-		
 		if (valid_input(data.input))
 			if (lexer(&data))
-				break ;
-		if (valid_tokens(data.token))
-			printf("Error: Invalid token found\n");
-		else
-			printf("All tokens valid\n");
+				if (invalid_tokens(data.token))
+					printf("Error: Invalid token found\n");
 		free_lexmem(&data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);

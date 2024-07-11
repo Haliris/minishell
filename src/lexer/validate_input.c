@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 14:11:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 09:27:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	unclosed_quotes(char *input, size_t len)
 	i = 0;
 	while (i < len)
 	{
-		if (input[i] == "\"" || input[i] == "\'")
+		if (input[i] == '\"' || input[i] == '\'')
 		{
 			quote = input[i];
 			i++;
@@ -49,7 +49,7 @@ static bool	special_chars(char *input, size_t len)
 			while (i < len && input[i] != quote)
 				i++;
 		}
-		if (input[i] == "\\" || input[i] == ";" || !ft_isascii(input[i]))
+		if (input[i] == '\\' || input[i] == ';' || !ft_isascii(input[i]))
 			return (true);
 		i++;
 	}
@@ -63,6 +63,15 @@ bool	valid_input(char *input)
 	size_t	len;
 
 	len = ft_strlen(input);
-	return (unclosed_quotes(input, len) || special_chars(input, len)
-			|| non_n_flag(input) || incorrect_cd(input) );
+	if (unclosed_quotes(input, len))
+	{
+		printf("Error: unclosed quotes\n");
+		return (false);
+	}
+	if (special_chars(input, len))
+	{
+		printf("Error: invalid special chars\n");
+		return (false);
+	}
+	return (true);
 }
