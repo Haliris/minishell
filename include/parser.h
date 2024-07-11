@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 11:27:18 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:10:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ typedef struct s_cmd_table
 {
 	char	*cmd;
 }	t_cmd_table;
-typedef struct s_pipe_table
-{
-	char	*cmd1;
-	char	*cmd2;
-}	t_pipe_table;
 typedef struct s_redirect_table
 {
 	char			*redir_str;
