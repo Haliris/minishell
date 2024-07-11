@@ -1,20 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_here_doc_bonus.c                           :+:      :+:    :+:   */
+/*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/16 12:29:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/05 11:42:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
 #include "get_next_line.h"
-
+#define FILENAME_TAKEN -1
+#define SYS_ERROR -2
+#define SUCCESS 1
 //call unlink() in main process once we are done with the file
+
 int	get_random_nbr(int lower, int upper)
 {
 	int	nbr;
@@ -22,11 +25,11 @@ int	get_random_nbr(int lower, int upper)
 
 	fd = open("/dev/urandom", O_RDONLY);
 	if (fd < 0)
-		return (-1);
+		return (SYS_ERROR);
 	if (read(fd, &nbr, sizeof(nbr)) < 0)
 	{
 		close(fd);
-		return (-1);
+		return (SYS_ERROR);
 	}
 	close(fd);
 	nbr = nbr & 0x7FFFFFFF;
@@ -44,25 +47,33 @@ int	randomize(char *str)
 	ft_strlcpy(charset, "0123456789abcdefgABCDEFG", 24);
 	while (index < 20)
 	{
-		random = get_random_nbr(0, 23);
-		if (random == -1)
-			return (-1);
+		random = get_random_nbr(0, 22);
+		if (random == SYS_ERROR)
+			return (SYS_ERROR);
 		str[index] = charset[random];
 		index++;
 	}
-	return (1);
+	if (access(str, F_OK) == 0)
+		return (FILENAME_TAKEN);
+	return (SUCCESS);
 }
 
 int	create_here_file(t_heredoc *heredoc)
 {
 	int		here_fd;
+	int		randomize_status;
 
 	heredoc->path[0] = '.';
-	if (randomize(&heredoc->path[1]) == -1)
-		return (-1);
+	randomize_status = FILENAME_TAKEN;
+	while (randomize_status == FILENAME_TAKEN)
+	{
+		randomize_status = randomize(&heredoc->path[1]);
+		if (randomize_status == SYS_ERROR)
+			return (SYS_ERROR);
+	}
 	here_fd = open(heredoc->path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (here_fd < 0)
-		return (-1);
+		return (SYS_ERROR);
 	heredoc->fd = here_fd;
 	return (here_fd);
 }
@@ -79,10 +90,10 @@ int	put_line(char *limiter, int here_fd)
 		if (ft_strncmp(gnl_line, limiter, len) == 0 && gnl_line[len] == '\n')
 		{
 			free(gnl_line);
-			return (1);
+			return (SUCCESS);
 		}
 		if (!gnl_line)
-			return (-1);
+			return (SYS_ERROR);
 		ft_putstr_fd(gnl_line, here_fd);
 		free(gnl_line);
 	}
@@ -97,9 +108,19 @@ t_heredoc	*process_here_doc(char *limiter)
 	if (!heredoc)
 		return (NULL);
 	here_fd = create_here_file(heredoc);
-	if (here_fd == -1)
+	if (here_fd == SYS_ERROR)
+	{
+		free(heredoc);
 		return (NULL);
+	}
 	if (put_line(limiter, here_fd) < 0)
+	{
+		free(heredoc);
 		return (NULL);
+	}
 	return (heredoc);
 }
+
+#undef FILENAME_TAKEN
+#undef SYS_ERROR
+#undef SUCCESS

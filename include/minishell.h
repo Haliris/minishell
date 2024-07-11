@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bento <bento@student.42.fr>                +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/06 12:00:54 by bento            ###   ########.fr       */
+/*   Updated: 2024/07/11 12:31:38 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 
 # include "libft.h"
 # include "get_next_line.h"
+# include "parser.h"
 
 typedef struct s_heredoc
 {
