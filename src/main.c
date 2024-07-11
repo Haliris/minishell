@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 13:24:24 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 13:57:15 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	main(int argc, char **argv, char **env)
 	char	*prompt;
 
 	(void)argv;
+	(void)argc;
 	init(&data, env);
 	prompt = get_prompt(NULL);
 	data.input = readline(prompt);

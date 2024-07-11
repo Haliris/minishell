@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 13:25:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:40:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,46 @@
 
 # include "minishell.h"
 
-int		lexer(t_data *data);
+typedef enum e_tokentype
+{
+	TK_INVALID,
+	TK_WORD,
+	TK_BUILTIN,
+	TK_EXECUTABLE,
+	TK_NUMBER,
+	TK_PATH,
+	TK_HEREDOC,
+	TK_PIPE,
+	TK_REDIR,
+	TK_OPERATOR,
+	TK_FLAG,
+	TK_STRING,
+	TK_EXITSTATUS,
+	TK_CMD,
+	TK_RESERVED,
+	TK_IN,
+	TK_OUT,
+	TK_OUT_APPEND,
+}	t_tokentype;
 
+typedef struct s_token
+{
+	t_tokentype	type;
+	char		*lexstr;
+	char		*path;
+	t_token		*next;
+	t_token		*prev;
+}	t_token;
+
+typedef struct s_data
+{
+	char		*input;
+	char		**env;
+	t_token		*token;
+	size_t		buffer_size;
+}	t_data;
+
+int		lexer(t_data *data);
 /* utilities - general */
 char	*get_substr(char *input, size_t start_idx);
 void	free_tokens(t_token *token);
@@ -48,7 +86,6 @@ t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_string_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_word_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_pipe_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_path_tk(t_data *data, char *input, size_t start_idx);

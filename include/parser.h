@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:37:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 13:56:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 # define SUCCESS 1
 # define PANIC 0
 
+typedef struct s_token		t_token;
 typedef struct s_lex_parser	t_lex_parser;
+typedef enum e_tokentype	t_tokentype;
 typedef enum e_parsed_token
 {
 	TK_PARS_CMD,

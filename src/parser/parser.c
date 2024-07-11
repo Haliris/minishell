@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:41:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:32:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	parse_command(t_lex_parser *parsed, t_token *tokens)
 		return ;
 	cmd_buffer = NULL;
 	r = tokens;
-	while (r && r->prev != TK_PIPE)
+	while (r && r->prev->type != TK_PIPE)
 		r = r->prev;
 	table->cmd = make_cmd_buffer(r);
 	if (table->cmd)

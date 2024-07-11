@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 12:18:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:38:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 {
-	t_token	*token;
 	char	*lexstr;
 
+	lexstr = NULL;
 	if (input[start_idx] == '<')
 	{
 		if (input[start_idx + 1] == '<')
@@ -35,12 +35,6 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 			lexstr = ft_strdup(">");
 	}
 	return (get_token(data, lexstr, NULL, TK_REDIR));
-}
-
-/* Might need to change this to account for "||" */
-t_token	*get_pipe_tk(t_data *data, char *input, size_t start_idx)
-{
-	return (get_token(data, ft_strdup("|"), NULL, TK_PIPE));
 }
 
 /* no null validation for path, because invalid paths are NULL */
