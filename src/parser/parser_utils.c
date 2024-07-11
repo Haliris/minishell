@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 15:18:13 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:08:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,37 +24,6 @@ bool	check_invalid_token(t_token *tokens)
 		roaming = roaming->next;
 	}
 	return (FALSE);
-}
-
-void	reserve_token(t_token *tokens)
-{
-	t_token	*roaming;
-
-	roaming = tokens;
-	while (roaming->prev)
-		roaming = roaming->prev;
-	while (roaming)
-	{
-		if (roaming->type == TK_MARKED)
-			roaming->type = TK_RESERVED;
-		roaming = roaming->next;
-	}
-}
-
-int	check_remaining_tokens(t_token *tokens)
-{
-	int		remaining;
-	t_token	*roaming;
-
-	remaining = 0;
-	roaming = tokens;
-	while (roaming)
-	{
-		if (roaming->type != TK_RESERVED)
-			remaining++;
-		roaming = roaming->next;
-	}
-	return (remaining);
 }
 
 char	*re_join_lexstr(char *s1, char *lexstr, int mode)
