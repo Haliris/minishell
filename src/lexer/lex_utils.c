@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/11 08:22:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:49:38 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	*get_token(t_data *data, char *lexstr, t_tokentype type)
+t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
 	t_token	*token;
 
@@ -23,6 +23,7 @@ t_token	*get_token(t_data *data, char *lexstr, t_tokentype type)
 		exit(lex_clean_exit(data, 1));
 	}
 	token->lexstr = lexstr;
+	token->path = path;
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;

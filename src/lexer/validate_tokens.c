@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 09:35:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:04:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static bool	is_invalid_cd(t_token *token)
 	return (false);
 }
 
+/* bultins with invalid flags */
 bool	invalid_tokens(t_token *token)
 {
 	return (invalid_tk_exists(token)

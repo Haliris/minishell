@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 08:25:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:52:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 		if (input[start_idx + 1] == '<')
 		{
 			lexstr = ft_strdup("<<");
-			return (get_token(data, lexstr, TK_HEREDOC));
+			return (get_token(data, lexstr, NULL, TK_HEREDOC));
 		}
 		else
 			lexstr = ft_strdup("<");
@@ -34,15 +34,16 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 		else
 			lexstr = ft_strdup(">");
 	}
-	return (get_token(data, lexstr, TK_REDIR));
+	return (get_token(data, lexstr, NULL, TK_REDIR));
 }
 
 /* Might need to change this to account for "||" */
 t_token	*get_pipe_tk(t_data *data, char *input, size_t start_idx)
 {
-	return (get_token(data, ft_strdup("|"), TK_PIPE));
+	return (get_token(data, ft_strdup("|"), NULL, TK_PIPE));
 }
 
+/* no null validation for path, because invalid paths are NULL */
 t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*search_str;
@@ -53,8 +54,5 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 		return (NULL);
 	search_str++;
 	path = get_env_var(search_str);
-	free(search_str);
-	if (!path)
-		return (NULL);
-	return (get_token(data, path, TK_PATH));
+	return (get_token(data, search_str, path, TK_PATH));
 }

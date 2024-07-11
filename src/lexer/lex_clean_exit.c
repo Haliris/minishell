@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/10 11:51:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 11:54:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	free_tokens(t_token *token)
 		tmp = token->next;
 		if (token->lexstr)
 			free(token->lexstr);
+		if (token->path)
+			free(token->path);
 		free(token);
 		token = NULL;
 		token = tmp;
