@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
-/*   Updated: 2024/07/11 09:20:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 09:44:03 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,18 @@ bool	is_builtin(char *input, size_t start_idx)
 bool	is_executable(char *input, size_t start_idx)
 {
 	char	*cmd;
+	char	*substr;
 	bool	retval;
+	int		access_code;
 
+	substr = get_substr(input, start_idx);
+	if (substr)
+	{
+		access_code = access(substr, X_OK);
+		free(substr);
+		if (access_code != -1)
+			return (true);
+	}
 	cmd = NULL;
 	cmd = get_exec_path(input, start_idx);
 	if (cmd)
