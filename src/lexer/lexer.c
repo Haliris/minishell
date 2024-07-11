@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/11 11:57:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 12:27:19 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t input_len, size_t *i)
 	else if (is_executable(data->input, *i))
 		curr_tk = get_exec_tk(data, data->input, *i);
 	else if (data->input[*i] == '$' && data->input[*i + 1] == '?')
-		curr_tk = get_token(data, NULL, NULL, TK_EXITSTATUS);
+		curr_tk = get_token(data, ft_strdup("$?"), NULL, TK_EXITSTATUS);
 	else if (data->input[*i] == '$' && data->input[*i + 1])
 		curr_tk = get_path_tk(data, data->input, *i);
 	else if (in(data->input[*i], "-+=/%*"))
@@ -75,7 +75,7 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 			curr_tk = get_flag_tk(data, data->input, i);
 		else
 			curr_tk = build_tokenlist2(data, input_len, &i);
-		if (!curr_tk)
+		if (!curr_tk || !curr_tk->lexstr)
 			return (1);
 		print_token(curr_tk);
 		i += ft_strlen(curr_tk->lexstr);
