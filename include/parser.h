@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:08:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:32:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 typedef struct s_lex_parser	t_lex_parser;
 typedef enum e_parsed_token
 {
-	TK_CMD,
-	TK_REDIR,
-	TK_PIPE,
+	TK_PARS_CMD,
+	TK_PARS_REDIR,
+	TK_PARS_PIPE,
 }	t_parsed_token;
 
 typedef enum e_redir_token

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 11:58:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 13:32:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*make_cmd_buffer(t_token *roaming)
 	char	*cmd_buff;
 
 	cmd_buff = NULL;
-	while (r && r->type != TK_PIPE)
+	while (r && r->type != TK_PARS_PIPE)
 	{
 		if (r->type != TK_RESERVED)
 		{
@@ -50,11 +50,11 @@ void	parse_command(t_lex_parser *parsed, t_token *tokens)
 		return ;
 	cmd_buffer = NULL;
 	r = tokens;
-	while (r && r->prev != TK_PIPE)
+	while (r && r->prev != TK_PARS_PIPE)
 		r = r->prev;
 	table->cmd = make_cmd_buffer(r);
 	if (table->cmd)
-		parsed_add_back(parsed, table, TK_CMD);
+		parsed_add_back(parsed, table, TK_PARS_CMD);
 	else
 		free(table);
 }
@@ -66,16 +66,16 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	roaming = tokens;
 	while (roaming)
 	{
-		while (roaming && roaming->type != TK_PIPE)
+		while (roaming && roaming->type != TK_PARS_PIPE)
 		{
-			if (roaming->type == TK_REDIRECTION)
+			if (roaming->type == TK_PARS_REDIRECTION)
 				if (build_redirect_table(parsed, roaming) == PANIC)
 					panic(parsed);
 			roaming = roaming->next;
 		}
 		parse_command(parsed, tokens);
-		if (roaming && roaming->type == TK_PIPE)
-			parsed_add_back(parsed, NULL, TK_PIPE);
+		if (roaming && roaming->type == TK_PARS_PIPE)
+			parsed_add_back(parsed, NULL, TK_PARS_PIPE);
 		roaming = roaming->next;
 	}
 }
