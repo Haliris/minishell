@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 18:37:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 18:58:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect(char *infile, char *outfile, int p_fd[], int pipe_status)
+void	redirect(char *infile, char *outfile, int p_fd[])
 {
 	int	file_fd[2];
 	int	dup_status;
@@ -20,17 +20,17 @@ void	redirect(char *infile, char *outfile, int p_fd[], int pipe_status)
 	file_fd[0] = 0;
 	file_fd[1] = 0;
 	dup_status = 0;
-	if (p_fd[0])
+	open_files(file_fd, outfile, infile);
+	if (!file_fd[0] && p_fd[0] == TRUE)
 	{
 		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
 	}
-	if (p_fd[1])
+	if (!file_fd[1] && p_fd[1] == TRUE)
 	{
 		dup2(p_fd[1], STDIN_FILENO);
 		close(p_fd[1]);
 	}
-	open_files(file_fd, outfile, infile);
 	if (file_fd[0] < 0 || file_fd[1] < 0)
 	{
 		if (file_fd[0])
@@ -80,6 +80,7 @@ void	get_redirections(t_lex_parser *table, char redirection[])
 	redirection[0] = infile;
 	redirection[1] = outfile;
 }
+
 void	check_pipes(t_lex_parser *table, int pipe_status[])
 {
 	t_lex_parser	*roaming;
@@ -102,6 +103,7 @@ int	open_pipes(int p_fd[], int pipe_status[])
 		close(p_fd[0]);
 	if (pipe_status[1] == FALSE)
 		close(p_fd[1]);
+	return (SUCCESS);
 }
 
 void	process_command(t_lex_parser *parsed, char **envp, int count)
@@ -121,7 +123,8 @@ void	process_command(t_lex_parser *parsed, char **envp, int count)
 	cmd_table = parsed->table;
 	get_redirections(parsed, redir);
 	check_pipes(parsed, has_pipe);
-	open_pipes(p_fd, has_pipe);
+	if (open_pipes(p_fd, has_pipe) == -1)
+		return ;
 	pid_child = fork();
 	if (pid_child < 0)
 		return ;
@@ -132,7 +135,7 @@ void	process_command(t_lex_parser *parsed, char **envp, int count)
 	}
 	else
 	{
-		if (has_pipe)
+		if (has_pipe[0] == TRUE)
 			dup_status += dup2(p_fd[0], STDIN_FILENO);
 		if (redir[0])
 			close(redir[0]);
@@ -140,5 +143,7 @@ void	process_command(t_lex_parser *parsed, char **envp, int count)
 			close(redir[1]);
 		close(p_fd[0]);
 		close(p_fd[1]);
+		if (dup_status < 0)
+			return ;
 	}
 }
