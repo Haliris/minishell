@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:08:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:33:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	parsed_add_back(t_lex_parser *parsed, void *table, int type)
 	{
 		parsed->table = table;
 		parsed->type = type;
-		return ;
+		return (SUCCESS);
 	}
 	new_node = ft_calloc(1, sizeof(t_lex_parser));
 	if (!new_node)

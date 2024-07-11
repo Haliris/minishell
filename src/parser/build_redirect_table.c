@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_redirect_table.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/09 15:26:34 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:35:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	get_redir_type(t_token *lexer)
 		return (TK_OUT);
 	else if (lexer->type == TK_OUT_APPEND)
 		return (TK_OUT_APPEND);
+	return (TK_INVALID);
 }
 
 int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)

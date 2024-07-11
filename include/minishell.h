@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/09 15:22:36 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/11 14:52:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,15 @@
 # include <curses.h>
 # include <term.h>
 # include <fcntl.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # include "libft.h"
 # include "get_next_line.h"
 # include "parser.h"
+# include "lexer.h"
 
 typedef struct s_heredoc
 {
@@ -40,5 +45,6 @@ typedef struct s_heredoc
 	char	path[22];
 }	t_heredoc;
 
-t_heredoc	*process_here_doc(char *limiter);
+void	handle_signals(void);
+
 #endif
