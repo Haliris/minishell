@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 14:40:34 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/11 14:52:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ typedef struct s_heredoc
 	int		fd;
 	char	path[22];
 }	t_heredoc;
+
+void	handle_signals(void);
 
 #endif
