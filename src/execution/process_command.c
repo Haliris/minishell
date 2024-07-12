@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:36:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:38:43 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	pid_t		pid_child;
 
 	cmd_table = parsed->table;
-	if (open_files(file_fd, parsed) == -1)
-		return (PANIC);
-	if (open_pipes(parsed, pipe_fd) == -1)
+	if (open_files(file_fd, parsed) == -1 || open_pipes(parsed, pipe_fd) == -1)
 		return (PANIC);
 	pid_child = fork();
 	if (pid_child < 0)
@@ -105,7 +103,7 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	if (pid_child == 0)
 	{
 		if (redirect_child(file_fd, pipe_fd) == PANIC)
-			handle_error("sys_error in exec child.\n", errno);
+			handle_error("syscall error in exec child.\n", errno);
 		execute_cmd(cmd_table->cmd, envp);
 	}
 	else
