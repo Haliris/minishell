@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 14:33:58 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:35:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,13 @@ int	redirect_file(int file_fd[])
 	return (dup_status);
 }
 
-void	redirect_child(int file_fd[], int p_fd[])
+int	redirect_child(int file_fd[], int p_fd[])
 {
 	if (redirect_pipe(p_fd, file_fd) < 0)
-		return ;
+		return (PANIC);
 	if (redirect_file(file_fd) < 0)
-		return ;
+		return (PANIC);
 	close(p_fd[0]);
 	close(p_fd[1]);
+	return (SUCCESS);
 }

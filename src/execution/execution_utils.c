@@ -6,11 +6,33 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 14:18:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:26:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	handle_error(char *message, int code)
+{
+	ft_putstr_fd(message, 2);
+	ft_putchar_fd('\n', 2);
+	exit(code);
+}
+
+void	trash(char **array)
+{
+	int	i;
+
+	i = 0;
+	if (!array)
+		return ;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array);
+}
 
 void	get_redirections(t_lex_parser *table, char *redirection[])
 {

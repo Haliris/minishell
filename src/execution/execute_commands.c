@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_main.c                                   :+:      :+:    :+:   */
+/*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 13:21:01 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:31:49 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,27 @@ void	wait_for_children(int index)
 int	execute_commands(t_lex_parser *tables, char **envp)
 {
 	int				cmd_count;
+	int				sys_error;
 	t_lex_parser	*roaming;
 
 	cmd_count = 0;
+	sys_error = FALSE;
 	roaming = tables;
 	while (roaming)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			process_command(roaming, envp);
+			if (process_command(roaming, envp) == PANIC)
+			{
+				sys_error = TRUE;
+				break ;
+			}
 			cmd_count++;
 		}
 		roaming = roaming->next;
 	}
 	wait_for_children(cmd_count);
-	return (1);
+	if (sys_error == TRUE)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

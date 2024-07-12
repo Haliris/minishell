@@ -10,11 +10,8 @@ CFILES	= main.c \
 		  parser_utils.c \
 		  build_redirect_table.c \
 		  check_parsing_errors.c \
-		  execute_path.c \
-		  execution_main.c \
+		  execute_commands.c \
 		  execution_utils.c \
-		  get_execpaths.c \
-		  redundant_utils.c \
 		  process_command.c \
 		  redirect_child.c \
 		  parse_here_doc.c \

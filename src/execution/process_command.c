@@ -6,11 +6,34 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 14:39:09 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 15:36:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	execute_cmd(char *cmd, char **env)
+{
+	char	**command;
+	char	*exec_path;
+
+	command = ft_split(cmd, ' ');
+	if (!command || !command[0])
+	{
+		if (command)
+			trash(command);
+		handle_error("Command split error", EXIT_FAILURE);
+	}
+	if (access(command[0], F_OK | X_OK) == 0)
+	{
+		exec_path = command[0];
+		if (execve(exec_path, command, env) == -1)
+		{
+			trash(command);
+			handle_error(strerror(errno), errno);
+		}
+	}
+}
 
 void	check_pipes(t_lex_parser *table, int pipe_status[])
 {
@@ -64,7 +87,7 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
-void	process_command(t_lex_parser *parsed, char **envp)
+int	process_command(t_lex_parser *parsed, char **envp)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
@@ -73,22 +96,23 @@ void	process_command(t_lex_parser *parsed, char **envp)
 
 	cmd_table = parsed->table;
 	if (open_files(file_fd, parsed) == -1)
-		return ;
+		return (PANIC);
 	if (open_pipes(parsed, pipe_fd) == -1)
-		return ;
+		return (PANIC);
 	pid_child = fork();
 	if (pid_child < 0)
-		return ;
+		return (PANIC);
 	if (pid_child == 0)
 	{
-		redirect_child(file_fd, pipe_fd);
-		execute(cmd_table->cmd, envp);
+		if (redirect_child(file_fd, pipe_fd) == PANIC)
+			handle_error("sys_error in exec child.\n", errno);
+		execute_cmd(cmd_table->cmd, envp);
 	}
 	else
 	{
 		parsed->type = TK_PARS_RESERVED;
 		if (redirect_parent(pipe_fd, file_fd) < 0)
-			return ;
-		return ;
+			return (PANIC);
 	}
+	return (SUCCESS);
 }
