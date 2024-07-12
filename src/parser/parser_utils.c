@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 13:05:26 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:54:01 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*re_join_lexstr(char *s1, char *lexstr, int mode)
 	return (new);
 }
 
-int	parsed_add_back(t_lex_parser *parsed, void *table, int type)
+int	parsed_add_back(t_lex_parser *parsed, void *table, t_parsed_token type)
 {
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
