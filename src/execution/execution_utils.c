@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:26:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:23:23 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,11 @@ void	get_redirections(t_lex_parser *table, char *redirection[])
 	char				*outfile;
 	char				*infile;
 
-	roaming = NULL;
+	roaming = table;
 	infile = NULL;
 	outfile = NULL;
-	go_to_first_table(roaming, table);
+	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
+		roaming = roaming->prev;
 	while (roaming && roaming->type != TK_PARS_PIPE)
 	{
 		if (roaming->type == TK_PARS_REDIR)
@@ -76,11 +77,4 @@ int	open_files(int file_fd[], t_lex_parser *table)
 	if (file_fd[0] < 0 || file_fd[1] < 0)
 		return (-1);
 	return (SUCCESS);
-}
-
-void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)
-{
-	roaming = parsed;
-	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
-		roaming = roaming->prev;
 }
