@@ -6,13 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/10 16:46:10 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:04:42 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "pipex_bonus.h"
-
+#include "minishell.h"
 // void	handle_error(char *message, int code)
 // {
 // 	ft_putstr_fd(message, 2);
@@ -46,7 +45,7 @@ void	open_files(int file_fd[], char *outfile, char *infile)
 void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)
 {
 	roaming = parsed;
-	while (roaming->prev && roaming->prev->type != TK_PIPE)
+	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
 		roaming = roaming->prev;
 }
 

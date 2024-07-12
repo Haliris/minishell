@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:27:03 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 12:04:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execute_commands(int cmd_count, t_lex_parser *tables, char *envp[])
 	roaming = tables;
 	while (roaming)
 	{
-		if (roaming->type == TK_CMD)
+		if (roaming->type == TK_PARS_CMD)
 			process_command(roaming, envp, &child_count);
 		roaming = roaming->next;
 	}
@@ -65,7 +65,7 @@ int	count_commands(t_lex_parser *tables)
 	cmd_count = 0;
 	while (roaming)
 	{
-		if (roaming->type == TK_CMD)
+		if (roaming->type == TK_PARS_CMD)
 			cmd_count++;
 		roaming = roaming->next;
 	}
