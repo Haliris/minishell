@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:38:43 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 19:07:51 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ void	check_pipes(t_lex_parser *table, int pipe_status[])
 	go_to_first_table(roaming, table);
 	if (roaming->prev && roaming->prev->type == TK_PARS_PIPE)
 		pipe_status[0] = TRUE;
-	while (roaming && roaming->next->type != TK_PARS_PIPE)
+	while (roaming->next && roaming->next->type != TK_PARS_PIPE)
 		roaming = roaming->next;
-	if (roaming && roaming->next->type == TK_PARS_PIPE)
+	if (roaming->next && roaming->next->type == TK_PARS_PIPE)
 		pipe_status[1] = TRUE;
 }
 
