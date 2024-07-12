@@ -32,7 +32,7 @@ CFILES	= main.c \
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/
+vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 

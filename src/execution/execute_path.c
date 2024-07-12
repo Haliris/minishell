@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_path_bonus.c                               :+:      :+:    :+:   */
+/*   execute_path.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/12 18:44:43 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/14 13:48:23 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:21:08 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "execution.h"
+#include "minishell.h"
 
 void	try_absolute_path(char **command, char **env)
 {

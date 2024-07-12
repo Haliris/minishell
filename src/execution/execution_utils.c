@@ -6,11 +6,10 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 12:04:42 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:34:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 // void	handle_error(char *message, int code)
 // {
@@ -34,12 +33,17 @@
 // 	free(array);
 // }
 
-void	open_files(int file_fd[], char *outfile, char *infile)
+int	open_files(int file_fd[], char *infile, char *outfile)
 {
+	file_fd[0] = 0;
+	file_fd[1] = 0;
 	if (infile)
 		file_fd[0] = open(infile, O_CREAT | O_TRUNC, 064);
 	if (outfile)
 		file_fd[1] = open(outfile, O_CREAT | O_TRUNC, 064);
+	if (file_fd[0] < 0 || file_fd[1] < 0)
+		return (-1);
+	return (SUCCESS);
 }
 
 void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed)

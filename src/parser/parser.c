@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 13:05:08 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:18:39 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ char	*make_cmd_buffer(t_token *roaming)
 	cmd_buff = NULL;
 	while (roaming && roaming->type != TK_PARS_PIPE)
 	{
-		if (roaming->type != TK_PARS_RESERVED)
+		if (roaming->type != TK_RESERVED)
 		{
 			if (cmd_buff)
 				cmd_buff = re_join_lexstr(cmd_buff, roaming->lexstr, FORWARD);
 			else
 				cmd_buff = roaming->lexstr;
-			roaming->type = TK_PARS_RESERVED;
+			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
 	}

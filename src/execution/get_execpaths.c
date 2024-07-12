@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_execpaths_bonus.c                              :+:      :+:    :+:   */
+/*   get_execpaths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:44:37 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/15 17:16:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:21:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
-#include "execution.h"
+
+#include "minishell.h"
 
 void	cat_slash(char **exec_paths)
 {
