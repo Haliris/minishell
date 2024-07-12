@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:56:51 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:42:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ typedef enum e_parsed_token
 	TK_PARS_CMD,
 	TK_PARS_REDIR,
 	TK_PARS_PIPE,
+	TK_PARS_RESERVED,
 }	t_parsed_token;
 
 typedef enum e_redir_token
@@ -61,4 +62,5 @@ int				check_parsing_error(t_token *lexer, t_tokentype mode);
 
 bool			check_invalid_token(t_token *tokens);
 int				parsed_add_back(t_lex_parser *parsed, void *table, int type);
+
 #endif

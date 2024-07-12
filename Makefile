@@ -10,6 +10,10 @@ CFILES	= main.c \
 		  parser_utils.c \
 		  build_redirect_table.c \
 		  check_parsing_errors.c \
+		  execute_commands.c \
+		  execution_utils.c \
+		  process_command.c \
+		  redirect_child.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
@@ -28,7 +32,7 @@ CFILES	= main.c \
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/
+vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 
