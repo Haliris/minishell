@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 13:39:59 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:43:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	process_command(t_lex_parser *parsed, char **envp)
 	else
 	{
 		dup_status += redirect_parent(pipe_fd, file_fd);
+		parsed->type = TK_PARS_RESERVED;
 		if (dup_status < 0)
 			return ;
 	}

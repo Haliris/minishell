@@ -11,8 +11,9 @@ CFILES	= main.c \
 		  build_redirect_table.c \
 		  check_parsing_errors.c \
 		  execute_path.c \
-		  get_execpaths.c \
 		  execution_main.c \
+		  execution_utils.c \
+		  get_execpaths.c \
 		  process_command.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
