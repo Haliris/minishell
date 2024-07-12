@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 10:03:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:33:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ bool	valid_input(char *input)
 	len = ft_strlen(input);
 	if (unclosed_quotes(input, len))
 	{
-		printf("Error: unclosed quotes\n");
+		ft_printf("Error: unclosed quotes\n");
 		return (false);
 	}
 	if (special_chars(input, len))
 	{
-		printf("Error: invalid special chars\n");
+		ft_printf("Error: invalid special chars\n");
 		return (false);
 	}
 	return (true);
