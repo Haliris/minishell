@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 18:55:44 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:59:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*make_cmd_buffer(t_token *roaming)
 		}
 		roaming = roaming->next;
 	}
-	return (NULL);
+	return (cmd_buff);
 }
 
 void	parse_command(t_lex_parser *parsed, t_token *roaming)
