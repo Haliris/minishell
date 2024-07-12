@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 14:40:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:31:18 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ typedef enum e_tokentype
 	TK_OUT_APPEND,
 }	t_tokentype;
 
+typedef struct s_heredoc	t_heredoc;
+
 typedef struct s_token
 {
 	t_tokentype	type;
 	char		*lexstr;
 	char		*path;
+	t_heredoc	*heredoc;
 	t_token		*next;
 	t_token		*prev;
 }	t_token;
@@ -89,5 +92,6 @@ t_token	*get_word_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_path_tk(t_data *data, char *input, size_t start_idx);
+t_token	*get_heredoc_tk(t_data *data, char *input, size_t start_idx);
 
 #endif

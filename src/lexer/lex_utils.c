@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/11 11:49:38 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 15:55:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 	token->type = type;
 	token->next = NULL;
 	token->prev = NULL;
+	token->heredoc = NULL;
 	return (token);
 }
 

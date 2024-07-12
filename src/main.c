@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 15:24:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:08:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,12 @@ int	main(int argc, char **argv, char **env)
 		if (valid_input(data.input))
 			if (lexer(&data))
 				if (invalid_tokens(data.token))
-					printf("Error: Invalid token found\n");
+					ft_printf("Error: Invalid token found\n");
 		free_lexmem(&data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
 	}
 	if (prompt)
 		free(prompt);
-	return (0);
+	return (lex_clean_exit(&data, 0));
 }

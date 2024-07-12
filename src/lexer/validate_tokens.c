@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 11:04:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:36:23 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ bool	invalid_tk_exists(t_token *token)
 	while (token)
 	{
 		if (token->type == TK_INVALID)
+			return (true);
+		if (token->type == TK_HEREDOC && !token->heredoc)
 			return (true);
 		token = token->next;
 	}
