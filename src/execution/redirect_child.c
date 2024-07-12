@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 14:32:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:33:58 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	redirect_file(int file_fd[])
 	int	dup_status;
 
 	dup_status = 0;
-
 	if (file_fd[0])
 	{
 		dup_status += dup2(file_fd[0], STDIN_FILENO);

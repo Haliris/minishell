@@ -6,12 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 14:18:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 14:39:09 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	check_pipes(t_lex_parser *table, int pipe_status[])
 {
@@ -69,11 +68,9 @@ void	process_command(t_lex_parser *parsed, char **envp)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
-	int			dup_status;
 	t_cmd_table	*cmd_table;
 	pid_t		pid_child;
 
-	dup_status = 0;
 	cmd_table = parsed->table;
 	if (open_files(file_fd, parsed) == -1)
 		return ;
@@ -89,9 +86,9 @@ void	process_command(t_lex_parser *parsed, char **envp)
 	}
 	else
 	{
-		dup_status += redirect_parent(pipe_fd, file_fd);
 		parsed->type = TK_PARS_RESERVED;
-		if (dup_status < 0)
+		if (redirect_parent(pipe_fd, file_fd) < 0)
 			return ;
+		return ;
 	}
 }
