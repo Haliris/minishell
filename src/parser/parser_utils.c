@@ -45,7 +45,7 @@ char	*re_join_lexstr(char *s1, char *lexstr, int mode)
 		new = ft_strjoin(temp_new, lexstr);
 	else
 		new = ft_strjoin(lexstr, temp_new);
-	free(s1);
+	// free(s1);
 	free(temp_new);
 	if (!new)
 		return (NULL);

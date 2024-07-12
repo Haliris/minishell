@@ -68,6 +68,8 @@ int	main(int argc, char **argv, char **env)
 	t_data			data;
 	t_lex_parser	*parsed_data;
 	char			*prompt;
+	pid_t			exec_child;
+	int				exec_child_status;
 
 	(void)argv;
 	(void)argc;
@@ -84,8 +86,15 @@ int	main(int argc, char **argv, char **env)
 					ft_printf("Error: Invalid token found\n");
 		if (data.token)
 			parsed_data = interprete_lexer(data.token);
-		if (parsed_data)
-			execute_commands(parsed_data, env);
+		exec_child = fork();
+		if (exec_child < 0)
+			return (EXIT_FAILURE);
+		if (exec_child == 0)
+		{
+			if (parsed_data)
+					execute_commands(parsed_data, env);
+		}
+		waitpid(exec_child, &exec_child_status, 0);
 		free_lexmem(&data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);

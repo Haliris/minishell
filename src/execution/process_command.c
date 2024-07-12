@@ -59,16 +59,16 @@ int	open_pipes(t_lex_parser *parsed, int p_fd[])
 	check_pipes(parsed, has_pipe);
 	if (pipe(p_fd) < 0)
 		return (-1);
-	if (has_pipe[0] == FALSE)
-	{
-		close(p_fd[0]);
-		p_fd[0] = 0;
-	}
-	if (has_pipe[1] == FALSE)
-	{
-		close(p_fd[1]);
-		p_fd[1] = 0;
-	}
+	// if (has_pipe[0] == FALSE)
+	// {
+	// 	close(p_fd[0]);
+	// 	p_fd[0] = 0;
+	// }
+	// if (has_pipe[1] == FALSE)
+	// {
+	// 	close(p_fd[1]);
+	// 	p_fd[1] = 0;
+	// }
 	return (SUCCESS);
 }
 
@@ -92,10 +92,18 @@ int	redirect_parent(int p_fd[], int file_fd[])
 
 void	print_descriptors(int file_fd[], int p_fd[])
 {
-	printf("file_fd[0]:%d\n", file_fd[0]);
-	printf("file_fd[1]:%d\n", file_fd[1]);
-	printf("pipe_fd[0]:%d\n", p_fd[0]);
-	printf("pipe_fd[1]:%d\n", p_fd[1]);
+	ft_putstr_fd("file_fd[0]\n", STDERR_FILENO);
+	ft_putnbr_fd(file_fd[0], STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("file_fd[1]\n", STDERR_FILENO);
+	ft_putnbr_fd(file_fd[1], STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("p_fd[0]\n", STDERR_FILENO);
+	ft_putnbr_fd(p_fd[0], STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	ft_putstr_fd("p_fd[1]\n", STDERR_FILENO);
+	ft_putnbr_fd(p_fd[1], STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 }
 
 int	process_command(t_lex_parser *parsed, char **envp)
@@ -109,8 +117,11 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	if (open_files(file_fd, parsed) == -1 || open_pipes(parsed, pipe_fd) == -1)
 		return (PANIC);
 	pid_child = fork();
+	if (redirect_file(file_fd, 0) < 0)
+		return (PANIC);
 	if (pid_child < 0)
 		return (PANIC);
+	
 	if (pid_child == 0)
 	{
 		if (redirect_child(file_fd, pipe_fd) == PANIC)

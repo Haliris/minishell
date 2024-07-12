@@ -28,6 +28,7 @@ void	execute_cmd(char *cmd, char **env);
 
 int		open_files(int file_fd[], t_lex_parser *table);
 void	get_redirections(t_lex_parser *table, char *redirection[]);
+int		redirect_file(int file_fd[], int mode);
 
 int		execute_commands(t_lex_parser *tables, char **envp);
 int		process_command(t_lex_parser *parsed, char **envp);

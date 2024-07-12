@@ -26,7 +26,7 @@ static int	count_words(char const *str, char sep)
 
 	i = 0;
 	words = 0;
-	if (str[0] == '\0')
+	if (!str || str[0] == '\0')
 		return (0);
 	while (str[i])
 	{

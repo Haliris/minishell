@@ -18,7 +18,8 @@ void	wait_for_children(int index)
 	int	error_code;
 
 	error_code = 0;
-	while (index >= 0)
+	status = 0;
+	while (index > 0)
 	{
 		wait(&status);
 		if (WEXITSTATUS(status) != 0)
