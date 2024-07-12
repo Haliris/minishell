@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 17:08:12 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 18:16:00 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ char	*get_prompt(char *orig_prompt)
 
 int	main(int argc, char **argv, char **env)
 {
-	t_data	data;
-	char	*prompt;
+	t_data			data;
+	t_lex_parser	*parsed_data;
+	char			*prompt;
 
 	(void)argv;
 	(void)argc;
@@ -81,6 +82,10 @@ int	main(int argc, char **argv, char **env)
 			if (lexer(&data))
 				if (invalid_tokens(data.token))
 					ft_printf("Error: Invalid token found\n");
+		if (data.token)
+			parsed_data = interprete_lexer(data.token);
+		if (parsed_data)
+			execute_commands(parsed_data, env);
 		free_lexmem(&data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
