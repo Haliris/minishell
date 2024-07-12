@@ -88,6 +88,16 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
+#include <stdio.h>
+
+void	print_descriptors(int file_fd[], int p_fd[])
+{
+	printf("file_fd[0]:%d\n", file_fd[0]);
+	printf("file_fd[1]:%d\n", file_fd[1]);
+	printf("pipe_fd[0]:%d\n", p_fd[0]);
+	printf("pipe_fd[1]:%d\n", p_fd[1]);
+}
+
 int	process_command(t_lex_parser *parsed, char **envp)
 {
 	int			pipe_fd[2];
@@ -105,6 +115,7 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	{
 		if (redirect_child(file_fd, pipe_fd) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
+		print_descriptors(file_fd, pipe_fd);
 		execute_cmd(cmd_table->cmd, envp);
 	}
 	else

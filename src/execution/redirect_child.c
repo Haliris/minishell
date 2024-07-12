@@ -21,14 +21,6 @@ int	redirect_pipe(int p_fd[], int file_fd[])
 		dup_status += dup2(p_fd[0], STDIN_FILENO);
 	if (!file_fd[1] && p_fd[1] == TRUE)
 		dup_status += dup2(p_fd[1], STDIN_FILENO);
-	if (file_fd[0] < 0 || file_fd[1] < 0)
-	{
-		if (file_fd[0])
-			close(file_fd[0]);
-		if (file_fd[1])
-			close (file_fd[1]);
-		return (-1);
-	}
 	return (dup_status);
 }
 

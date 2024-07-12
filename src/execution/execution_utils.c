@@ -71,7 +71,7 @@ int	open_files(int file_fd[], t_lex_parser *table)
 	file_fd[1] = 0;
 	get_redirections(table, redir);
 	if (redir[0])
-		file_fd[0] = open(redir[0], O_CREAT | O_TRUNC, 064);
+		file_fd[0] = open(redir[0], O_RDONLY, 064);
 	if (redir[1])
 		file_fd[1] = open(redir[1], O_CREAT | O_TRUNC, 064);
 	if (file_fd[0] < 0 || file_fd[1] < 0)
