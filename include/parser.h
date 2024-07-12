@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 18:41:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:55:02 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
 char			*re_join_lexstr(char *lexstr, char *s2, int mode);
 
 bool			check_invalid_token(t_token *tokens);
-int				parsed_add_back(t_lex_parser *parsed, void *table, int type);
+int				parsed_add_back(t_lex_parser *parsed, void *table, t_parsed_token type);
 
 #endif
