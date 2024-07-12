@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/05 11:42:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 17:41:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ t_heredoc	*process_here_doc(char *limiter)
 	heredoc = ft_calloc(1, sizeof(t_heredoc));
 	if (!heredoc)
 		return (NULL);
+	heredoc->path[0] = 0;
 	here_fd = create_here_file(heredoc);
 	if (here_fd == SYS_ERROR)
 	{
