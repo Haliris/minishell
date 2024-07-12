@@ -13,8 +13,7 @@ CFILES	= main.c \
 		  execute_path.c \
 		  get_execpaths.c \
 		  execution_main.c \
-		  execute_single_cmd.c \
-		  execute_pipe.c \
+		  process_command.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \

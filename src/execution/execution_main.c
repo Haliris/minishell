@@ -6,12 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 12:04:35 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:16:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-// Redirections are processed from left to right with the respective LAST one taking effect
 
 void	wait_for_children(int index)
 {
@@ -37,47 +36,22 @@ void	wait_for_children(int index)
 		exit(EXIT_FAILURE);
 }
 
-//NEED SUPPORT FOR INFILES AND OUTFILES
-
-int	execute_commands(int cmd_count, t_lex_parser *tables, char *envp[])
-{
-	int				child_count;
-	t_lex_parser	*roaming;
-
-	child_count = 0;
-	roaming = tables;
-	while (roaming)
-	{
-		if (roaming->type == TK_PARS_CMD)
-			process_command(roaming, envp, &child_count);
-		roaming = roaming->next;
-	}
-	wait_for_children(child_count);
-	return (1);
-}
-
-int	count_commands(t_lex_parser *tables)
+int	execute_commands(t_lex_parser *tables, char **envp)
 {
 	int				cmd_count;
 	t_lex_parser	*roaming;
 
-	roaming = tables;
 	cmd_count = 0;
+	roaming = tables;
 	while (roaming)
 	{
 		if (roaming->type == TK_PARS_CMD)
+		{
+			process_command(roaming, envp);
 			cmd_count++;
+		}
 		roaming = roaming->next;
 	}
-	return (cmd_count);
-}
-void	process_tables(t_lex_parser *tables, char *envp[])
-{
-	int		cmd_count;
-	int		pid_status;
-
-	cmd_count = count_commands(tables);
-	if (!cmd_count)
-		return ;
-	execute_commands(cmd_count, tables, envp);
+	wait_for_children(cmd_count);
+	return (1);
 }

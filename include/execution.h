@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/11 13:28:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:16:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,7 @@ void	execute(char *av, char **env);
 void	open_files(int file_fd[], char *outfile, char *infile);
 void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed);
 
-void	process_command(t_lex_parser *parsed, char **envp, int count);
+int		execute_commands(t_lex_parser *tables, char **envp);
+void	process_command(t_lex_parser *parsed, char **envp);
+
 #endif

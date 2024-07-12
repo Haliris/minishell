@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 12:05:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 13:08:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ int	redirect_parent(int p_fd[], char redir[])
 	return (dup_status);
 }
 
-void	process_command(t_lex_parser *parsed, char **envp, int count)
+void	process_command(t_lex_parser *parsed, char **envp)
 {
 	char		redir[2];
 	int			p_fd[2];
