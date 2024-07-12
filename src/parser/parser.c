@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 18:39:07 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/12 18:55:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 			roaming = roaming->next;
 			if (roaming->type == TK_PIPE)
 			{
-				parsed_add_back(parsed, NULL, TK_PIPE);
+				parsed_add_back(parsed, NULL, TK_PARS_PIPE);
 				if (roaming->next)
 					roaming = roaming->next;
 				break ;
