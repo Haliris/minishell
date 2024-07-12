@@ -9,7 +9,6 @@ CFILES	= main.c \
 		  parser.c \
 		  parser_utils.c \
 		  build_redirect_table.c \
-		  check_parsing_errors.c \
 		  execute_commands.c \
 		  execution_utils.c \
 		  process_command.c \
