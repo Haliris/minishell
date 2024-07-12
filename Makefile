@@ -14,7 +14,9 @@ CFILES	= main.c \
 		  execution_main.c \
 		  execution_utils.c \
 		  get_execpaths.c \
+		  redundant_utils.c \
 		  process_command.c \
+		  redirect_child.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
