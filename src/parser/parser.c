@@ -33,6 +33,8 @@ char	*make_cmd_buffer(t_token *roaming)
 			{
 				cmd_buff = ft_str_rejoin(cmd_buff, " ");
 				cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
+				if (!cmd_buff)
+					return (NULL);
 			}
 			else
 				cmd_buff = ft_strdup(roaming->lexstr);

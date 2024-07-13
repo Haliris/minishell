@@ -30,7 +30,9 @@ int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)
 	redir_table = ft_calloc(1, sizeof(t_redirect_table));
 	if (!redir_table)
 		return (PANIC);
-	redir_table->redir_str = lexer->next->lexstr;
+	redir_table->redir_str = ft_strdup(lexer->next->lexstr);
+	if (!redir_table->redir_str)
+		return (PANIC);
 	redir_table->type = get_redir_type(lexer);
 	lexer->next->type = TK_RESERVED;
 	lexer->type = TK_RESERVED;
