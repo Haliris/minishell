@@ -35,7 +35,7 @@ char	*make_cmd_buffer(t_token *roaming)
 				cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
 			}
 			else
-				cmd_buff = roaming->lexstr;
+				cmd_buff = ft_strdup(roaming->lexstr);
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
