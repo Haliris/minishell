@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-int	redirect_pipe(int p_fd[])
+int	redirect_pipe(int p_fd[], int index)
 {
 	int	dup_status;
 
 	dup_status = 0;
 	close(p_fd[0]);
-	dup_status += dup2(p_fd[1], STDOUT_FILENO);
+	if (index > 0)
+		dup_status += dup2(p_fd[1], STDOUT_FILENO);
 	close(p_fd[1]);
 	return (dup_status);
-	// if (!file_fd[1] && p_fd[1] == TRUE)
 }
 
 int	redirect_file(int file_fd[], int mode)
@@ -44,9 +44,9 @@ int	redirect_file(int file_fd[], int mode)
 	return (dup_status);
 }
 
-int	redirect_child(int file_fd[], int p_fd[])
+int	redirect_child(int file_fd[], int p_fd[], int index)
 {
-	if (redirect_pipe(p_fd) < 0)
+	if (redirect_pipe(p_fd, index) < 0)
 		return (PANIC);
 	if (redirect_file(file_fd, 1) < 0)
 		return (PANIC);

@@ -31,7 +31,7 @@ void	get_redirections(t_lex_parser *table, char *redirection[]);
 int		redirect_file(int file_fd[], int mode);
 
 int		execute_commands(t_lex_parser *tables, char **envp);
-int		process_command(t_lex_parser *parsed, char **envp);
-int		redirect_child(int file_fd[], int p_fd[]);
+int		process_command(t_lex_parser *parsed, char **envp, int index);
+int		redirect_child(int file_fd[], int p_fd[], int index);
 
 #endif

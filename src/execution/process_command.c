@@ -59,16 +59,6 @@ int	open_pipes(t_lex_parser *parsed, int p_fd[])
 	check_pipes(parsed, has_pipe);
 	if (pipe(p_fd) < 0)
 		return (-1);
-	// if (has_pipe[0] == FALSE)
-	// {
-	// 	close(p_fd[0]);
-	// 	p_fd[0] = 0;
-	// }
-	// if (has_pipe[1] == FALSE)
-	// {
-	// 	close(p_fd[1]);
-	// 	p_fd[1] = 0;
-	// }
 	return (SUCCESS);
 }
 
@@ -77,8 +67,7 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	int	dup_status;
 
 	dup_status = 0;
-	if (p_fd[0])
-		dup_status += dup2(p_fd[0], STDIN_FILENO);
+	dup_status += dup2(p_fd[0], STDIN_FILENO);
 	if (file_fd[0])
 		close(file_fd[0]);
 	if (file_fd[1])
@@ -88,25 +77,7 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
-#include <stdio.h>
-
-void	print_descriptors(int file_fd[], int p_fd[])
-{
-	ft_putstr_fd("file_fd[0]\n", STDERR_FILENO);
-	ft_putnbr_fd(file_fd[0], STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	ft_putstr_fd("file_fd[1]\n", STDERR_FILENO);
-	ft_putnbr_fd(file_fd[1], STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	ft_putstr_fd("p_fd[0]\n", STDERR_FILENO);
-	ft_putnbr_fd(p_fd[0], STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-	ft_putstr_fd("p_fd[1]\n", STDERR_FILENO);
-	ft_putnbr_fd(p_fd[1], STDERR_FILENO);
-	ft_putstr_fd("\n", STDERR_FILENO);
-}
-
-int	process_command(t_lex_parser *parsed, char **envp)
+int	process_command(t_lex_parser *parsed, char **envp, int index)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
@@ -124,9 +95,9 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	
 	if (pid_child == 0)
 	{
-		if (redirect_child(file_fd, pipe_fd) == PANIC)
+		if (redirect_child(file_fd, pipe_fd, index) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
-		print_descriptors(file_fd, pipe_fd);
+		// print_descriptors(file_fd, pipe_fd);
 		execute_cmd(cmd_table->cmd, envp);
 	}
 	else
@@ -137,3 +108,21 @@ int	process_command(t_lex_parser *parsed, char **envp)
 	}
 	return (SUCCESS);
 }
+
+// #include <stdio.h>
+
+// void	print_descriptors(int file_fd[], int p_fd[])
+// {
+// 	ft_putstr_fd("file_fd[0]\n", STDERR_FILENO);
+// 	ft_putnbr_fd(file_fd[0], STDERR_FILENO);
+// 	ft_putstr_fd("\n", STDERR_FILENO);
+// 	ft_putstr_fd("file_fd[1]\n", STDERR_FILENO);
+// 	ft_putnbr_fd(file_fd[1], STDERR_FILENO);
+// 	ft_putstr_fd("\n", STDERR_FILENO);
+// 	ft_putstr_fd("p_fd[0]\n", STDERR_FILENO);
+// 	ft_putnbr_fd(p_fd[0], STDERR_FILENO);
+// 	ft_putstr_fd("\n", STDERR_FILENO);
+// 	ft_putstr_fd("p_fd[1]\n", STDERR_FILENO);
+// 	ft_putnbr_fd(p_fd[1], STDERR_FILENO);
+// 	ft_putstr_fd("\n", STDERR_FILENO);
+// }

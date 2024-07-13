@@ -42,6 +42,7 @@ int	execute_commands(t_lex_parser *tables, char **envp)
 	int				cmd_count;
 	int				sys_error;
 	t_lex_parser	*roaming;
+	int				index;
 
 	cmd_count = 0;
 	sys_error = FALSE;
@@ -50,12 +51,22 @@ int	execute_commands(t_lex_parser *tables, char **envp)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp) == PANIC)
-			{
-				sys_error = TRUE;
-				break ;
-			}
 			cmd_count++;
+		}
+		roaming = roaming->next;
+	}
+	index = cmd_count; 
+	roaming = tables;
+	while (roaming && index)
+	{
+		if (roaming->type == TK_PARS_CMD)
+		{
+			if (process_command(roaming, envp, cmd_count - index) == PANIC)
+				{
+					sys_error = TRUE;
+					break ;
+				}
+			index--;
 		}
 		roaming = roaming->next;
 	}
