@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:31:49 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:35:15 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,11 @@ void	wait_for_children(int index)
 		exit(EXIT_FAILURE);
 }
 
-int	execute_commands(t_parser *data, char **envp)
+int	count_commands(t_parser *data)
 {
-	int				cmd_count;
-	int				sys_error;
 	t_lex_parser	*roaming;
-	int				index;
+	int				cmd_count;
 
-	cmd_count = 0;
-	sys_error = FALSE;
 	roaming = data->node;
 	while (roaming)
 	{
@@ -55,23 +51,40 @@ int	execute_commands(t_parser *data, char **envp)
 		}
 		roaming = roaming->next;
 	}
-	index = cmd_count; 
+	return (cmd_count);
+}
+
+int	execute_commands(t_parser *data, char **envp)
+{
+	int				cmd_count;
+	t_lex_parser	*roaming;
+	int				i;
+
+	cmd_count = count_commands(data);
+	i = cmd_count;
 	roaming = data->node;
-	while (roaming && index)
+	while (roaming && i)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp, cmd_count - index, data) == PANIC)
-				{
-					sys_error = TRUE;
-					break ;
-				}
-			index--;
+			if (process_command(roaming, envp, cmd_count - i, data) == PANIC)
+				return (PANIC);
+			i--;
 		}
 		roaming = roaming->next;
 	}
 	wait_for_children(cmd_count);
-	if (sys_error == TRUE)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+int	execute_data(t_parser *parsed_data, char **env)
+{
+	int	status;
+
+	status = SUCCESS;
+	if (parsed_data->node)
+		status = execute_commands(parsed_data, env);
+	if (parsed_data->node)
+		free_parsed_mem(parsed_data);
+	return (status);
 }

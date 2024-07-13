@@ -13,13 +13,6 @@
 #include "minishell.h"
 #include "get_next_line.h"
 
-void	panic(t_lex_parser *parsed)
-{
-	(void)parsed;
-	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
-	ft_putstr_fd("probably exit the process too\n", STDERR_FILENO);
-}
-
 char	*make_cmd_buffer(t_token *roaming)
 {
 	char	*cmd_buff;
@@ -64,15 +57,15 @@ void	parse_command(t_lex_parser *parsed, t_token *roaming)
 void	collect_redir_tk(t_lex_parser *parsed, t_token *roaming)
 {
 	while (roaming && roaming->type != TK_PIPE)
+	{
+		if (roaming->type == TK_REDIR)
 		{
-			if (roaming->type == TK_REDIR)
-			{
-				if (build_redirect_table(parsed, roaming) == PANIC)
-					panic(parsed);
-				roaming->type = TK_RESERVED;
-			}
-			roaming = roaming->next;
+			if (build_redirect_table(parsed, roaming) == PANIC)
+				panic(parsed);
+			roaming->type = TK_RESERVED;
 		}
+		roaming = roaming->next;
+	}
 	if (roaming && roaming->prev && roaming->type == TK_PIPE)
 		roaming = roaming->prev;
 }

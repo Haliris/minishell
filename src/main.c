@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 18:16:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:31:45 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,16 @@ char	*get_prompt(char *orig_prompt)
 	return (prompt);
 }
 
+int	parse_data(t_data *data, t_parser *parsed_data, char *prompt)
+{
+	if (data->token)
+		if (interprete_lexer(parsed_data, data->token) == PANIC)
+			return (PANIC);
+	free_lexmem(data);
+	prompt = get_prompt(prompt);
+	data->input = readline(prompt);
+	return (SUCCESS);
+}
 
 int	main(int argc, char **argv, char **env)
 {
@@ -84,16 +94,8 @@ int	main(int argc, char **argv, char **env)
 			if (lexer(&data))
 				if (invalid_tokens(data.token))
 					ft_printf("Error: Invalid token found\n");
-		if (data.token)
-			if (interprete_lexer(&parsed_data, data.token) == PANIC)
-				return (EXIT_FAILURE);
-		free_lexmem(&data);
-		if (parsed_data.node)
-			execute_commands(&parsed_data, env);
-		if (parsed_data.node)
-			free_parsed_mem(&parsed_data);
-		prompt = get_prompt(prompt);
-		data.input = readline(prompt);
+		parse_data(&data, &parsed_data, prompt);
+		execute_data(&parsed_data, env);
 	}
 	if (prompt)
 		free(prompt);

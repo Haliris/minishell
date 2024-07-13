@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 19:23:28 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:38:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ int		open_files(int file_fd[], t_lex_parser *table);
 void	get_redirections(t_lex_parser *table, char *redirection[]);
 int		redirect_file(int file_fd[], int mode);
 
+int		execute_data(t_parser *parsed_data, char **env);
 int		execute_commands(t_parser *data, char **envp);
-int		process_command(t_lex_parser *parsed, char **envp, int index, t_parser *data);
+int		process_command(t_lex_parser *p, char **envp, int index, t_parser *d);
 int		redirect_child(int file_fd[], int p_fd[], int index);
 
 #endif

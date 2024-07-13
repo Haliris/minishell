@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 19:24:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:38:45 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,28 +76,26 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
-int	process_command(t_lex_parser *parsed, char **envp, int index, t_parser *data)
+int	process_command(t_lex_parser *p, char **envp, int index, t_parser *d)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
 	t_cmd_table	*cmd_table;
 	pid_t		pid_child;
 
-	cmd_table = parsed->table;
-	if (open_files(file_fd, parsed) == -1 || open_pipes(parsed, pipe_fd) == -1)
+	cmd_table = p->table;
+	if (open_files(file_fd, p) == -1 || open_pipes(p, pipe_fd) == -1)
 		return (PANIC);
 	pid_child = fork();
 	if (redirect_file(file_fd, 0) < 0)
 		return (PANIC);
 	if (pid_child < 0)
 		return (PANIC);
-	
 	if (pid_child == 0)
 	{
 		if (redirect_child(file_fd, pipe_fd, index) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
-		// print_descriptors(file_fd, pipe_fd);
-		execute_cmd(cmd_table->cmd, envp, data);
+		execute_cmd(cmd_table->cmd, envp, d);
 	}
 	else
 	{
@@ -106,21 +104,3 @@ int	process_command(t_lex_parser *parsed, char **envp, int index, t_parser *data
 	}
 	return (SUCCESS);
 }
-
-// #include <stdio.h>
-
-// void	print_descriptors(int file_fd[], int p_fd[])
-// {
-// 	ft_putstr_fd("file_fd[0]\n", STDERR_FILENO);
-// 	ft_putnbr_fd(file_fd[0], STDERR_FILENO);
-// 	ft_putstr_fd("\n", STDERR_FILENO);
-// 	ft_putstr_fd("file_fd[1]\n", STDERR_FILENO);
-// 	ft_putnbr_fd(file_fd[1], STDERR_FILENO);
-// 	ft_putstr_fd("\n", STDERR_FILENO);
-// 	ft_putstr_fd("p_fd[0]\n", STDERR_FILENO);
-// 	ft_putnbr_fd(p_fd[0], STDERR_FILENO);
-// 	ft_putstr_fd("\n", STDERR_FILENO);
-// 	ft_putstr_fd("p_fd[1]\n", STDERR_FILENO);
-// 	ft_putnbr_fd(p_fd[1], STDERR_FILENO);
-// 	ft_putstr_fd("\n", STDERR_FILENO);
-// }
