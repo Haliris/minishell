@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "get_next_line.h"
 
 void	panic(t_lex_parser *parsed)
 {
