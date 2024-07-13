@@ -8,6 +8,7 @@ OBJDIR	= obj
 CFILES	= main.c \
 		  parser.c \
 		  parser_utils.c \
+		  parser_clean_exit.c \
 		  build_redirect_table.c \
 		  execute_commands.c \
 		  execution_utils.c \

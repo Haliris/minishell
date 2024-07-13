@@ -52,10 +52,11 @@ typedef struct s_lex_parser
 	t_lex_parser	*prev;
 }	t_lex_parser;
 
-t_lex_parser	*interprete_lexer(t_token *tokens_list);
+int				interprete_lexer(t_lex_parser *parsed, t_token *tokens_list);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
 
 bool			check_invalid_token(t_token *tokens);
 int				parsed_add_back(t_lex_parser *parsed, void *table, t_parsed_token type);
+void			free_parsed_mem(t_lex_parser *parsed);
 
 #endif

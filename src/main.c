@@ -62,12 +62,12 @@ char	*get_prompt(char *orig_prompt)
 	free(pre_prompt);
 	return (prompt);
 }
-#include <stdio.h>
+
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
-	t_lex_parser	*parsed_data;
+	t_lex_parser	parsed_data;
 	char			*prompt;
 
 	(void)argv;
@@ -84,10 +84,12 @@ int	main(int argc, char **argv, char **env)
 				if (invalid_tokens(data.token))
 					ft_printf("Error: Invalid token found\n");
 		if (data.token)
-			parsed_data = interprete_lexer(data.token);
+			if (interprete_lexer(&parsed_data, data.token) == PANIC)
+				return (EXIT_FAILURE);
 		free_lexmem(&data);
-		if (parsed_data)
-			execute_commands(parsed_data, env);
+		if (parsed_data.type)
+			execute_commands(&parsed_data, env);
+		free_parsed_mem(&parsed_data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
 	}
