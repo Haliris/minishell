@@ -29,7 +29,10 @@ char	*make_cmd_buffer(t_token *roaming)
 		if (roaming->type != TK_RESERVED)
 		{
 			if (cmd_buff)
-				cmd_buff = re_join_lexstr(cmd_buff, roaming->lexstr, FORWARD);
+			{
+				cmd_buff = ft_str_rejoin(cmd_buff, " ");
+				cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
+			}
 			else
 				cmd_buff = roaming->lexstr;
 			roaming->type = TK_RESERVED;

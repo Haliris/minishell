@@ -13,8 +13,6 @@
 #ifndef PARSER_H
 # define PARSER_H
 # include "minishell.h"
-# define FORWARD 1
-# define BACKWARD 2
 # define SUCCESS 1
 # define PANIC 0
 
@@ -56,8 +54,6 @@ typedef struct s_lex_parser
 
 t_lex_parser	*interprete_lexer(t_token *tokens_list);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
-
-char			*re_join_lexstr(char *lexstr, char *s2, int mode);
 
 bool			check_invalid_token(t_token *tokens);
 int				parsed_add_back(t_lex_parser *parsed, void *table, t_parsed_token type);
