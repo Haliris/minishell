@@ -7,6 +7,8 @@ void	free_tables(t_lex_parser *r)
 	t_cmd_table			*cmd_table;
 	t_redirect_table	*redir_table;
 
+	if (!r)
+		return ;
 	if (r->type == TK_PARS_CMD)
 	{
 		cmd_table = r->table;
@@ -25,12 +27,16 @@ void	free_tables(t_lex_parser *r)
 	}
 }
 
-void	free_parsed_mem(t_lex_parser *parsed)
+void	free_parsed_mem(t_parser *data)
 {
 	t_lex_parser	*roaming;
 	t_lex_parser	*temp;
 
-	roaming = parsed;
+	if (!data->node)
+		return ;
+	roaming = data->node;
+	while (roaming->prev)
+		roaming = roaming->prev;
 	while (roaming)
 	{
 		free_tables(roaming);
@@ -41,4 +47,5 @@ void	free_parsed_mem(t_lex_parser *parsed)
 		temp->prev = NULL;
 		free(temp);
 	}
+	data->node = NULL;
 }

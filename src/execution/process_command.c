@@ -12,12 +12,12 @@
 
 #include "minishell.h"
 
-void	execute_cmd(char *cmd, char **env)
+void	execute_cmd(char *cmd, char **env, t_parser	*data)
 {
 	char	**command;
-	char	*exec_path;
 
 	command = ft_split(cmd, ' ');
+	free_parsed_mem(data);
 	if (!command || !command[0])
 	{
 		if (command)
@@ -26,8 +26,7 @@ void	execute_cmd(char *cmd, char **env)
 	}
 	if (access(command[0], F_OK | X_OK) == 0)
 	{
-		exec_path = command[0];
-		if (execve(exec_path, command, env) == -1)
+		if (execve(command[0], command, env) == -1)
 		{
 			trash(command);
 			handle_error(strerror(errno), errno);
@@ -77,7 +76,7 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
-int	process_command(t_lex_parser *parsed, char **envp, int index)
+int	process_command(t_lex_parser *parsed, char **envp, int index, t_parser *data)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
@@ -98,11 +97,10 @@ int	process_command(t_lex_parser *parsed, char **envp, int index)
 		if (redirect_child(file_fd, pipe_fd, index) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
 		// print_descriptors(file_fd, pipe_fd);
-		execute_cmd(cmd_table->cmd, envp);
+		execute_cmd(cmd_table->cmd, envp, data);
 	}
 	else
 	{
-		parsed->type = TK_PARS_RESERVED;
 		if (redirect_parent(pipe_fd, file_fd) < 0)
 			return (PANIC);
 	}

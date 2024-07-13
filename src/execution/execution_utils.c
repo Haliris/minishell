@@ -55,7 +55,6 @@ void	get_redirections(t_lex_parser *table, char *redirection[])
 				infile = redir->redir_str;
 			else if (redir->type == TK_PARS_OUT)
 				outfile = redir->redir_str;
-			roaming->type = TK_PARS_RESERVED;
 		}
 		roaming = roaming->next;
 	}

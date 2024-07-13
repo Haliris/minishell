@@ -37,7 +37,7 @@ void	wait_for_children(int index)
 		exit(EXIT_FAILURE);
 }
 
-int	execute_commands(t_lex_parser *tables, char **envp)
+int	execute_commands(t_parser *data, char **envp)
 {
 	int				cmd_count;
 	int				sys_error;
@@ -46,7 +46,7 @@ int	execute_commands(t_lex_parser *tables, char **envp)
 
 	cmd_count = 0;
 	sys_error = FALSE;
-	roaming = tables;
+	roaming = data->node;
 	while (roaming)
 	{
 		if (roaming->type == TK_PARS_CMD)
@@ -56,12 +56,12 @@ int	execute_commands(t_lex_parser *tables, char **envp)
 		roaming = roaming->next;
 	}
 	index = cmd_count; 
-	roaming = tables;
+	roaming = data->node;
 	while (roaming && index)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp, cmd_count - index) == PANIC)
+			if (process_command(roaming, envp, cmd_count - index, data) == PANIC)
 				{
 					sys_error = TRUE;
 					break ;

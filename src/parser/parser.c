@@ -100,17 +100,16 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	}
 }
 
-int	interprete_lexer(t_lex_parser *parsed, t_token *tokens_list)
+int	interprete_lexer(t_parser *data, t_token *tokens_list)
 {
+	t_lex_parser	*parsed;
 
 	if (check_invalid_token(tokens_list))
 		return (PANIC);
-	parsed->next = NULL;
-	parsed->prev = NULL;
-	parsed->type = 0;
-	parsed->table = NULL;
-	parse_operators(parsed, tokens_list);
-	if (!parsed->table)
+	parsed = ft_calloc(1, sizeof(t_lex_parser));
+	if (!parsed)
 		return (PANIC);
+	parse_operators(parsed, tokens_list);
+	data->node = parsed;
 	return (SUCCESS);
 }

@@ -24,14 +24,14 @@
 
 void	trash(char **array);
 void	handle_error(char *message, int code);
-void	execute_cmd(char *cmd, char **env);
+void	execute_cmd(char *cmd, char **env, t_parser *data);
 
 int		open_files(int file_fd[], t_lex_parser *table);
 void	get_redirections(t_lex_parser *table, char *redirection[]);
 int		redirect_file(int file_fd[], int mode);
 
-int		execute_commands(t_lex_parser *tables, char **envp);
-int		process_command(t_lex_parser *parsed, char **envp, int index);
+int		execute_commands(t_parser *data, char **envp);
+int		process_command(t_lex_parser *parsed, char **envp, int index, t_parser *data);
 int		redirect_child(int file_fd[], int p_fd[], int index);
 
 #endif

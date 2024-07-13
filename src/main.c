@@ -67,12 +67,13 @@ char	*get_prompt(char *orig_prompt)
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
-	t_lex_parser	parsed_data;
+	t_parser		parsed_data;
 	char			*prompt;
 
 	(void)argv;
 	(void)argc;
 	init(&data, env);
+	parsed_data.node = NULL;
 	prompt = get_prompt(NULL);
 	data.input = readline(prompt);
 	while (data.input)
@@ -87,9 +88,10 @@ int	main(int argc, char **argv, char **env)
 			if (interprete_lexer(&parsed_data, data.token) == PANIC)
 				return (EXIT_FAILURE);
 		free_lexmem(&data);
-		if (parsed_data.type)
+		if (parsed_data.node)
 			execute_commands(&parsed_data, env);
-		free_parsed_mem(&parsed_data);
+		if (parsed_data.node)
+			free_parsed_mem(&parsed_data);
 		prompt = get_prompt(prompt);
 		data.input = readline(prompt);
 	}

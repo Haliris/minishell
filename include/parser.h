@@ -24,7 +24,6 @@ typedef enum e_parsed_token
 	TK_PARS_CMD,
 	TK_PARS_REDIR,
 	TK_PARS_PIPE,
-	TK_PARS_RESERVED,
 }	t_parsed_token;
 
 typedef enum e_redir_token
@@ -52,11 +51,16 @@ typedef struct s_lex_parser
 	t_lex_parser	*prev;
 }	t_lex_parser;
 
-int				interprete_lexer(t_lex_parser *parsed, t_token *tokens_list);
+typedef struct s_parsed_data
+{
+	t_lex_parser	*node;
+}	t_parser;
+
+int				interprete_lexer(t_parser *data, t_token *tokens_list);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
 
 bool			check_invalid_token(t_token *tokens);
 int				parsed_add_back(t_lex_parser *parsed, void *table, t_parsed_token type);
-void			free_parsed_mem(t_lex_parser *parsed);
+void			free_parsed_mem(t_parser *data);
 
 #endif
