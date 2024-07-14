@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:02:39 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/06 13:37:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:38:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int			ft_atoi(const char *nptr);
 int			ft_tolower(int c);
 char		*ft_strchr(const char *s, int c);
 int			ft_strncmp(const char *s1, const char *s2, size_t size);
+int			ft_strcmp(const char *s1, const char *s2);
 char		*ft_strdup(const char *s);
 char		*ft_itoa(int n);	
 void		ft_bzero(void *s, size_t n);

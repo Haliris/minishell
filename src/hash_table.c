@@ -1,34 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   hash_table.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 20:16:37 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/13 16:42:49 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/13 16:42:58 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "hash_table.h"
 
-void	sigint(int sig)
-{
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
-
-/* ctrl \ */
-void	sigquit(int sig)
-{
-	(void)sig;
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
-}

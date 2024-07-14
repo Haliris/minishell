@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 17:08:12 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/12 21:00:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	init(t_data *data, char **env)
 	handle_signals();
 	data->token = NULL;
 	data->env = env;
+	data->env_vars = NULL;
 	return (0);
 }
 

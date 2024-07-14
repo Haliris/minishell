@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 20:16:37 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/12 20:45:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint(int sig)
+void	sh_cd(t_token *token)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	char	*path;
 
-/* ctrl \ */
-void	sigquit(int sig)
-{
-	(void)sig;
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	if (token->type == TK_BUILTIN)
+		token = token->next;
+	if (token->type == TK_PATH)
+		path = token->path;
+	else
+		path = token->lexstr;
+	if (chdir(path) != 0)
+		ft_printf("Error: invalid path for cd '%s': %s\n", path, strerror(errno));
 }
