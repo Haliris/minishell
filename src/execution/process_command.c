@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/13 19:38:45 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:13:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,8 @@ void	check_pipes(t_lex_parser *table, int pipe_status[])
 		pipe_status[1] = TRUE;
 }
 
-int	open_pipes(t_lex_parser *parsed, int p_fd[])
+int	open_pipes(t_lex_parser *parsed, int p_fd[], int has_pipe[])
 {
-	int	has_pipe[2];
-
-	has_pipe[0] = FALSE;
-	has_pipe[1] = FALSE;
 	check_pipes(parsed, has_pipe);
 	if (pipe(p_fd) < 0)
 		return (-1);
@@ -76,15 +72,18 @@ int	redirect_parent(int p_fd[], int file_fd[])
 	return (dup_status);
 }
 
-int	process_command(t_lex_parser *p, char **envp, int index, t_parser *d)
+int	process_command(t_lex_parser *p, char **envp, t_parser *d)
 {
 	int			pipe_fd[2];
 	int			file_fd[2];
+	int			has_pipe[2];
 	t_cmd_table	*cmd_table;
 	pid_t		pid_child;
 
 	cmd_table = p->table;
-	if (open_files(file_fd, p) == -1 || open_pipes(p, pipe_fd) == -1)
+	has_pipe[0] = FALSE;
+	has_pipe[1] = FALSE;
+	if (open_files(file_fd, p) == -1 || open_pipes(p, pipe_fd, has_pipe) == -1)
 		return (PANIC);
 	pid_child = fork();
 	if (redirect_file(file_fd, 0) < 0)
@@ -93,7 +92,7 @@ int	process_command(t_lex_parser *p, char **envp, int index, t_parser *d)
 		return (PANIC);
 	if (pid_child == 0)
 	{
-		if (redirect_child(file_fd, pipe_fd, index) == PANIC)
+		if (redirect_child(file_fd, pipe_fd, has_pipe) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
 		execute_cmd(cmd_table->cmd, envp, d);
 	}

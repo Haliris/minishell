@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 13:13:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 16:09:16 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,17 @@ int	main(int argc, char **argv, char **env)
 	t_data			data;
 	t_parser		parsed_data;
 	int				std_fd[2];
-	char			*prompt;
+	// char			*prompt;
 
 	(void)argv;
 	(void)argc;
 	init(&data, env);
-	prompt = get_prompt(NULL);
+	// prompt = get_prompt(NULL);
 	parsed_data.node = NULL;
 	while (1)
 	{
-		prompt = get_prompt(prompt);
-		data.input = readline(prompt);
+		// prompt = get_prompt(prompt);
+		data.input = readline("minishell>");
 		std_fd[0] = dup(STDIN_FILENO);
 		std_fd[1] = dup(STDOUT_FILENO);
 		if (std_fd[0] < 0 || std_fd[1] < 0)
@@ -107,7 +107,7 @@ int	main(int argc, char **argv, char **env)
 		if (std_fd[0] < 0 || std_fd[1] < 0)
 			return (PANIC);
 	}
-	if (prompt)
-		free(prompt);
+	// if (prompt)
+	// 	free(prompt);
 	return (lex_clean_exit(&data, 0));
 }
