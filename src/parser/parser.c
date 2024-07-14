@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 13:21:44 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:16:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ int	interprete_lexer(t_parser *data, t_token *tokens_list)
 	if (check_invalid_token(tokens_list))
 		return (PANIC);
 	parsed = ft_calloc(1, sizeof(t_lex_parser));
+	parsed->table = NULL;
 	if (!parsed)
 		return (PANIC);
 	parse_operators(parsed, tokens_list);
