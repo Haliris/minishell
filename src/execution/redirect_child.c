@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 13:50:16 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 17:32:02 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int	redirect_file(int file_fd[], int mode)
 	return (dup_status);
 }
 
-int	redirect_child(int file_fd[], int p_fd[], int has_pipe[])
+int	redirect_child(t_lex_parser *parsed, int p_fd[], int has_pipe[])
 {
 	if (redirect_pipe(p_fd, has_pipe) < 0)
 		return (PANIC);
-	if (redirect_file(file_fd, 1) < 0)
+	if (open_files(parsed) == PANIC)
 		return (PANIC);
 	return (SUCCESS);
 }
