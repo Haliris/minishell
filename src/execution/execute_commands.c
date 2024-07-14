@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 13:51:29 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:02:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	count_commands(t_parser *data)
 	return (cmd_count);
 }
 
-int	execute_commands(t_parser *data, char **envp)
+int	execute_commands(t_parser *data, char **envp, int std_fds[])
 {
 	int				cmd_count;
 	t_lex_parser	*roaming;
@@ -66,7 +66,7 @@ int	execute_commands(t_parser *data, char **envp)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp, data) == PANIC)
+			if (process_command(roaming, envp, data, std_fds) == PANIC)
 				return (PANIC);
 			cmd_count--;
 		}
@@ -79,11 +79,25 @@ int	execute_commands(t_parser *data, char **envp)
 int	execute_data(t_parser *parsed_data, char **env)
 {
 	int	status;
+	int	std_fd[2];
+	int	dup_status;
 
 	status = SUCCESS;
+	close(4); //CLOSE /dev/ptmx WHERE IS THIS SHITTY FD OPENED???
+	std_fd[0] = dup(STDIN_FILENO);
+	std_fd[1] = dup(STDOUT_FILENO);
+	dup_status = 0;
+	if (std_fd[0] < 0 || std_fd[1] < 0)
+		return (PANIC);
 	if (parsed_data->node)
-		status = execute_commands(parsed_data, env);
+		status = execute_commands(parsed_data, env, std_fd);
 	if (parsed_data->node)
 		free_parsed_mem(parsed_data);
+	dup_status += dup2(std_fd[0], STDIN_FILENO);
+	dup_status += dup2(std_fd[1], STDOUT_FILENO);
+	if (dup_status < 0)
+		return (PANIC);
+	close(std_fd[0]);
+	close(std_fd[1]);
 	return (status);
 }

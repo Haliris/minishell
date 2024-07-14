@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 16:09:16 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:06:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
 	t_parser		parsed_data;
-	int				std_fd[2];
 	// char			*prompt;
 
 	(void)argv;
@@ -84,14 +83,10 @@ int	main(int argc, char **argv, char **env)
 	init(&data, env);
 	// prompt = get_prompt(NULL);
 	parsed_data.node = NULL;
-	while (1)
-	{
+	// while (1)
+	// {
 		// prompt = get_prompt(prompt);
 		data.input = readline("minishell>");
-		std_fd[0] = dup(STDIN_FILENO);
-		std_fd[1] = dup(STDOUT_FILENO);
-		if (std_fd[0] < 0 || std_fd[1] < 0)
-			return (PANIC);
 		if (data.input)
 			add_history(data.input);
 		if (valid_input(data.input))
@@ -100,13 +95,7 @@ int	main(int argc, char **argv, char **env)
 					ft_printf("Error: Invalid token found\n");
 		parse_data(&data, &parsed_data);
 		execute_data(&parsed_data, env);
-		dup2(std_fd[0], STDIN_FILENO);
-		dup2(std_fd[1], STDOUT_FILENO);
-		close(std_fd[0]);
-		close(std_fd[1]);
-		if (std_fd[0] < 0 || std_fd[1] < 0)
-			return (PANIC);
-	}
+	// }
 	// if (prompt)
 	// 	free(prompt);
 	return (lex_clean_exit(&data, 0));

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 17:31:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 00:25:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	redirect_parent(int p_fd[])
 	return (dup_status);
 }
 
-int	process_command(t_lex_parser *p, char **envp, t_parser *d)
+int	process_command(t_lex_parser *p, char **envp, t_parser *d, int std_fds[])
 {
 	int			pipe_fd[2];
 	int			has_pipe[2];
@@ -85,6 +85,8 @@ int	process_command(t_lex_parser *p, char **envp, t_parser *d)
 		return (PANIC);
 	if (pid_child == 0)
 	{
+		close(std_fds[0]);
+		close(std_fds[1]);
 		if (redirect_child(p, pipe_fd, has_pipe) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
 		execute_cmd(cmd_table->cmd, envp, d);

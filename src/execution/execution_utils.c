@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 23:15:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 00:37:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ int	redirect_files(int file_fd[])
 	{
 		dup_status += dup2(file_fd[0], STDIN_FILENO);
 		close(file_fd[0]);
+		file_fd[0] = 0;
 	}
 	if (file_fd[1])
 	{
 		dup_status += dup2(file_fd[1], STDOUT_FILENO);
 		close(file_fd[1]);
+		file_fd[1] = 0;
 	}
 	return (dup_status);
 }
@@ -94,10 +96,10 @@ int	open_files(t_lex_parser *table)
 		if (redir[1])
 			file_fd[1] = open(redir[1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
 		if (file_fd[0] < 0 || file_fd[1] < 0)
-			return (PANIC  );
+			return (-1);
 		roaming = roaming->next;
 		if (redirect_files(file_fd) < 0)
-			return (PANIC);
+			return (-1);
 		redir[0] = NULL;
 		redir[1] = NULL;
 	}
