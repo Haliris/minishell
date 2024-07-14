@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 11:49:37 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:50:51 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ int	main(int argc, char **argv, char **env)
 		if (std_fd[0] < 0 || std_fd[1] < 0)
 			return (PANIC);
 	}
+	close(std_fd[0]);
+	close(std_fd[1]);
 	if (prompt)
 		free(prompt);
 	return (lex_clean_exit(&data, 0));
