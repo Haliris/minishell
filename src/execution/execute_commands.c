@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/13 19:35:15 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 11:22:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	count_commands(t_parser *data)
 	int				cmd_count;
 
 	roaming = data->node;
+	cmd_count = 0;
 	while (roaming)
 	{
 		if (roaming->type == TK_PARS_CMD)
