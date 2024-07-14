@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 19:02:13 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 13:21:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,12 @@ char	*make_cmd_buffer(t_token *roaming)
 					return (NULL);
 			}
 			else
-				cmd_buff = ft_strdup(roaming->lexstr);
+			{
+				if (roaming->path)
+					cmd_buff = ft_strdup(roaming->path);
+				else
+					cmd_buff = ft_strdup(roaming->lexstr);
+			}
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
