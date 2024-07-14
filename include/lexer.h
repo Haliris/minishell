@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/13 12:13:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 12:50:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 
+typedef struct s_data	t_data;
 typedef enum e_tokentype
 {
 	TK_INVALID,
@@ -48,8 +49,6 @@ typedef struct s_token
 	t_token		*next;
 	t_token		*prev;
 }	t_token;
-
-
 
 int		lexer(t_data *data);
 /* utilities - general */

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+         #
+#    By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/24 16:14:13 by jteissie          #+#    #+#              #
-#    Updated: 2024/06/06 13:38:47 by jteissie         ###   ########.fr        #
+#    Updated: 2024/07/14 13:03:01 by bthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRC = 		ft_atoi.c \
 		ft_strlen.c \
 		ft_strmapi.c \
 		ft_strncmp.c \
+		ft_strcmp.c \
 		ft_strnstr.c \
 		ft_strrchr.c \
 		ft_strtrim.c \

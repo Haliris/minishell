@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/13 14:04:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 12:50:42 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,11 @@ typedef struct s_heredoc
 	char	path[22];
 }	t_heredoc;
 
-typedef struct s_envvar
-{
-	char		*key;
-	char		*val;
-	t_envvar	*next;
-}	t_envvar;
-
-typedef struct s_localvar
-{
-	char		*key;
-	char		*val;
-	t_localvar	*next;
-}	t_localvar;
-
 typedef struct s_data
 {
 	char		*input;
 	char		**env;
 	t_token		*token;
-	t_envvar	*env_vars;
 }	t_data;
 
 void		handle_signals(void);
