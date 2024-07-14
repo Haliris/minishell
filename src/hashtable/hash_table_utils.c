@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 12:11:44 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 15:06:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:11:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	ht_destroy(t_hash_table *table)
 
 size_t	get_ht_idx(uint64_t hash, t_hash_table *table)
 {
+	size_t	idx;
+
 	return ((size_t)(hash & (uint64_t)(table->capacity - 1)));
 }
 
@@ -60,4 +62,16 @@ t_ht_entry	*create_entry(char *key, char *val)
 	entry->key = key;
 	entry->value = val;
 	return (entry);
+}
+
+int	ht_add_pair(t_hash_table *table, char *key, char *val)
+{
+	t_ht_entry	*entry;
+
+	entry = malloc(sizeof(t_ht_entry));
+	if (!entry)
+		return (1);
+	entry->key = key;
+	entry->value = val;
+	return (ht_set_entry(table, entry));
 }

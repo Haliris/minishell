@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 16:42:49 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 15:09:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:06:38 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ht_getval(t_hash_table *table, const char *key)
 	looped = false;
 	hash = hash_key(key);
 	idx = get_ht_idx(hash, table);
-	while (table->entries[idx]->key != NULL)
+	while (1)
 	{
 		if (ft_strcmp(key, table->entries[idx]->key) == 0)
 			return (table->entries[idx]->value);

@@ -6,24 +6,19 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:58:51 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 08:15:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:29:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-/* Replace this with getenv function */
-
-/* add function to expand out $env vars only when within double quotes. 
-replace lexstr */
-
-char	*get_env_var(char *var_str)
+/* add function to expand out $env vars when within double quotes. */
+char	*get_var(t_data *data, char *key)
 {
-	char	*path;
+	char	*val;
 
-	path = getenv(var_str);
-	if (!path)
-		return (NULL);
-	else
-		return (ft_strdup(path));
+	val = ht_getval(data->env_vars, key);
+	if (!val)
+		val = ht_getval(data->local_vars, key);
+	return (val);
 }

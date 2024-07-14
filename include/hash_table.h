@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 13:55:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 13:48:03 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:15:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@
 # define FNV_OFFSET 14695981039346656037UL
 # define FNV_PRIME 1099511628211UL
 
+typedef enum e_ht_name
+{
+	ENVVARS,
+	LOCALVARS,
+}	t_ht_name;
+
 typedef struct s_ht_entry
 {
 	const char	*key;
@@ -32,6 +38,7 @@ typedef struct s_hash_table
 	t_ht_entry	**entries;
 	size_t		capacity;
 	size_t		len;
+	t_ht_name	table_name;
 }	t_hash_table;
 
 t_hash_table	*ht_create(void);
@@ -42,5 +49,6 @@ void			ht_destroy_entry(t_ht_entry *entry);
 void			ht_destroy(t_hash_table *table);
 size_t			get_ht_idx(uint64_t hash, t_hash_table *table);
 t_ht_entry		*create_entry(char *key, char *val);
+int				ht_add_pair(t_hash_table *table, char *key, char *val);
 
 #endif

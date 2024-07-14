@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_clean_exit.c                                   :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 17:43:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:03:42 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ void	free_lexmem(t_data *data)
 	}
 }
 
-int	lex_clean_exit(t_data *data, int exit_code)
+int	clean_exit(t_data *data, int exit_code)
 {
 	free_lexmem(data);
 	rl_clear_history();
+	ht_destroy(data->env_vars);
+	ht_destroy(data->local_vars);
 	return (exit_code);
 }

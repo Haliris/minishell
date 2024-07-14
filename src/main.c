@@ -6,20 +6,11 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 21:00:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:01:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	init(t_data *data, char **env)
-{
-	handle_signals();
-	data->token = NULL;
-	data->env = env;
-	data->env_vars = NULL;
-	return (0);
-}
 
 char	*get_trunc_path(void)
 {
@@ -71,7 +62,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	init(&data, env);
+	init(&data, env)
 	prompt = get_prompt(NULL);
 	data.input = readline(prompt);
 	while (data.input)

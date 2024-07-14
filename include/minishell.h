@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 12:50:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/14 17:04:01 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include "parser.h"
 # include "lexer.h"
 # include "execution.h"
+# include "hash_table.h"
 
 typedef struct s_heredoc
 {
@@ -48,13 +49,16 @@ typedef struct s_heredoc
 
 typedef struct s_data
 {
-	char		*input;
-	char		**env;
-	t_token		*token;
+	char			*input;
+	char			**env;
+	t_token			*token;
+	t_hash_table	*env_vars;
+	t_hash_table	*local_vars;
 }	t_data;
 
 void		handle_signals(void);
 t_heredoc	*process_here_doc(char *limiter);
+int			clean_exit(t_data *data, int exit_code);
 
 /* Built-ins */
 void		sh_echo(t_token *token);
