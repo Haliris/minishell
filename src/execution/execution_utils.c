@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/14 17:33:24 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:15:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,15 @@ int	open_files(t_lex_parser *table)
 {
 	char	*redir[2];
 	int		file_fd[2];
+	t_lex_parser	*roaming;
 
 	file_fd[0] = 0;
 	file_fd[1] = 0;
-	t_lex_parser	*roaming;
-
+	redir[0] = NULL;
+	redir[1] = NULL;
 	roaming = table;
+	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
+		roaming = roaming->prev;
 	while (roaming && roaming->type != TK_PARS_PIPE)
 	{
 		if (roaming->type == TK_PARS_REDIR)
@@ -93,7 +96,7 @@ int	open_files(t_lex_parser *table)
 		if (file_fd[0] < 0 || file_fd[1] < 0)
 			return (PANIC  );
 		roaming = roaming->next;
-		if (redirect_files(file_fd) == PANIC)
+		if (redirect_files(file_fd) < 0)
 			return (PANIC);
 		redir[0] = NULL;
 		redir[1] = NULL;
