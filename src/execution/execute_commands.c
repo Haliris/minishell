@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 13:35:38 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:31:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ void	wait_for_children(int index)
 		}
 		index--;
 	}
-	if (error_code)
-		exit(EXIT_FAILURE);
 }
 
 int	count_commands(t_parser *data)
