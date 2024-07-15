@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:35:16 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:05:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@
 
 void	trash(char **array);
 void	handle_error(char *message, int code);
-void	execute_cmd(char *cmd, char **env);
+void	execute_cmd(char *cmd, char **env, t_parser *data);
 
-int		open_files(int file_fd[], t_lex_parser *table);
+int		process_files(t_lex_parser *table);
 void	get_redirections(t_lex_parser *table, char *redirection[]);
-void	go_to_first_table(t_lex_parser *roaming, t_lex_parser *parsed);
 
-int		execute_commands(t_lex_parser *tables, char **envp);
-int		process_command(t_lex_parser *parsed, char **envp);
-int		redirect_child(int file_fd[], int p_fd[]);
+int		execute_data(t_parser *parsed_data, char **env);
+int		execute_commands(t_parser *data, char **envp, int std_fds[]);
+int		process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[]);
+int		redir_child(t_lex_parser *p, int p_fd[], int has_pipe[], int std_fd[]);
 
 #endif

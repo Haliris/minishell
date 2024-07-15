@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 15:31:49 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:55:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	wait_for_children(int index)
 	int	error_code;
 
 	error_code = 0;
-	while (index >= 0)
+	status = 0;
+	while (index > 0)
 	{
 		wait(&status);
 		if (WEXITSTATUS(status) != 0)
@@ -32,34 +33,70 @@ void	wait_for_children(int index)
 		}
 		index--;
 	}
-	if (error_code)
-		exit(EXIT_FAILURE);
 }
 
-int	execute_commands(t_lex_parser *tables, char **envp)
+int	count_commands(t_parser *data)
 {
-	int				cmd_count;
-	int				sys_error;
 	t_lex_parser	*roaming;
+	int				cmd_count;
 
+	roaming = data->node;
 	cmd_count = 0;
-	sys_error = FALSE;
-	roaming = tables;
 	while (roaming)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp) == PANIC)
-			{
-				sys_error = TRUE;
-				break ;
-			}
 			cmd_count++;
 		}
 		roaming = roaming->next;
 	}
+	return (cmd_count);
+}
+
+int	execute_commands(t_parser *data, char **envp, int std_fds[])
+{
+	int				cmd_count;
+	int				index;
+	t_lex_parser	*roaming;
+
+	cmd_count = count_commands(data);
+	index = cmd_count;
+	roaming = data->node;
+	while (roaming && index)
+	{
+		if (roaming->type == TK_PARS_CMD)
+		{
+			if (process_command(roaming, envp, data, std_fds) == PANIC)
+				return (PANIC);
+			index--;
+		}
+		roaming = roaming->next;
+	}
 	wait_for_children(cmd_count);
-	if (sys_error == TRUE)
-		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+int	execute_data(t_parser *parsed_data, char **env)
+{
+	int	status;
+	int	std_fd[2];
+	int	dup_status;
+
+	status = SUCCESS;
+	std_fd[0] = dup(STDIN_FILENO);
+	std_fd[1] = dup(STDOUT_FILENO);
+	dup_status = 0;
+	if (std_fd[0] < 0 || std_fd[1] < 0)
+		return (PANIC);
+	if (parsed_data->node)
+		status = execute_commands(parsed_data, env, std_fd);
+	if (parsed_data->node)
+		free_parsed_mem(parsed_data);
+	dup_status += dup2(std_fd[0], STDIN_FILENO);
+	dup_status += dup2(std_fd[1], STDOUT_FILENO);
+	if (dup_status < 0)
+		return (PANIC);
+	close(std_fd[0]);
+	close(std_fd[1]);
+	return (status);
 }
