@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 00:25:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 13:34:53 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,13 @@ int	process_command(t_lex_parser *p, char **envp, t_parser *d, int std_fds[])
 {
 	int			pipe_fd[2];
 	int			has_pipe[2];
+	int			dup_status;
 	t_cmd_table	*cmd_table;
 	pid_t		pid_child;
 
 	cmd_table = p->table;
 	has_pipe[0] = FALSE;
+	dup_status = 0;
 	has_pipe[1] = FALSE;
 	if (open_pipes(p, pipe_fd, has_pipe) == -1)
 		return (PANIC);
@@ -85,9 +87,8 @@ int	process_command(t_lex_parser *p, char **envp, t_parser *d, int std_fds[])
 		return (PANIC);
 	if (pid_child == 0)
 	{
-		close(std_fds[0]);
-		close(std_fds[1]);
-		if (redirect_child(p, pipe_fd, has_pipe) == PANIC)
+
+		if (redirect_child(p, pipe_fd, has_pipe, std_fds) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
 		execute_cmd(cmd_table->cmd, envp, d);
 	}

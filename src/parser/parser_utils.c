@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 00:16:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 12:59:27 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type)
 	t_lex_parser	*last;
 	t_lex_parser	*new_node;
 
-	if (!p->table)
+	if (p->type == TK_PARS_NULL)
 	{
 		p->table = t;
 		p->type = type;

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 11:56:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 13:36:09 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	main(int argc, char **argv, char **env)
 		else
 		{
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
-			break ;
+			// break ;
 		}
 		if (valid_input(data.input))
 			if (lexer(&data))
