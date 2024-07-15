@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 15:55:57 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 21:25:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_cmd_table
 typedef struct s_redirect_table
 {
 	char			*redir_str;
-	int				heredoc_fd;
 	t_redir_token	type;
+	int				heredoc;
 }	t_redirect_table;
 
 typedef struct s_lex_parser

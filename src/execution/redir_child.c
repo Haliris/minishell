@@ -3,27 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   redir_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 19:32:56 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 20:55:05 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	redirect_files(int file_fd[], int *heredoc_fd)
+int	redirect_files(int file_fd[])
 {
 	int	dup_status;
 
 	dup_status = 0;
-	if (*heredoc_fd > 0)
-	{
-		dup_status += dup2(*heredoc_fd, STDIN_FILENO);
-		close(*heredoc_fd);
-		*heredoc_fd = 0;
-	}
-	else if (file_fd[0])
+	if (file_fd[0])
 	{
 		dup_status += dup2(file_fd[0], STDIN_FILENO);
 		close(file_fd[0]);
@@ -52,7 +46,6 @@ int	open_files(char *redir[], int file_fd[])
 int	process_files(t_lex_parser *table)
 {
 	char			*redir[2];
-	int				heredoc_fd;
 	int				file_fd[2];
 	t_lex_parser	*roaming;
 
@@ -65,14 +58,12 @@ int	process_files(t_lex_parser *table)
 		roaming = roaming->prev;
 	while (roaming && roaming->type != TK_PARS_PIPE)
 	{
-		heredoc_fd = 0;
 		if (roaming->type == TK_PARS_REDIR)
 		{
-			if (get_redirections(roaming, redir, &heredoc_fd) < 0)
-				return (-1);
+			get_redirections(roaming, redir);
 			if (open_files(redir, file_fd) == PANIC)
 				return (-1);
-			if (redirect_files(file_fd, &heredoc_fd) < 0)
+			if (redirect_files(file_fd) < 0)
 				return (-1);
 		}
 		roaming = roaming->next;

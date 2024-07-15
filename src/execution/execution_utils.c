@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 19:30:35 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 20:52:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	trash(char **array)
 	free(array);
 }
 
-int	get_redirections(t_lex_parser *roaming, char *redirection[], int *heredoc_fd)
+void	get_redirections(t_lex_parser *roaming, char *redirection[])
 {
 	char				*outfile;
 	char				*infile;
@@ -46,7 +46,7 @@ int	get_redirections(t_lex_parser *roaming, char *redirection[], int *heredoc_fd
 	{
 		redir = roaming->table;
 		if (redir->type == TK_PARS_HEREDOC)
-			*heredoc_fd = dup(redir->heredoc_fd);
+			infile = redir->redir_str;
 		else if (redir->type == TK_PARS_IN)
 			infile = redir->redir_str;
 		else if (redir->type == TK_PARS_OUT)
@@ -54,5 +54,4 @@ int	get_redirections(t_lex_parser *roaming, char *redirection[], int *heredoc_fd
 	}
 	redirection[0] = infile;
 	redirection[1] = outfile;
-	return (*heredoc_fd);
 }

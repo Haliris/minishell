@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_redirect_table.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 16:10:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 21:24:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ int	build_redirect_table(t_lex_parser *parsed, t_token *lexer)
 	redir_table = ft_calloc(1, sizeof(t_redirect_table));
 	if (!redir_table)
 		return (PANIC);
-	redir_table->heredoc_fd = 0;
 	redir_table->redir_str = NULL;
+	redir_table->heredoc = TRUE;
 	if (lexer->type == TK_HEREDOC)
-		redir_table->heredoc_fd = lexer->heredoc->fd;
+		redir_table->redir_str = lexer->heredoc->path;
 	else
 	{
 		redir_table->redir_str = ft_strdup(lexer->next->lexstr);
 		if (!redir_table->redir_str)
 			return (PANIC);
+		redir_table->heredoc = FALSE;
 		lexer->next->type = TK_RESERVED;
 	}
 	redir_table->type = get_redir_type(lexer);
