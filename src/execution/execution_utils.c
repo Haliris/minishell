@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 15:01:34 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 19:30:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	trash(char **array)
 	free(array);
 }
 
-void	get_redirections(t_lex_parser *roaming, char *redirection[])
+int	get_redirections(t_lex_parser *roaming, char *redirection[], int *heredoc_fd)
 {
 	char				*outfile;
 	char				*infile;
@@ -45,11 +45,14 @@ void	get_redirections(t_lex_parser *roaming, char *redirection[])
 	if (roaming->type == TK_PARS_REDIR)
 	{
 		redir = roaming->table;
-		if (redir->type == TK_PARS_IN)
+		if (redir->type == TK_PARS_HEREDOC)
+			*heredoc_fd = dup(redir->heredoc_fd);
+		else if (redir->type == TK_PARS_IN)
 			infile = redir->redir_str;
 		else if (redir->type == TK_PARS_OUT)
 			outfile = redir->redir_str;
 	}
 	redirection[0] = infile;
 	redirection[1] = outfile;
+	return (*heredoc_fd);
 }
