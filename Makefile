@@ -16,6 +16,7 @@ CFILES	= main.c \
 		  process_command.c \
 		  redir_child.c \
 		  parse_here_doc.c \
+		  here_doc_utils.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
 		  lex_bools1.c \

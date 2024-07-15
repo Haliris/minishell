@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 19:23:37 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:07:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	execute_commands(t_parser *data, char **envp, int std_fds[])
 	wait_for_children(cmd_count);
 	return (EXIT_SUCCESS);
 }
-#include <stdio.h>
 
 int	execute_data(t_parser *parsed_data, char **env)
 {

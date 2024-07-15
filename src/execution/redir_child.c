@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 20:55:05 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 23:13:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,18 @@ int	redirect_files(int file_fd[])
 	return (dup_status);
 }
 
-int	open_files(char *redir[], int file_fd[])
+int	open_files(char *redir[], int file_fd[], int *append)
 {
 	if (redir[0])
 		file_fd[0] = open(redir[0], O_RDONLY);
 	if (redir[1])
-		file_fd[1] = open(redir[1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	{
+		if (*append == TRUE)
+			file_fd[1] = open(redir[1], O_CREAT | O_APPEND | O_WRONLY, 0644);
+		if (*append == FALSE)
+			file_fd[1] = open(redir[1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	}
+	*append = FALSE;
 	if (file_fd[0] < 0 || file_fd[1] < 0)
 		return (PANIC);
 	return (SUCCESS);
@@ -46,11 +52,12 @@ int	open_files(char *redir[], int file_fd[])
 int	process_files(t_lex_parser *table)
 {
 	char			*redir[2];
-	int				file_fd[2];
+	int				f_fd[2];
+	int				append;
 	t_lex_parser	*roaming;
 
-	file_fd[0] = 0;
-	file_fd[1] = 0;
+	f_fd[0] = 0;
+	f_fd[1] = 0;
 	redir[0] = NULL;
 	redir[1] = NULL;
 	roaming = table;
@@ -60,10 +67,8 @@ int	process_files(t_lex_parser *table)
 	{
 		if (roaming->type == TK_PARS_REDIR)
 		{
-			get_redirections(roaming, redir);
-			if (open_files(redir, file_fd) == PANIC)
-				return (-1);
-			if (redirect_files(file_fd) < 0)
+			append = get_redirections(roaming, redir);
+			if (open_files(redir, f_fd, &append) == PANIC || redir_files(f_fd) < 0)
 				return (-1);
 		}
 		roaming = roaming->next;

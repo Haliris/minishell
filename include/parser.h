@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 21:25:11 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 23:08:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_redir_token
 {
 	TK_PARS_IN,
 	TK_PARS_OUT,
-	TK_PARS_OUT_APPEND,
+	TK_PARS_APPEND,
 	TK_PARS_HEREDOC,
 }	t_redir_token;
 

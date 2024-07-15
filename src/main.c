@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 19:23:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:48:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init(t_data *data, char **env)
+int	init(t_data *data, char **env, t_parser *parser, t_heredoc_data *heredata)
 {
 	handle_signals();
 	data->token = NULL;
 	data->env = env;
+	parser->node = NULL;
+	heredata->heredoc = NULL;
+	heredata->next = NULL;
 	return (0);
 }
 
@@ -58,62 +61,6 @@ int	get_input(t_data *data)
 	return (SUCCESS);
 }
 
-int	collect_heredocs(t_heredoc_data *here_data, t_data *data)
-{
-	t_token			*roaming;
-	t_heredoc_data	*temp;
-	t_heredoc_data	*new_node;
-
-	roaming = data->token;
-	while (roaming)
-	{
-		if (roaming->type == TK_HEREDOC)
-		{
-			if (!here_data->heredoc)
-				here_data->heredoc = roaming->heredoc;
-			else
-			{
-				temp = here_data;
-				while (temp->next)
-					temp = temp->next;
-				new_node = ft_calloc(1, sizeof(t_heredoc_data));
-				if (!new_node)
-					return (PANIC);
-				new_node->heredoc = roaming->heredoc;
-				new_node->next = NULL;
-				temp->next = new_node;
-			}
-		}
-		roaming = roaming->next;
-	}
-	return (SUCCESS);
-}
-
-void	unlink_heredocs(t_heredoc_data *here_data)
-{
-	t_heredoc_data	*roaming;
-	t_heredoc_data	*temp;
-	int				index;
-
-	if (!here_data->heredoc)
-		return ;
-	roaming = here_data;
-	index = 0;
-	while (roaming)
-	{
-		temp = roaming;
-		if (ft_strlen(temp->heredoc->path))
-			if (unlink(temp->heredoc->path) != 0)
-				ft_printf("Error deleting file '%s': %s\n",
-					temp->heredoc->path, strerror(errno));
-		free(temp->heredoc);
-		if (index > 0)
-			free(temp);
-		roaming = roaming->next;
-	}
-	here_data->heredoc = NULL;
-}
-
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
@@ -123,17 +70,12 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	init(&data, env);
+	init(&data, env, &parsed_data, &here_doc_data);
 	prompt = get_prompt(NULL);
-	here_doc_data.heredoc = NULL;
-	here_doc_data.next = NULL;
-	parsed_data.node = NULL;
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data) == PANIC)
-			break ;
-		if (tokenize_data(&data) == PANIC)
+		if (get_input(&data) == PANIC || tokenize_data(&data) == PANIC)
 			break ;
 		if (collect_heredocs(&here_doc_data, &data) == PANIC)
 			break ;

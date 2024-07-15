@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 21:24:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 23:08:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_redir_type(t_token *lexer)
 	else if (ft_strncmp(lexer->lexstr, ">", 1) == 0)
 		return (TK_PARS_OUT);
 	else if (ft_strncmp(lexer->lexstr, ">>", 2) == 0)
-		return (TK_PARS_OUT_APPEND);
+		return (TK_PARS_APPEND);
 	return (TK_PARS_NULL);
 }
 
