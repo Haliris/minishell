@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 00:06:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 11:56:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,27 +76,32 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
 	t_parser		parsed_data;
-	// char			*prompt;
+	char			*prompt;
 
 	(void)argv;
 	(void)argc;
 	init(&data, env);
-	// prompt = get_prompt(NULL);
+	prompt = get_prompt(NULL);
 	parsed_data.node = NULL;
-	// while (1)
-	// {
-		// prompt = get_prompt(prompt);
+	while (1)
+	{
+		prompt = get_prompt(prompt);
 		data.input = readline("minishell>");
 		if (data.input)
 			add_history(data.input);
+		else
+		{
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+			break ;
+		}
 		if (valid_input(data.input))
 			if (lexer(&data))
 				if (invalid_tokens(data.token))
 					ft_printf("Error: Invalid token found\n");
 		parse_data(&data, &parsed_data);
 		execute_data(&parsed_data, env);
-	// }
-	// if (prompt)
-	// 	free(prompt);
+	}
+	if (prompt)
+		free(prompt);
 	return (lex_clean_exit(&data, 0));
 }
