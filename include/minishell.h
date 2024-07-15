@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 14:43:36 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 18:54:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ typedef struct s_heredoc
 	int		fd;
 	char	path[22];
 }	t_heredoc;
+
+typedef struct s_heredoc_data t_heredoc_data;
+
+typedef struct s_heredoc_data
+{
+	t_heredoc		*heredoc;
+	t_heredoc_data	*next;
+}	t_heredoc_data;
 
 void		handle_signals(void);
 t_heredoc	*process_here_doc(char *limiter);
