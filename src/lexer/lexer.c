@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/12 16:32:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 10:53:53 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t input_len, size_t *i)
 		curr_tk = get_token(data, ft_strdup("$?"), NULL, TK_EXITSTATUS);
 	else if (data->input[*i] == '$' && data->input[*i + 1])
 		curr_tk = get_path_tk(data, data->input, *i);
-	else if (in(data->input[*i], "-+=/%*"))
+	else if (in(data->input[*i], "="))
 		curr_tk = get_token(data, ft_substr(data->input, *i, 1),
 				NULL, TK_OPERATOR);
 	else
