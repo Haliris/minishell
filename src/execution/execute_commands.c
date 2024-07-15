@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 14:31:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:55:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	execute_data(t_parser *parsed_data, char **env)
 	int	dup_status;
 
 	status = SUCCESS;
-	close(4); //CLOSE /dev/ptmx WHERE IS THIS SHITTY FD OPENED???
 	std_fd[0] = dup(STDIN_FILENO);
 	std_fd[1] = dup(STDOUT_FILENO);
 	dup_status = 0;

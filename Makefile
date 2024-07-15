@@ -6,6 +6,7 @@ LDFLAGS = -lreadline
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
+		  get_prompt.c \
 		  parser.c \
 		  parser_utils.c \
 		  parser_clean_exit.c \
@@ -13,7 +14,7 @@ CFILES	= main.c \
 		  execute_commands.c \
 		  execution_utils.c \
 		  process_command.c \
-		  redirect_child.c \
+		  redir_child.c \
 		  parse_here_doc.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \

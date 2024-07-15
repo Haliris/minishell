@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 12:59:09 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:50:58 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ typedef struct s_parsed_data
 
 int				interprete_lexer(t_parser *data, t_token *tokens_list);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
+char			*build_cmd_buffer(char *cmd_buff, t_token *roaming);
 
 bool			check_invalid_token(t_token *tokens);
+
 int				parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type);
 void			free_parsed_mem(t_parser *data);
 void			panic(t_lex_parser *parsed);

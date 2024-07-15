@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 00:37:21 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/15 15:01:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,56 +52,4 @@ void	get_redirections(t_lex_parser *roaming, char *redirection[])
 	}
 	redirection[0] = infile;
 	redirection[1] = outfile;
-}
-
-int	redirect_files(int file_fd[])
-{
-	int	dup_status;
-
-	dup_status = 0;
-	if (file_fd[0])
-	{
-		dup_status += dup2(file_fd[0], STDIN_FILENO);
-		close(file_fd[0]);
-		file_fd[0] = 0;
-	}
-	if (file_fd[1])
-	{
-		dup_status += dup2(file_fd[1], STDOUT_FILENO);
-		close(file_fd[1]);
-		file_fd[1] = 0;
-	}
-	return (dup_status);
-}
-
-int	open_files(t_lex_parser *table)
-{
-	char	*redir[2];
-	int		file_fd[2];
-	t_lex_parser	*roaming;
-
-	file_fd[0] = 0;
-	file_fd[1] = 0;
-	redir[0] = NULL;
-	redir[1] = NULL;
-	roaming = table;
-	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
-		roaming = roaming->prev;
-	while (roaming && roaming->type != TK_PARS_PIPE)
-	{
-		if (roaming->type == TK_PARS_REDIR)
-			get_redirections(roaming, redir);
-		if (redir[0])
-			file_fd[0] = open(redir[0], O_RDONLY);
-		if (redir[1])
-			file_fd[1] = open(redir[1], O_CREAT | O_TRUNC | O_WRONLY, 0644);
-		if (file_fd[0] < 0 || file_fd[1] < 0)
-			return (-1);
-		roaming = roaming->next;
-		if (redirect_files(file_fd) < 0)
-			return (-1);
-		redir[0] = NULL;
-		redir[1] = NULL;
-	}
-	return (SUCCESS);
 }

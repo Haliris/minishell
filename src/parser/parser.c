@@ -6,14 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 13:14:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:53:26 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "get_next_line.h"
 
-char	*make_cmd_buffer(t_token *roaming)
+char	*assemble_cmd(t_token *roaming)
 {
 	char	*cmd_buff;
 
@@ -22,20 +21,7 @@ char	*make_cmd_buffer(t_token *roaming)
 	{
 		if (roaming->type != TK_RESERVED)
 		{
-			if (cmd_buff)
-			{
-				cmd_buff = ft_str_rejoin(cmd_buff, " ");
-				cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
-				if (!cmd_buff)
-					return (NULL);
-			}
-			else
-			{
-				if (roaming->path)
-					cmd_buff = ft_strdup(roaming->path);
-				else
-					cmd_buff = ft_strdup(roaming->lexstr);
-			}
+			cmd_buff = build_cmd_buffer(cmd_buff, roaming);
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
@@ -52,7 +38,7 @@ void	parse_command(t_lex_parser *parsed, t_token *roaming)
 		return ;
 	while (roaming->prev && roaming->prev->type != TK_PIPE)
 		roaming = roaming->prev;
-	table->cmd = make_cmd_buffer(roaming);
+	table->cmd = assemble_cmd(roaming);
 	if (table->cmd)
 		parsed_add_back(parsed, table, TK_PARS_CMD);
 	else

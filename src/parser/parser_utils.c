@@ -6,17 +6,39 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 12:59:27 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 14:54:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "get_next_line.h"
 
 void	panic(t_lex_parser *parsed)
 {
 	(void)parsed;
 	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
 	ft_putstr_fd("probably exit the process too\n", STDERR_FILENO);
+}
+
+char	*build_cmd_buffer(char *cmd_buff, t_token *roaming)
+{
+	if (cmd_buff)
+	{
+		cmd_buff = ft_str_rejoin(cmd_buff, " ");
+		if (!cmd_buff)
+			return (NULL);
+		cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
+		if (!cmd_buff)
+			return (NULL);
+	}
+	else
+	{
+		if (roaming->path)
+			cmd_buff = ft_strdup(roaming->path);
+		else
+			cmd_buff = ft_strdup(roaming->lexstr);
+	}
+	return (cmd_buff);
 }
 
 bool	check_invalid_token(t_token *tokens)

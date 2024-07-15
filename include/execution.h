@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 13:27:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:05:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	trash(char **array);
 void	handle_error(char *message, int code);
 void	execute_cmd(char *cmd, char **env, t_parser *data);
 
-int		open_files(t_lex_parser *table);
+int		process_files(t_lex_parser *table);
 void	get_redirections(t_lex_parser *table, char *redirection[]);
 
 int		execute_data(t_parser *parsed_data, char **env);
 int		execute_commands(t_parser *data, char **envp, int std_fds[]);
-int		process_command(t_lex_parser *p, char **envp, t_parser *d, int std_fds[]);
-int		redirect_child(t_lex_parser *p, int p_fd[], int has_pipe[], int std_fds[]);
+int		process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[]);
+int		redir_child(t_lex_parser *p, int p_fd[], int has_pipe[], int std_fd[]);
 
 #endif
