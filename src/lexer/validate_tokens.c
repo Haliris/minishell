@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 16:36:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 17:10:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,20 @@ static bool	is_invalid_cd(t_token *token)
 	return (false);
 }
 
-/* bultins with invalid flags */
-bool	invalid_tokens(t_token *token)
+static void	expand_str_tks(t_data *data, t_token *token)
 {
+	while (token)
+	{
+		if (token->type == TK_STRING && var_in_str(token->lexstr))
+			expand_string_var(data, token->lexstr);
+		token = token->next;
+	}
+}
+
+/* bultins with invalid flags */
+bool	invalid_tokens(t_data *data, t_token *token)
+{
+	expand_str_tks(data, token);
 	return (invalid_tk_exists(token)
 		|| is_orphaned_op(token)
 		|| is_invalid_cd(token));

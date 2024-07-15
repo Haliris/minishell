@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/14 16:36:34 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 17:06:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,18 @@ char	*get_substr(char *input, size_t start_idx)
 	if (!substr)
 		return (NULL);
 	return (substr);
+}
+
+bool	var_in_str(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$')
+	{
+		if (str[i] == '$' && str[i + 1] && !is_space(str[i + 1]))
+			return (true);
+		i++;
+	}
+	return (false);
 }

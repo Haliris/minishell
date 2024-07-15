@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 17:15:48 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 12:16:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	init(t_data *data, char **env)
 		ft_printf("Err: failed to create hash tables.\n");
 		exit(lex_clean_exit(data, 1));
 	}
-	data->local_vars->table_name = LOCALVARS;
-	data->env_vars->table_name = ENVVARS;
 	if (build_env(data->env_vars, env))
 	{
 		ft_printf("Err: failed to build env table.\n");

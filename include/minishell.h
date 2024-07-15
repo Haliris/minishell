@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 17:04:01 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 15:26:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@
 # include "parser.h"
 # include "lexer.h"
 # include "execution.h"
-# include "hash_table.h"
 
 typedef struct s_heredoc
 {
@@ -47,13 +46,21 @@ typedef struct s_heredoc
 	char	path[22];
 }	t_heredoc;
 
+typedef struct s_varlist
+{
+	char		*key;
+	char		*val;
+	t_varlist	*next;
+	t_varlist	*prev;
+}	t_varlist;
+
 typedef struct s_data
 {
-	char			*input;
-	char			**env;
-	t_token			*token;
-	t_hash_table	*env_vars;
-	t_hash_table	*local_vars;
+	char		*input;
+	char		**env;
+	t_token		*token;
+	t_varlist	*env_vars;
+	t_varlist	*local_vars;
 }	t_data;
 
 void		handle_signals(void);
@@ -63,5 +70,13 @@ int			clean_exit(t_data *data, int exit_code);
 /* Built-ins */
 void		sh_echo(t_token *token);
 void		sh_cd(t_token *token);
+
+/* local & env vars */
+t_varlist	*get_varlist(char *key, char *val);
+char		*get_varval(t_varlist *vlist, char *key);
+int			add_var(t_varlist **vlist, char *key, char *val);
+void		del_varlist(t_varlist *head);
+void		del_varlist_node(t_varlist **head, t_varlist *node);
+void		del_varlist_key(t_varlist *vlist_head, char *key);
 
 #endif

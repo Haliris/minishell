@@ -6,44 +6,47 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 17:35:31 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 17:13:34 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ht_delete_key(t_hash_table *table, char *key)
-{
-	
-}
-
-/* I remember there was something to do with using env, will need to discuss */
 static void	print_env(t_data *data)
 {
-	size_t	i;
+	t_varlist	*curr;
 
-	i = 0;
-	while (data->env && data->env[i])
+	curr = data->env_vars;
+	while (curr)
 	{
-		ft_printf("declare -x %s\n", data->env[i]);
-		i++;
+		if (curr->key)
+			ft_printf("declare -x %s=\"%s\"\n", curr->key, curr->val);
+		curr = curr->next;
 	}
 }
 
 /* if in local, move to env, if not in either, create in env  */
+
+/*
+export var1=wow
+
+or
+$var1=wow
+export $var1
+*/
 void	export(t_data *data, t_token *token)
 {
+	char	*key;
 	char	*val;
 
-	if (token->type == TK_BUILTIN)
-		token = token->next;
-	if (!token)
-		return (print_env(data));
-	if (token == TK_OPERATOR && token->lexstr[0] == '=')
-		token = token->next;
-	if (!token)
+	token = token->next;
+	if (token->lexstr[0] == '=')
 	{
-		printf("export: '=': not a valid identifier\n");
+		ft_printf("minishell: export: '%s': not a valid identifier\n");
 		return ;
+	}
+	if (token->lexstr[0] == '$')
+	{
+
 	}
 }
