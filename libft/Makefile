@@ -12,7 +12,7 @@
 
 CC = cc
 
-CCFLAGS = -Wall -Wextra -Werror
+CCFLAGS = -Wall -Wextra -Werror -g3
 
 NAME = libft.a
 
