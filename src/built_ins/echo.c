@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 17:57:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:34:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	check_n_flag(char *str)
 
 char	*build_echo_str(char **cmd)
 {
-	char	out_str;
+	char	*out_str;
 	int		index;
 
 	index = 0;
@@ -29,7 +29,11 @@ char	*build_echo_str(char **cmd)
 	while (cmd[index])
 	{
 		if (!out_str)
-			out_str = cmd[index];
+		{
+			out_str = ft_strdup(cmd[index]);
+			if (!out_str)
+				return (NULL);
+		}
 		else
 		{
 			out_str = ft_str_rejoin(out_str, " ");
@@ -51,6 +55,7 @@ void	call_echo(char **cmd)
 	bool	is_flagged;
 
 	out_str = NULL;
+	is_flagged = FALSE;
 	index = 1;
 	if (!cmd[1])
 		ft_printf("\n");

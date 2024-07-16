@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 18:19:49 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:24:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ int			init(t_data *data, char **env, t_parser *parser,
 				t_heredoc_data *heredata);
 
 /* Built-ins */
-void		sh_echo(t_data *data, char *cmd);
-void		sh_cd(t_data *data, char *cmd);
 void		export(t_data *data, char *cmd);
 
 /* env vars */

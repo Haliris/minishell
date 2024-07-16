@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 15:38:34 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:25:10 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sh_cd(char **cmd)
+void	call_cd(char **cmd)
 {
 	char	*path;
 

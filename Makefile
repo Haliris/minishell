@@ -13,9 +13,6 @@ CFILES	= main.c \
 		  parser_utils.c \
 		  parser_clean_exit.c \
 		  build_redirect_table.c \
-		  built_ins.c \
-		  echo.c \
-		  cd.c \
 		  execute_commands.c \
 		  execution_utils.c \
 		  process_command.c \
@@ -35,6 +32,7 @@ CFILES	= main.c \
 		  validate_input.c \
 		  validate_tokens.c \
 		  signals.c \
+		  built_ins.c \
 		  cd.c \
 		  echo.c \
 		  export.c \
