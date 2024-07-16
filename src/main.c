@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/14 17:01:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:04:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	(void)argc;
-	init(&data, env)
+	init(&data, env);
 	prompt = get_prompt(NULL);
 	data.input = readline(prompt);
 	while (data.input)
