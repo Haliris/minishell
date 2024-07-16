@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 16:59:17 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 10:20:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,36 @@ void	free_lexmem(t_data *data)
 	}
 }
 
+void	free_env(t_data *data)
+{
+	t_varlist	*curr;
+	t_varlist	*next;
+
+	if (!data->env_vars)
+		return ;
+	curr = data->env_vars;
+	while (curr)
+	{
+		next = curr->next;
+		if (curr->key)
+		{
+			free(curr->key);
+			curr->key = NULL;
+		}
+		if (curr->val)
+		{
+			free(curr->val);
+			curr->val = NULL;
+		}
+		free(curr);
+		curr = next;
+	}
+}
+
 int	clean_exit(t_data *data, int exit_code)
 {
 	free_lexmem(data);
 	rl_clear_history();
-	ht_destroy(data->env_vars);
-	ht_destroy(data->local_vars);
+	free_env(data);
 	return (exit_code);
 }

@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/13 13:48:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 10:27:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sh_echo(t_token *token)
+void	sh_echo(t_data *data, t_token *token)
 {
 	char	*out_str;
 	bool	is_flagged;
@@ -22,8 +22,7 @@ void	sh_echo(t_token *token)
 		token = token->next;
 	if (token->type == TK_FLAG)
 	{
-		if (ft_strncmp("-n", token->lexstr, 2) == 0
-			&& ft_strlen(token->lexstr) == 2)
+		if (ft_strcmp("-n", token->lexstr) == 0)
 			is_flagged = true;
 		token = token->next;
 	}
@@ -31,6 +30,7 @@ void	sh_echo(t_token *token)
 		out_str = token->path;
 	else
 		out_str = token->lexstr;
+	expand_string_var(data, out_str);
 	if (out_str)
 		ft_printf("%s", out_str);
 	if (!is_flagged)

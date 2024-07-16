@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/15 17:06:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 09:57:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_substr(char *input, size_t start_idx)
 	size_t	i;
 
 	i = start_idx;
-	while (input[i] && !is_space(input[i]) && !in(input[i], "()|<>"))
+	while (input[i] && !is_space(input[i]) && !in(input[i], "()|<>="))
 		i++;
 	substr = ft_substr(input, start_idx, i - start_idx);
 	if (!substr)

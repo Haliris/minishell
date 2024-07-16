@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 17:10:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 10:33:00 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,12 @@ int		lexer(t_data *data);
 /* utilities - general */
 char	*get_substr(char *input, size_t start_idx);
 void	free_tokens(t_token *token);
-int		lex_clean_exit(t_data *data, int exit_code);
 void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
 void	free_lexmem(t_data *data);
 void	free_strarray(char **array);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);
-void	expand_string_var(t_data *data, char *str);
 
 /* utilities - bools */
 bool	is_builtin(char *input, size_t start_idx);
@@ -69,7 +67,6 @@ bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 bool	empty_quote(char *input, size_t start_idx);
 bool	is_executable(char *input, size_t start_idx);
-bool	var_in_str(char *str);
 
 /* input validation */
 bool	valid_input(char *input);

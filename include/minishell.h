@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 15:26:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 10:34:35 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,18 +60,19 @@ typedef struct s_data
 	char		**env;
 	t_token		*token;
 	t_varlist	*env_vars;
-	t_varlist	*local_vars;
 }	t_data;
 
 void		handle_signals(void);
 t_heredoc	*process_here_doc(char *limiter);
 int			clean_exit(t_data *data, int exit_code);
+void		expand_string_var(t_data *data, char **str);
 
 /* Built-ins */
-void		sh_echo(t_token *token);
+void		sh_echo(t_data *data, t_token *token);
 void		sh_cd(t_token *token);
+void		export(t_data *data, t_token *token);
 
-/* local & env vars */
+/* env vars */
 t_varlist	*get_varlist(char *key, char *val);
 char		*get_varval(t_varlist *vlist, char *key);
 int			add_var(t_varlist **vlist, char *key, char *val);

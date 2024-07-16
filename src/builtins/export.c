@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 17:13:34 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 10:33:55 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,42 @@ static void	print_env(t_data *data)
 	}
 }
 
-/* if in local, move to env, if not in either, create in env  */
-
-/*
-export var1=wow
-
-or
-$var1=wow
-export $var1
-*/
-void	export(t_data *data, t_token *token)
+static void	extract_key_val(t_data *data, t_token *token)
 {
 	char	*key;
 	char	*val;
 
-	token = token->next;
-	if (token->lexstr[0] == '=')
+	key = ft_strdup(token->lexstr);
+	if (!key)
+		return ;
+	token = token->next->next;
+	val = ft_strdup(token->lexstr);
+	if (!val)
 	{
-		ft_printf("minishell: export: '%s': not a valid identifier\n");
+		free(key);
 		return ;
 	}
-	if (token->lexstr[0] == '$')
+	if (add_var(&data->env_vars, key, val))
 	{
-
+		ft_printf("Error: could not export variable\n.");
+		free(key);
+		free(val);
 	}
+	return ;
+}
+
+void	export(t_data *data, t_token *token)
+{
+	token = token->next;
+	if (!token || token->type == TK_PIPE)
+		return (print_env(data));
+	if (token->lexstr[0] == '=')
+	{
+		ft_printf("minishell: export: '%s': not a valid identifier\n",
+			token->lexstr);
+		return ;
+	}
+	if (!token || token->next->type != TK_OPERATOR || !token->next->next)
+		return ;
+	extract_key_val(data, token);
 }
