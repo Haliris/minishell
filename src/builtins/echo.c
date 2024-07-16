@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:08 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/16 15:12:58 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint(int sig)
-{
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+/* needs to print everything until it reaches pipe or redirect */
 
-/* ctrl \ */
-void	sigquit(int sig)
+void	sh_echo(t_data *data, char *cmd)
 {
-	(void)sig;
-}
+	bool	is_flagged;
 
-void	handle_signals(void)
-{
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	is_flagged = false;
+	cmd += 4;
+	while (is_space(*cmd))
+		cmd++;
+	if (ft_strncmp(cmd, "-n ", 3))
+	{
+		is_flagged = true;
+		cmd += 2;
+	}
+	expand_string_var(data, &cmd);
+	ft_printf("%s", cmd);
+	if (!is_flagged)
+		ft_printf("\n");
 }

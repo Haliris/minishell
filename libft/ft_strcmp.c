@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:08 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/13 16:35:10 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/14 13:25:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	sigint(int sig)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	size_t	s1len;
+	size_t	s2len;
 
-/* ctrl \ */
-void	sigquit(int sig)
-{
-	(void)sig;
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	if (!s1 && !s2)
+		return (0);
+	else if (!s1 || !s2)
+		return (1);
+	s1len = ft_strlen(s1);
+	s2len = ft_strlen(s2);
+	if (s1len != s2len)
+		return (1);
+	return (ft_strncmp(s1, s2, s1len));
 }

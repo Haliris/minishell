@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 18:05:36 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:19:49 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,56 @@ typedef struct s_heredoc_data
 	t_heredoc_data	*next;
 }	t_heredoc_data;
 
+typedef struct s_varlist		t_varlist;
+
+typedef struct s_varlist
+{
+	char		*key;
+	char		*val;
+	t_varlist	*next;
+	t_varlist	*prev;
+}	t_varlist;
+
+typedef struct s_data
+{
+	char		*input;
+	char		**env;
+	t_token		*token;
+	t_varlist	*env_vars;
+}	t_data;
+
+int			init(t_data *data, char **env, t_parser *parser,
+				t_heredoc_data *heredata);
+
+/* Built-ins */
+void		sh_echo(t_data *data, char *cmd);
+void		sh_cd(t_data *data, char *cmd);
+void		export(t_data *data, char *cmd);
+
+/* env vars */
+t_varlist	*get_varlist(char *key, char *val);
+char		*get_varval(t_varlist *vlist, char *key);
+int			add_var(t_varlist **vlist, char *key, char *val);
+void		del_varlist(t_varlist *head);
+void		del_varlist_node(t_varlist **head, t_varlist *node);
+void		del_varlist_key(t_varlist *vlist_head, char *key);
+
+/* cleanup */
+void		free_strarray(char **array);
+void		free_tokens(t_token *token);
+void		free_lexmem(t_data *data);
+void		free_env(t_data *data);
+int			clean_exit(t_data *data, int exit_code);
+
+/* utils */
 void		handle_signals(void);
 t_heredoc	*process_here_doc(char *limiter);
 
 int			collect_heredocs(t_heredoc_data *here_data, t_data *data);
 void		unlink_heredocs(t_heredoc_data *here_data);
-
+int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
+void		expand_string_var(t_data *data, char **str);
+bool		var_in_str(char *str);
 
 #endif

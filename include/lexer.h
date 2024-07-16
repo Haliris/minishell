@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 22:27:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/16 15:06:57 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 
+typedef struct s_data		t_data;
 typedef enum e_tokentype
 {
 	TK_INVALID,
@@ -49,23 +50,11 @@ typedef struct s_token
 	t_token		*prev;
 }	t_token;
 
-typedef struct s_data
-{
-	char		*input;
-	char		**env;
-	t_token		*token;
-	size_t		buffer_size;
-}	t_data;
-
 int		lexer(t_data *data);
 /* utilities - general */
 char	*get_substr(char *input, size_t start_idx);
-void	free_tokens(t_token *token);
-int		lex_clean_exit(t_data *data, int exit_code);
 void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
-void	free_lexmem(t_data *data);
-void	free_strarray(char **array);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);
 
@@ -78,7 +67,7 @@ bool	is_executable(char *input, size_t start_idx);
 
 /* input validation */
 bool	valid_input(char *input);
-bool	invalid_tokens(t_token *token);
+bool	invalid_tokens(t_data *data, t_token *token);
 
 /* token retrieval */
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
