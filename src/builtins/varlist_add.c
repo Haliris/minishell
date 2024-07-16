@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   varlist_add.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:08 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/15 12:38:28 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/15 15:16:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint(int sig)
+int	add_var(t_varlist **vlist, char *key, char *val)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
+	t_varlist	*node;
+	t_varlist	*curr;
 
-/* ctrl \ */
-void	sigquit(int sig)
-{
-	(void)sig;
-}
-
-void	handle_signals(void)
-{
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	node = get_varlist(key, val);
+	if (!node)
+		return (1);
+	if (!*vlist)
+	{
+		*vlist = node;
+		return (0);
+	}
+	curr = *vlist;
+	while (curr->next)
+		curr = curr->next;
+	curr->next = node;
+	node->prev = curr;
+	return (0);
 }

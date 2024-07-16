@@ -1,29 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_env_vars.c                                     :+:      :+:    :+:   */
+/*   varlist_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/07 11:58:51 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/11 08:15:52 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/15 13:01:52 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/16 12:00:38 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "minishell.h"
 
-/* Replace this with getenv function */
-
-/* add function to expand out $env vars only when within double quotes. 
-replace lexstr */
-
-char	*get_env_var(char *var_str)
+t_varlist	*get_varlist(char *key, char *val)
 {
-	char	*path;
+	t_varlist	*node;
 
-	path = getenv(var_str);
-	if (!path)
+	node = malloc(sizeof(t_varlist));
+	if (!node)
 		return (NULL);
-	else
-		return (ft_strdup(path));
+	node->key = key;
+	node->val = val;
+	node->next = NULL;
+	node->prev = NULL;
+	return (node);
+}
+
+char	*get_varval(t_varlist *vlist, char *key)
+{
+	while (vlist && ft_strcmp(key, vlist->key) != 0)
+		vlist = vlist->next;
+	if (!vlist)
+		return (NULL);
+	return (vlist->val);
 }

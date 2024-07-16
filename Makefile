@@ -6,6 +6,8 @@ LDFLAGS = -lreadline
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
+		  init.c \
+		  cleanup.c \
 		  get_prompt.c \
 		  parser.c \
 		  parser_utils.c \
@@ -20,21 +22,26 @@ CFILES	= main.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
 		  lex_bools1.c \
-		  lex_clean_exit.c \
-		  lex_env_vars.c \
 		  lex_executables.c \
 		  lex_retrieve_tk1.c \
 		  lex_retrieve_tk2.c \
 		  lex_token_utils.c \
+		  lex_expand_str_vars.c \
 		  lex_utils.c \
 		  lexer.c \
 		  validate_input.c \
 		  validate_tokens.c \
-		  signals.c
+		  signals.c \
+		  cd.c \
+		  echo.c \
+		  export.c \
+		  varlist_add.c \
+		  varlist_del.c \
+		  varlist_utils.c
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution
+vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution src/builtins
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 

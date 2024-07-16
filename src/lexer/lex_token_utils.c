@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 16:02:09 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/13 12:13:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	print_token(t_token *token)
 {
 	if (!token)
 		return ;
-	printf("Token type: %d\n", token->type);
-	printf("Token lexstr: %s\n", token->lexstr);
-	printf("Token path: %s\n", token->path);
+	ft_printf("Token type: %d\n", token->type);
+	ft_printf("Token lexstr: %s\n", token->lexstr);
+	ft_printf("Token path: %s\n", token->path);
 	if (token->heredoc)
-		printf("Heredoc path: %s\n", token->heredoc->path);
+		ft_printf("Heredoc path: %s\n", token->heredoc->path);
 }

@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:38:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 14:57:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	init(t_data *data, char **env, t_parser *parser, t_heredoc_data *heredata)
-{
-	handle_signals();
-	data->token = NULL;
-	data->env = env;
-	parser->node = NULL;
-	heredata->heredoc = NULL;
-	heredata->next = NULL;
-	return (0);
-}
 
 int	parse_data(t_data *data, t_parser *parsed_data)
 {
@@ -38,7 +27,7 @@ int	tokenize_data(t_data *data)
 	{
 		if (lexer(data))
 		{
-			if (invalid_tokens(data->token))
+			if (invalid_tokens(data, data->token))
 			{
 				ft_printf("Error: Invalid token found\n");
 				return (PANIC);
@@ -86,5 +75,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (prompt)
 		free(prompt);
-	return (lex_clean_exit(&data, 0));
+	return (clean_exit(&data, 0));
 }
