@@ -6,19 +6,11 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:41:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	init(t_data *data, char **env)
-{
-	handle_signals();
-	data->token = NULL;
-	data->env = env;
-	return (0);
-}
 
 int	parse_data(t_data *data, t_parser *parsed_data)
 {
@@ -35,7 +27,7 @@ int	tokenize_data(t_data *data)
 	{
 		if (lexer(data))
 		{
-			if (invalid_tokens(data->token))
+			if (invalid_tokens(data, data->token))
 			{
 				ft_printf("Error: Invalid token found\n");
 				return (PANIC);
@@ -45,9 +37,9 @@ int	tokenize_data(t_data *data)
 	return (SUCCESS);
 }
 
-int	get_input(t_data *data)
+int	get_input(t_data *data, char *prompt)
 {
-	data->input = readline("minishell>");
+	data->input = readline(prompt);
 	if (data->input)
 		add_history(data->input);
 	else
@@ -67,12 +59,12 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&data, env);
-	prompt = get_prompt(NULL);
+	prompt = NULL;
 	parsed_data.node = NULL;
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data) == PANIC)
+		if (get_input(&data, prompt) == PANIC)
 			break ;
 		if (tokenize_data(&data) == PANIC)
 			break ;
@@ -81,5 +73,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (prompt)
 		free(prompt);
-	return (lex_clean_exit(&data, 0));
+	return (clean_exit(&data, 0));
 }

@@ -6,34 +6,40 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 10:01:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 12:45:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static char	*extract_val(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i - 1] != '=')
+		i++;
+	return (ft_substr(s, i, ft_strlen(s) - i));
+}
+
 static int	init_env(t_data *data, char **env)
 {
 	char	*key;
 	char	*val;
+	size_t	i;
 
-	while (*env)
+	i = 0;
+	while (env[i])
 	{
-		key = get_substr(*env, 0);
+		key = get_substr(env[i], 0);
 		if (!key)
 			return (1);
-		while (**env != '=')
-			(*env)++;
-		(*env)++;
-		val = ft_strdup(*env);
+		val = extract_val(env[i]);
 		if (!val)
-		{
-			free(key);
 			return (1);
-		}
 		if (add_var(&data->env_vars, key, val))
 			return (1);
-		(env)++;
+		i++;
 	}
 	return (0);
 }
@@ -42,5 +48,6 @@ int	init(t_data *data, char **env)
 {
 	handle_signals();
 	data->token = NULL;
+	data->env_vars = NULL;
 	return (init_env(data, env));
 }

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 10:33:00 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:56:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ bool	is_executable(char *input, size_t start_idx);
 
 /* input validation */
 bool	valid_input(char *input);
-bool	invalid_tokens(t_token *token);
+bool	invalid_tokens(t_data *data, t_token *token);
 
 /* token retrieval */
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);

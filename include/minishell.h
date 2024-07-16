@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:05:43 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:59:03 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct s_heredoc
 	char	path[22];
 }	t_heredoc;
 
+typedef struct s_varlist	t_varlist;
+
 typedef struct s_varlist
 {
 	char		*key;
@@ -62,10 +64,7 @@ typedef struct s_data
 	t_varlist	*env_vars;
 }	t_data;
 
-void		handle_signals(void);
-t_heredoc	*process_here_doc(char *limiter);
-int			clean_exit(t_data *data, int exit_code);
-void		expand_string_var(t_data *data, char **str);
+int			init(t_data *data, char **env);
 
 /* Built-ins */
 void		sh_echo(t_data *data, t_token *token);
@@ -79,5 +78,13 @@ int			add_var(t_varlist **vlist, char *key, char *val);
 void		del_varlist(t_varlist *head);
 void		del_varlist_node(t_varlist **head, t_varlist *node);
 void		del_varlist_key(t_varlist *vlist_head, char *key);
+
+/* utils */
+void		handle_signals(void);
+t_heredoc	*process_here_doc(char *limiter);
+int			clean_exit(t_data *data, int exit_code);
+char		*get_prompt(char *orig_prompt);
+void		expand_string_var(t_data *data, char **str);
+bool		var_in_str(char *str);
 
 #endif

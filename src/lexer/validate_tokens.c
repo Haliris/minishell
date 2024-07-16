@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 17:10:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:55:33 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void	expand_str_tks(t_data *data, t_token *token)
 	while (token)
 	{
 		if (token->type == TK_STRING && var_in_str(token->lexstr))
-			expand_string_var(data, token->lexstr);
+			expand_string_var(data, &token->lexstr);
 		token = token->next;
 	}
 }

@@ -6,33 +6,29 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 10:27:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:26:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sh_echo(t_data *data, t_token *token)
+/* needs to print everything until it reaches pipe or redirect */
+
+void	sh_echo(t_data *data, char *cmd)
 {
 	char	*out_str;
 	bool	is_flagged;
 
 	is_flagged = false;
-	if (token->type == TK_BUILTIN)
-		token = token->next;
-	if (token->type == TK_FLAG)
+	cmd += 4;
+	while (is_space(*cmd))
+		cmd++;
+	if (ft_strncmp(cmd, "-n ", 3))
 	{
-		if (ft_strcmp("-n", token->lexstr) == 0)
-			is_flagged = true;
-		token = token->next;
+		is_flagged = true;
+		cmd + 2;
 	}
-	if (token->type == TK_PATH)
-		out_str = token->path;
-	else
-		out_str = token->lexstr;
-	expand_string_var(data, out_str);
-	if (out_str)
-		ft_printf("%s", out_str);
+	expand_string_var(data, cmd);
 	if (!is_flagged)
 		ft_printf("\n");
 }

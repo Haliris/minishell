@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 10:28:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 12:03:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	*extract_key_from_str(char *str, size_t start)
 {
 	size_t	end;
-	char	*key;
 
 	end = start;
 	while (str[end] && !is_space(str[end]) && str[end] != '$')
@@ -79,7 +78,7 @@ void	expand_string_var(t_data *data, char **str)
 			key = extract_key_from_str(*str, i);
 			if (!key)
 				continue ;
-			val = get_varval(data, key);
+			val = get_varval(data->env_vars, key);
 			impute_var_val(str, val, key, i);
 		}
 		i++;

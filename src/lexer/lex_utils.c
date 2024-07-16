@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/16 09:57:09 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:54:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 	if (!token)
 	{
 		write(2, "Error: bad malloc\n", 19);
-		exit(lex_clean_exit(data, 1));
+		exit(clean_exit(data, 1));
 	}
 	token->lexstr = lexstr;
 	token->path = path;

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/16 11:05:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 13:02:37 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,15 @@ static t_token	*build_tokenlist2(t_data *data, size_t input_len, size_t *i)
 	if (is_builtin(data->input, *i))
 		curr_tk = get_token(data, get_substr(data->input, *i),
 				NULL, TK_BUILTIN);
+	else if (data->input[*i] == '=')
+		curr_tk = get_token(data, ft_strdup("="),
+				NULL, TK_OPERATOR);
 	else if (is_executable(data->input, *i))
 		curr_tk = get_exec_tk(data, data->input, *i);
 	else if (data->input[*i] == '$' && data->input[*i + 1] == '?')
 		curr_tk = get_token(data, ft_strdup("$?"), NULL, TK_EXITSTATUS);
 	else if (data->input[*i] == '$' && data->input[*i + 1])
 		curr_tk = get_path_tk(data, data->input, *i);
-	else if (in(data->input[*i], "="))
-		curr_tk = get_token(data, ft_substr(data->input, *i, 1),
-				NULL, TK_OPERATOR);
 	else
 		curr_tk = get_word_tk(data, data->input, *i);
 	return (curr_tk);
@@ -78,6 +78,7 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 		if (!curr_tk || !curr_tk->lexstr)
 			return (1);
 		i += ft_strlen(curr_tk->lexstr);
+		print_token(curr_tk);
 		lex_add_token(data, curr_tk);
 	}
 	return (0);
