@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 15:05:10 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:29:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	execute_cmd(char *cmd, char **env, t_parser	*data)
 			handle_error(strerror(errno), errno);
 		}
 	}
+	trash(command);
+	handle_error(strerror(errno), errno);
 }
 
 void	check_pipes(t_lex_parser *table, int pipe_status[])
