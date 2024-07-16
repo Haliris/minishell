@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 15:49:05 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 17:57:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,51 @@ int	check_n_flag(char *str)
 	return (FALSE);
 }
 
-void	sh_echo(char **cmd)
+char	*build_echo_str(char **cmd)
+{
+	char	out_str;
+	int		index;
+
+	index = 0;
+	out_str = NULL;
+	while (cmd[index])
+	{
+		if (!out_str)
+			out_str = cmd[index];
+		else
+		{
+			out_str = ft_str_rejoin(out_str, " ");
+			if (!out_str)
+				return (NULL);
+			out_str = ft_str_rejoin(out_str, cmd[index]);
+			if (!out_str)
+				return (NULL);
+		}
+		index++;
+	}
+	return (out_str);
+}
+
+void	call_echo(char **cmd)
 {
 	char	*out_str;
+	int		index;
 	bool	is_flagged;
 
-	if (token->type == TK_PATH)
-		out_str = token->path;
-	else
-		out_str = token->lexstr;
+	out_str = NULL;
+	index = 1;
+	if (!cmd[1])
+		ft_printf("\n");
+	if (cmd[1])
+		is_flagged = check_n_flag(cmd[1]);
+	if (is_flagged == TRUE)
+		index++;
+	out_str = build_echo_str(&cmd[index]);
 	if (out_str)
 		ft_printf("%s", out_str);
-	if (!is_flagged)
+	if (is_flagged == FALSE)
 		ft_printf("\n");
+	if (out_str)
+		free(out_str);
+	trash(cmd);
 }

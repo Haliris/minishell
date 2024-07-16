@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 14:56:03 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:00:36 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,40 +68,6 @@ int	redirect_parent(int p_fd[])
 	close(p_fd[0]);
 	close(p_fd[1]);
 	return (dup_status);
-}
-
-void	call_builtin(char **command, char **env)
-{
-	if (ft_strcmp(command[0], "echo") == 0)
-		call_echo();
-	if (ft_strcmp(command[0], "cd") == 0)
-		call_cd();
-	if (ft_strcmp(command[0], "pwd") == 0)
-		call_pwd();
-	if (ft_strcmp(command[0], "export") == 0)
-		call_export();
-	if (ft_strcmp(command[0], "unset") == 0)
-		call_unset();
-	if (ft_strcmp(command[0], "env") == 0)
-		call_env();
-	if (ft_strcmp(command[0], "exit") == 0)
-		call_exit();
-	trash(command);
-}
-
-void	execute_builtin(char *cmd, char **env, t_parser *data)
-{
-	char **command;
-
-	command = ft_split(cmd, " ");
-	free_parsed_mem(data);
-	if (!command || !command[0])
-	{
-		if (command)
-			trash(command);
-		handle_error("Command split error", EXIT_FAILURE);
-	}
-	call_builtin(command, env);
 }
 
 int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
