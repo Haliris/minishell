@@ -6,17 +6,20 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 14:54:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 11:38:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	init(t_data *data, char **env)
+int	init(t_data *data, char **env, t_parser *parser, t_heredoc_data *heredata)
 {
 	handle_signals();
 	data->token = NULL;
 	data->env = env;
+	parser->node = NULL;
+	heredata->heredoc = NULL;
+	heredata->next = NULL;
 	return (0);
 }
 
@@ -45,9 +48,9 @@ int	tokenize_data(t_data *data)
 	return (SUCCESS);
 }
 
-int	get_input(t_data *data)
+int	get_input(t_data *data, char *prompt)
 {
-	data->input = readline("minishell>");
+	data->input = readline(prompt);
 	if (data->input)
 		add_history(data->input);
 	else
@@ -62,22 +65,24 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
 	t_parser		parsed_data;
+	t_heredoc_data	here_doc_data;
 	char			*prompt;
 
 	(void)argv;
 	(void)argc;
-	init(&data, env);
+	init(&data, env, &parsed_data, &here_doc_data);
 	prompt = get_prompt(NULL);
-	parsed_data.node = NULL;
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data) == PANIC)
+		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
 			break ;
-		if (tokenize_data(&data) == PANIC)
+		if (collect_heredocs(&here_doc_data, &data) == PANIC)
 			break ;
 		parse_data(&data, &parsed_data);
+		free_lexmem(&data);
 		execute_data(&parsed_data, env);
+		unlink_heredocs(&here_doc_data);
 	}
 	if (prompt)
 		free(prompt);

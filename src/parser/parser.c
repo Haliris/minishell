@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 14:53:26 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 15:36:56 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	collect_redir_tk(t_lex_parser *parsed, t_token *roaming)
 {
 	while (roaming && roaming->type != TK_PIPE)
 	{
-		if (roaming->type == TK_REDIR)
+		if (roaming->type == TK_REDIR || roaming->type == TK_HEREDOC)
 		{
 			if (build_redirect_table(parsed, roaming) == PANIC)
 				panic(parsed);

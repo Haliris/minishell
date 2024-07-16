@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_clean_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 17:43:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/15 18:28:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,6 @@ void	free_tokens(t_token *token)
 			free(token->lexstr);
 		if (token->path)
 			free(token->path);
-		if (token->heredoc)
-		{
-			if (ft_strlen(token->heredoc->path))
-				if (unlink(token->heredoc->path) != 0)
-					ft_printf("Error deleting file '%s': %s\n",
-						token->heredoc->path, strerror(errno));
-			free(token->heredoc);
-		}
 		free(token);
 		token = NULL;
 		token = tmp;
