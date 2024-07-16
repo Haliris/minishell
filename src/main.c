@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/15 22:48:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:38:47 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ int	tokenize_data(t_data *data)
 	return (SUCCESS);
 }
 
-int	get_input(t_data *data)
+int	get_input(t_data *data, char *prompt)
 {
-	data->input = readline("minishell>");
+	data->input = readline(prompt);
 	if (data->input)
 		add_history(data->input);
 	else
@@ -75,7 +75,7 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data) == PANIC || tokenize_data(&data) == PANIC)
+		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
 			break ;
 		if (collect_heredocs(&here_doc_data, &data) == PANIC)
 			break ;

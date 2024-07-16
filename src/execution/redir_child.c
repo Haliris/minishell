@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 00:06:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:53:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	open_files(char *redir[], int file_fd[], int *append)
 	*append = FALSE;
 	if (file_fd[0] < 0 || file_fd[1] < 0)
 		return (PANIC);
+	redir[0] = NULL;
+	redir[1] = NULL;
 	return (SUCCESS);
 }
 
@@ -68,12 +70,11 @@ int	process_files(t_lex_parser *table)
 		if (roaming->type == TK_PARS_REDIR)
 		{
 			append = get_redirections(roaming, redir);
-			if (open_files(redir, f_fd, &append) == PANIC || redir_files(f_fd) < 0)
+			if (open_files(redir, f_fd, &append) == PANIC
+				|| redir_files(f_fd) < 0)
 				return (-1);
 		}
 		roaming = roaming->next;
-		redir[0] = NULL;
-		redir[1] = NULL;
 	}
 	return (SUCCESS);
 }

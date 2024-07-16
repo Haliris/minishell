@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_redirect_table.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/08 18:21:54 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 23:08:57 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/16 11:36:02 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int	get_redir_type(t_token *lexer)
 		return (TK_PARS_HEREDOC);
 	else if (ft_strncmp(lexer->lexstr, "<", 1) == 0)
 		return (TK_PARS_IN);
-	else if (ft_strncmp(lexer->lexstr, ">", 1) == 0)
-		return (TK_PARS_OUT);
 	else if (ft_strncmp(lexer->lexstr, ">>", 2) == 0)
 		return (TK_PARS_APPEND);
+	else if (ft_strncmp(lexer->lexstr, ">", 1) == 0)
+		return (TK_PARS_OUT);
 	return (TK_PARS_NULL);
 }
 
