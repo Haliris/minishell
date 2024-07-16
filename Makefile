@@ -11,6 +11,7 @@ CFILES	= main.c \
 		  parser_utils.c \
 		  parser_clean_exit.c \
 		  build_redirect_table.c \
+		  built_ins.c \
 		  execute_commands.c \
 		  execution_utils.c \
 		  process_command.c \
