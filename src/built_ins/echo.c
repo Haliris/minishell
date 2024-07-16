@@ -3,30 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/13 13:48:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:08:18 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sh_echo(t_token *token)
+int	check_n_flag(char *str)
+{
+	if (ft_strcmp(str, "-n") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
+void	sh_echo(char **cmd)
 {
 	char	*out_str;
 	bool	is_flagged;
 
-	is_flagged = false;
-	if (token->type == TK_BUILTIN)
-		token = token->next;
-	if (token->type == TK_FLAG)
-	{
-		if (ft_strncmp("-n", token->lexstr, 2) == 0
-			&& ft_strlen(token->lexstr) == 2)
-			is_flagged = true;
-		token = token->next;
-	}
 	if (token->type == TK_PATH)
 		out_str = token->path;
 	else
