@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 18:37:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:48:21 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
 		if (is_builtin(cmd_table->cmd, 0))
-			execute_builtin(cmd_table->cmd, env, d);
+			execute_builtin(cmd_table->cmd, env, d, CHILD);
 		else
 			execute_cmd(cmd_table->cmd, env, d);
 		exit(EXIT_SUCCESS); // Need proper error catching

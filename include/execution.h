@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 23:08:20 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/16 18:47:51 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include "minishell.h"
 # define PATH_ERROR 127
 # define EXIT_FAILURE 1
+# define CHILD 0
+# define PARENT 1
 
 void	trash(char **array);
 void	handle_error(char *message, int code);

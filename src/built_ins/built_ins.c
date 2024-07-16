@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 18:41:02 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:48:57 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	call_builtin(char **command, char **env)
 	// 	call_exit();
 }
 
-void	execute_builtin(char *cmd, char **env, t_parser *data)
+void	execute_builtin(char *cmd, char **env, t_parser *data, int mode)
 {
 	char **command;
 
@@ -42,7 +42,10 @@ void	execute_builtin(char *cmd, char **env, t_parser *data)
 	{
 		if (command)
 			trash(command);
-		handle_error("Command split error", EXIT_FAILURE);
+		if (mode == CHILD)
+			handle_error("Command split error", EXIT_FAILURE);
+		else
+			return ;
 	}
 	call_builtin(command, env);
 }
