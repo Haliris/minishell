@@ -44,7 +44,7 @@ CFILES	= main.c \
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution src/builtins
+vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution src/built_ins
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 
