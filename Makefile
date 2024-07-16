@@ -22,7 +22,6 @@ CFILES	= main.c \
 		  get_next_line.c \
 		  get_next_line_utils.c \
 		  lex_bools1.c \
-		  lex_env_vars.c \
 		  lex_executables.c \
 		  lex_retrieve_tk1.c \
 		  lex_retrieve_tk2.c \
