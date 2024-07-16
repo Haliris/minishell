@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_clean_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/13 19:22:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/15 21:24:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_tables(t_lex_parser *r)
 	if (r->type == TK_PARS_REDIR)
 	{
 		redir_table = r->table;
-		if (redir_table->redir_str)
+		if (redir_table->redir_str && redir_table->heredoc == FALSE)
 			free(redir_table->redir_str);
 		free(redir_table);
 		redir_table = NULL;

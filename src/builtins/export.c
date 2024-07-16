@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 14:26:38 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:08:33 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static bool	export_err(char **split_cmd)
 
 	if (split_cmd[0] && split_cmd[0][0] == '=')
 	{
-		ft_printf("minishell: export: '%s': not a valid identifier\n", split_cmd[0]);
+		ft_printf("minishell: export: '%s': not a valid identifier\n",
+			split_cmd[0]);
 		return (true);
 	}
 	if (split_cmd[1])
@@ -70,6 +71,7 @@ static bool	export_err(char **split_cmd)
 	return (split_cmd[0][i] != '=');
 }
 
+/* unfinished, need to add in / replace var */
 void	export(t_data *data, char *cmd)
 {
 	char	**split_cmd;
@@ -84,7 +86,7 @@ void	export(t_data *data, char *cmd)
 		return (ft_putendl_fd("Error: malloc failure.\n", 2));
 	if (export_err(split_cmd))
 		return (free_strarray(split_cmd));
-	key = get_substr(cmd[0], 0);
+	key = get_substr(split_cmd[0], 0);
 	if (!key)
 		return (free_strarray(split_cmd));
 	val = extract_key_val(split_cmd);

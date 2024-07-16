@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 14:41:05 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 14:57:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,22 +54,24 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
 	t_parser		parsed_data;
+	t_heredoc_data	here_doc_data;
 	char			*prompt;
 
 	(void)argv;
 	(void)argc;
-	init(&data, env);
-	prompt = NULL;
-	parsed_data.node = NULL;
+	init(&data, env, &parsed_data, &here_doc_data);
+	prompt = get_prompt(NULL);
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data, prompt) == PANIC)
+		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
 			break ;
-		if (tokenize_data(&data) == PANIC)
+		if (collect_heredocs(&here_doc_data, &data) == PANIC)
 			break ;
 		parse_data(&data, &parsed_data);
+		free_lexmem(&data);
 		execute_data(&parsed_data, env);
+		unlink_heredocs(&here_doc_data);
 	}
 	if (prompt)
 		free(prompt);

@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 14:26:44 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/16 15:01:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* needs to print everything until it reaches pipe or redirect */
-
-void	sh_echo(t_data *data, char *cmd)
+void	sh_cd(t_data *data, char *cmd)
 {
-	char	*out_str;
-	bool	is_flagged;
-
-	is_flagged = false;
-	cmd += 4;
-	while (is_space(*cmd))
+	cmd += 2;
+	while (*cmd && is_space(*cmd))
 		cmd++;
-	if (ft_strncmp(cmd, "-n ", 3))
-	{
-		is_flagged = true;
-		cmd + 2;
-	}
-	expand_string_var(data, cmd);
-	if (!is_flagged)
-		ft_printf("\n");
+	if (!*cmd)
+		return ;
+	expand_string_var(data, &cmd);
+	if (chdir(cmd) != 0)
+		ft_printf("minishell: cd: '%s': %s\n", cmd,
+			strerror(errno));
 }

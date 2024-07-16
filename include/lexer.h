@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:56:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:06:57 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,8 @@ typedef struct s_token
 int		lexer(t_data *data);
 /* utilities - general */
 char	*get_substr(char *input, size_t start_idx);
-void	free_tokens(t_token *token);
 void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
-void	free_lexmem(t_data *data);
-void	free_strarray(char **array);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);
 

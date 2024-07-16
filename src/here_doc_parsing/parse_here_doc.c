@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/12 17:41:54 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 11:49:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #define FILENAME_TAKEN -1
 #define SYS_ERROR -2
 #define SUCCESS 1
-//call unlink() in main process once we are done with the file
 
 int	get_random_nbr(int lower, int upper)
 {
@@ -119,6 +118,7 @@ t_heredoc	*process_here_doc(char *limiter)
 		free(heredoc);
 		return (NULL);
 	}
+	close(here_fd);
 	return (heredoc);
 }
 
