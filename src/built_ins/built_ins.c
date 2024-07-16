@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 18:48:57 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 19:38:45 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	call_builtin(char **command, char **env)
 	// 	call_unset();
 	// if (ft_strcmp(command[0], "env") == 0)
 	// 	call_env();
-	// if (ft_strcmp(command[0], "exit") == 0)
-	// 	call_exit();
+	if (ft_strcmp(command[0], "exit") == 0)
+		call_exit(command);
 }
 
 void	execute_builtin(char *cmd, char **env, t_parser *data, int mode)
