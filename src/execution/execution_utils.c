@@ -44,6 +44,7 @@ int	get_redirections(t_lex_parser *roaming, char *redirection[])
 	infile = NULL;
 	outfile = NULL;
 	append = FALSE;
+	redir = NULL;
 	if (roaming->type == TK_PARS_REDIR)
 	{
 		redir = roaming->table;
