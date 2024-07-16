@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 18:00:36 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/16 18:37:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
 			execute_builtin(cmd_table->cmd, env, d);
 		else
 			execute_cmd(cmd_table->cmd, env, d);
+		exit(EXIT_SUCCESS); // Need proper error catching
 	}
 	else
 	{
