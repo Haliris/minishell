@@ -32,6 +32,8 @@ void	execute_cmd(char *cmd, char **env, t_parser	*data)
 			handle_error(strerror(errno), errno);
 		}
 	}
+	trash(command);
+	handle_error(strerror(errno), errno);
 }
 
 void	check_pipes(t_lex_parser *table, int pipe_status[])
