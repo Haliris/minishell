@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 18:56:55 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:35:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	filter_cmd(t_lex_parser *roaming, char **envp, int std_fds[], t_parser *data
 	cmd_table = roaming->table;
 	if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
 	{
+		process_files(roaming);
 		execute_builtin(cmd_table->cmd, envp, data, PARENT);
 		return (BUILT_IN);
 	}
