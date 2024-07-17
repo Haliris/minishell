@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 13:40:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:06:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	call_exit(char **cmd)
 	if (!cmd[1])
 	{
 		trash(cmd);
-		ft_putstr_fd("exit\n", STDIN_FILENO);
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit(EXIT_SUCCESS);
 	}
 	if (cmd[2] != NULL)
@@ -58,6 +58,6 @@ void	call_exit(char **cmd)
 		exit_error(cmd);
 	exit_code = ft_atoi(cmd[1]);
 	trash(cmd);
-	ft_putstr_fd("exit\n", STDIN_FILENO);
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit(exit_code);
 }

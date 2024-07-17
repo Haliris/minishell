@@ -35,6 +35,7 @@ CFILES	= main.c \
 		  built_ins.c \
 		  cd.c \
 		  echo.c \
+		  pwd.c \
 		  exit.c \
 		  export.c \
 		  varlist_add.c \

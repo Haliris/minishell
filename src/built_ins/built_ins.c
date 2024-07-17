@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 13:32:28 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:42:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ void	call_builtin(char **command, char **env, int mode)
 		call_echo(command);
 	else if (ft_strcmp(command[0], "cd") == 0)
 		call_cd(command);
-	// else if (ft_strcmp(command[0], "pwd") == 0)
-	// 	call_pwd();
+	else if (ft_strcmp(command[0], "pwd") == 0)
+		call_pwd(command);
 	// else if (ft_strcmp(command[0], "export") == 0)
 	// 	call_export();
 	// else if (ft_strcmp(command[0], "unset") == 0)
