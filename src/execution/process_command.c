@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 13:08:05 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 14:24:58 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,6 @@ void	execute_cmd(char *cmd, char **env, t_parser	*data)
 	}
 	trash(command);
 	handle_error(strerror(errno), errno);
-}
-
-void	check_pipes(t_lex_parser *table, int pipe_status[])
-{
-	t_lex_parser	*roaming;
-
-	roaming = table;
-	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
-		roaming = roaming->prev;
-	if (roaming->prev && roaming->prev->type == TK_PARS_PIPE)
-		pipe_status[0] = TRUE;
-	while (roaming->next && roaming->next->type != TK_PARS_PIPE)
-		roaming = roaming->next;
-	if (roaming->next && roaming->next->type == TK_PARS_PIPE)
-		pipe_status[1] = TRUE;
 }
 
 int	open_pipes(t_lex_parser *parsed, int p_fd[], int has_pipe[])
@@ -79,6 +64,15 @@ int	redirect_parent(int p_fd[])
 	return (dup_status);
 }
 
+void	execute_child(char *cmd, char **env, t_parser *data)
+{
+	if (is_builtin(cmd, 0))
+		execute_builtin(cmd, env, data, CHILD);
+	else
+		execute_cmd(cmd, env, data);
+	exit(EXIT_SUCCESS);
+}
+
 int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
 {
 	int			pipe_fd[2];
@@ -98,11 +92,7 @@ int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
-		if (is_builtin(cmd_table->cmd, 0))
-			execute_builtin(cmd_table->cmd, env, d, CHILD);
-		else
-			execute_cmd(cmd_table->cmd, env, d);
-		exit(EXIT_SUCCESS); // Need proper error catching
+		execute_child(cmd_table->cmd, env, d);
 	}
 	else
 	{
