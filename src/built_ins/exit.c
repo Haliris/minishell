@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 21:31:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/17 13:40:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,40 +18,46 @@ int	is_not_number(char *str)
 
 	index = 0;
 	if (str[index] == '+' || str[index] == '-')
-		 index++;
+		index++;
 	while (str[index])
 	{
-		if (str[index] > 0 || str[index] < 9)
+		if (str[index] < '0' || str[index] > '9')
 			return (TRUE);
 		index++;
 	}
 	return (FALSE);
 }
 
+void	exit_error(char **cmd)
+{
+	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+	ft_putstr_fd(cmd[1], STDERR_FILENO);
+	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+	trash(cmd);
+	exit(EXIT_FAILURE);
+}
+
 void	call_exit(char **cmd)
 {
 	int	exit_code;
 
-	if (!cmd || !cmd[1])
+	exit_code = EXIT_FAILURE;
+	if (!cmd[1])
 	{
 		trash(cmd);
+		ft_putstr_fd("exit\n", STDIN_FILENO);
 		exit(EXIT_SUCCESS);
 	}
-	exit_code = EXIT_FAILURE;
 	if (cmd[2] != NULL)
 	{
 		trash(cmd);
-		return ; // Error in trying to exit lmfao, check bash
+		ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
 	}
 	if (is_not_number(cmd[1]) == TRUE)
-	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd("exit: ", STDERR_FILENO);
-		ft_putstr_fd(cmd[1], STDERR_FILENO);
-		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-	}
-	else
-		exit_code = ft_atoi(cmd[1]);
+		exit_error(cmd);
+	exit_code = ft_atoi(cmd[1]);
 	trash(cmd);
+	ft_putstr_fd("exit\n", STDIN_FILENO);
 	exit(exit_code);
 }
