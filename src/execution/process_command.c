@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 18:48:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:08:05 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,13 @@ void	check_pipes(t_lex_parser *table, int pipe_status[])
 int	open_pipes(t_lex_parser *parsed, int p_fd[], int has_pipe[])
 {
 	check_pipes(parsed, has_pipe);
-	if (pipe(p_fd) < 0)
-		return (-1);
+	p_fd[0] = -1;
+	p_fd[1] = -1;
+	if (has_pipe[1] == TRUE)
+	{
+		if (pipe(p_fd) < 0)
+			return (-1);
+	}
 	return (SUCCESS);
 }
 
@@ -64,9 +69,13 @@ int	redirect_parent(int p_fd[])
 	int	dup_status;
 
 	dup_status = 0;
-	dup_status += dup2(p_fd[0], STDIN_FILENO);
-	close(p_fd[0]);
-	close(p_fd[1]);
+	if (p_fd[0] != -1)
+	{
+		dup_status += dup2(p_fd[0], STDIN_FILENO);
+		close(p_fd[0]);
+	}
+	if (p_fd[1] != -1)
+		close(p_fd[1]);
 	return (dup_status);
 }
 

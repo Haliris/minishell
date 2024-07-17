@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 11:53:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 13:08:46 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ int	redirect_pipe(int p_fd[], int has_pipe[])
 	int	dup_status;
 
 	dup_status = 0;
-	close(p_fd[0]);
-	p_fd[0] = -1;
-	if (has_pipe[1] == TRUE)
+	if (p_fd[0] != -1)
+		close(p_fd[0]);
+	if (has_pipe[1] == TRUE && p_fd[1] != -1)
+	{
 		dup_status += dup2(p_fd[1], STDOUT_FILENO);
-	close(p_fd[1]);
-	p_fd[1] = -1;
+		close(p_fd[1]);
+	}
 	return (dup_status);
 }
 
