@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 22:07:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/17 14:28:01 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	execute_commands(t_parser *data, char **envp, int std_fds[])
 	int				cmd_count;
 	int				index;
 	t_lex_parser	*roaming;
+	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data);
 	index = cmd_count;
@@ -66,7 +67,10 @@ int	execute_commands(t_parser *data, char **envp, int std_fds[])
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			if (process_command(roaming, envp, data, std_fds) == PANIC)
+			cmd_table = roaming->table;
+			if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
+				execute_builtin(cmd_table->cmd, envp, data, PARENT);
+			else if (process_command(roaming, envp, data, std_fds) == PANIC)
 				return (PANIC);
 			index--;
 		}

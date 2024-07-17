@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 15:01:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/17 13:41:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sh_cd(t_data *data, char *cmd)
+void	call_cd(char **cmd)
 {
-	cmd += 2;
-	while (*cmd && is_space(*cmd))
-		cmd++;
-	if (!*cmd)
+	char	*p;
+
+	if (cmd[1] == NULL)
 		return ;
-	expand_string_var(data, &cmd);
-	if (chdir(cmd) != 0)
-		ft_printf("minishell: cd: '%s': %s\n", cmd,
-			strerror(errno));
+	p = cmd[1];
+	if (chdir(p) != 0)
+		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
+	if (cmd)
+		trash(cmd);
 }

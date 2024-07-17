@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 15:06:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/16 18:24:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # include "parser.h"
 # include "lexer.h"
 # include "execution.h"
+# include "built_ins.h"
 
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
@@ -77,8 +78,6 @@ int			init(t_data *data, char **env, t_parser *parser,
 				t_heredoc_data *heredata);
 
 /* Built-ins */
-void		sh_echo(t_data *data, char *cmd);
-void		sh_cd(t_data *data, char *cmd);
 void		export(t_data *data, char *cmd);
 
 /* env vars */
