@@ -3,36 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 19:55:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/17 22:37:08 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_cmd(char *cmd, char **env, t_parser	*data)
+void	execute_cmd(char *cmd, t_data *data, t_parser	*parser)
 {
 	char	**command;
+	char	**env;
 
 	command = ft_split(cmd, ' ');
-	free_parsed_mem(data);
+	free_parsed_mem(parser);
 	if (!command || !command[0])
 	{
 		if (command)
 			trash(command);
 		handle_error("Command split error", EXIT_FAILURE);
 	}
+	env = build_env(data->env_vars);
 	if (access(command[0], F_OK | X_OK) == 0)
-	{
-		if (execve(command[0], command, env) == -1)
-		{
-			trash(command);
-			handle_error(strerror(errno), errno);
-		}
-	}
+		execve(command[0], command, env);
 	trash(command);
+	trash(env);
 	handle_error(strerror(errno), errno);
 }
 
@@ -69,7 +66,7 @@ void	execute_child(char *cmd, t_data *data)
 	if (is_builtin(cmd, 0))
 		execute_builtin(cmd, data, CHILD);
 	else
-		execute_cmd(cmd, data->env, data->parsedata);
+		execute_cmd(cmd, data, data->parsedata);
 	exit(EXIT_SUCCESS);
 }
 
