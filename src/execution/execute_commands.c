@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:28:01 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:56:55 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,43 +35,41 @@ void	wait_for_children(int index)
 	}
 }
 
-int	count_commands(t_parser *data)
+int	filter_cmd(t_lex_parser *roaming, char **envp, int std_fds[], t_parser *data)
 {
-	t_lex_parser	*roaming;
+	t_cmd_table		*cmd_table;
 	int				cmd_count;
 
-	roaming = data->node;
-	cmd_count = 0;
-	while (roaming)
+	cmd_count = count_commands(data);
+	cmd_table = roaming->table;
+	if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
 	{
-		if (roaming->type == TK_PARS_CMD)
-		{
-			cmd_count++;
-		}
-		roaming = roaming->next;
+		execute_builtin(cmd_table->cmd, envp, data, PARENT);
+		return (BUILT_IN);
 	}
-	return (cmd_count);
+	else if (process_command(roaming, envp, data, std_fds) == PANIC)
+		return (PANIC);
+	return (SUCCESS);
 }
 
 int	execute_commands(t_parser *data, char **envp, int std_fds[])
 {
 	int				cmd_count;
 	int				index;
+	int				status;
 	t_lex_parser	*roaming;
-	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data);
 	index = cmd_count;
 	roaming = data->node;
+	status = SUCCESS;
 	while (roaming && index)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
-			cmd_table = roaming->table;
-			if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
-				execute_builtin(cmd_table->cmd, envp, data, PARENT);
-			else if (process_command(roaming, envp, data, std_fds) == PANIC)
-				return (PANIC);
+			status = filter_cmd(roaming, envp, std_fds, data);
+			if (status == BUILT_IN || status == PANIC)
+				break ;
 			index--;
 		}
 		roaming = roaming->next;
