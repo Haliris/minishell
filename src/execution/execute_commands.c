@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 19:35:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:39:12 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	wait_for_children(int index)
 	}
 }
 
-int	filter_cmd(t_lex_parser *roaming, char **envp, int std_fds[], t_parser *data)
+int	filter_cmd(t_lex_parser *roaming, char **env, int std_fds[], t_parser *data)
 {
 	t_cmd_table		*cmd_table;
 	int				cmd_count;
@@ -45,10 +45,10 @@ int	filter_cmd(t_lex_parser *roaming, char **envp, int std_fds[], t_parser *data
 	if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
 	{
 		process_files(roaming);
-		execute_builtin(cmd_table->cmd, envp, data, PARENT);
+		execute_builtin(cmd_table->cmd, env, data, PARENT);
 		return (BUILT_IN);
 	}
-	else if (process_command(roaming, envp, data, std_fds) == PANIC)
+	else if (process_command(roaming, env, data, std_fds) == PANIC)
 		return (PANIC);
 	return (SUCCESS);
 }
