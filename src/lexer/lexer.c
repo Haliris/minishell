@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/16 13:02:37 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:55:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 		if (!curr_tk || !curr_tk->lexstr)
 			return (1);
 		i += ft_strlen(curr_tk->lexstr);
-		print_token(curr_tk);
 		lex_add_token(data, curr_tk);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 14:54:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:25:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,6 @@ char	*build_cmd_buffer(char *cmd_buff, t_token *roaming)
 			cmd_buff = ft_strdup(roaming->lexstr);
 	}
 	return (cmd_buff);
-}
-
-bool	check_invalid_token(t_token *tokens)
-{
-	t_token	*roaming;
-
-	roaming = tokens;
-	while (roaming)
-	{
-		if (roaming->type == TK_INVALID)
-			return (TRUE);
-		roaming = roaming->next;
-	}
-	return (FALSE);
 }
 
 int	parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type)

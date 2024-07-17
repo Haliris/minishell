@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 15:36:56 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:31:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 	}
 }
 
-int	interprete_lexer(t_parser *data, t_token *tokens_list)
+int	interprete_lexer(t_data *data)
 {
 	t_lex_parser	*parsed;
+	t_token			*tokens_list;
 
-	if (check_invalid_token(tokens_list))
-		return (PANIC);
+	tokens_list = data->token;
 	parsed = ft_calloc(1, sizeof(t_lex_parser));
-	parsed->type = TK_PARS_NULL;
 	if (!parsed)
 		return (PANIC);
+	parsed->type = TK_PARS_NULL;
 	parse_operators(parsed, tokens_list);
-	data->node = parsed;
+	data->parsedata->node = parsed;
 	return (SUCCESS);
 }

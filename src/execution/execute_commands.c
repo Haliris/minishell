@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:28:01 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:25:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,24 +53,24 @@ int	count_commands(t_parser *data)
 	return (cmd_count);
 }
 
-int	execute_commands(t_parser *data, char **envp, int std_fds[])
+int	execute_commands(t_data *data, int std_fds[])
 {
 	int				cmd_count;
 	int				index;
 	t_lex_parser	*roaming;
 	t_cmd_table		*cmd_table;
 
-	cmd_count = count_commands(data);
+	cmd_count = count_commands(data->parsedata);
 	index = cmd_count;
-	roaming = data->node;
+	roaming = data->parsedata->node;
 	while (roaming && index)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
 			cmd_table = roaming->table;
 			if (cmd_count == 1 && is_builtin(cmd_table->cmd, 0) == TRUE)
-				execute_builtin(cmd_table->cmd, envp, data, PARENT);
-			else if (process_command(roaming, envp, data, std_fds) == PANIC)
+				execute_builtin(cmd_table->cmd, data, PARENT);
+			else if (process_command(roaming, data, std_fds) == PANIC)
 				return (PANIC);
 			index--;
 		}
@@ -80,11 +80,11 @@ int	execute_commands(t_parser *data, char **envp, int std_fds[])
 	return (EXIT_SUCCESS);
 }
 
-int	execute_data(t_parser *parsed_data, char **env)
+int	execute_data(t_data *data)
 {
-	int	status;
-	int	std_fd[2];
-	int	dup_status;
+	int			status;
+	int			std_fd[2];
+	int			dup_status;
 
 	status = SUCCESS;
 	std_fd[0] = dup(STDIN_FILENO);
@@ -92,10 +92,10 @@ int	execute_data(t_parser *parsed_data, char **env)
 	dup_status = 0;
 	if (std_fd[0] < 0 || std_fd[1] < 0)
 		return (PANIC);
-	if (parsed_data->node)
-		status = execute_commands(parsed_data, env, std_fd);
-	if (parsed_data->node)
-		free_parsed_mem(parsed_data);
+	if (data->parsedata->node)
+		status = execute_commands(data, std_fd);
+	if (data->parsedata->node)
+		free_parsed_mem(data->parsedata);
 	dup_status += dup2(std_fd[0], STDIN_FILENO);
 	dup_status += dup2(std_fd[1], STDOUT_FILENO);
 	if (dup_status < 0)

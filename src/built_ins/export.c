@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 15:08:33 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/17 17:54:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,13 @@ void	export(t_data *data, char *cmd)
 	if (!key)
 		return (free_strarray(split_cmd));
 	val = extract_key_val(split_cmd);
+	free_strarray(split_cmd);
 	if (!val)
-		return (free(key), free_strarray(split_cmd));
+		return (free(key));
+	if (add_var(&data->env_vars, key, val))
+	{
+		ft_putendl_fd("Error: could not add variable to env.\n", 2);
+		free(key);
+		free(val);
+	}
 }

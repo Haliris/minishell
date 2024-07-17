@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:24:58 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:55:59 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,16 @@ int	redirect_parent(int p_fd[])
 	return (dup_status);
 }
 
-void	execute_child(char *cmd, char **env, t_parser *data)
+void	execute_child(char *cmd, t_data *data)
 {
 	if (is_builtin(cmd, 0))
-		execute_builtin(cmd, env, data, CHILD);
+		execute_builtin(cmd, data, CHILD);
 	else
-		execute_cmd(cmd, env, data);
+		execute_cmd(cmd, data->env, data->parsedata);
 	exit(EXIT_SUCCESS);
 }
 
-int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
+int	process_command(t_lex_parser *p, t_data *data, int std_fd[])
 {
 	int			pipe_fd[2];
 	int			has_pipe[2];
@@ -92,7 +92,7 @@ int	process_command(t_lex_parser *p, char **env, t_parser *d, int std_fd[])
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
 			handle_error("syscall error in exec child.\n", errno);
-		execute_child(cmd_table->cmd, env, d);
+		execute_child(cmd_table->cmd, data);
 	}
 	else
 	{

@@ -3,20 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 18:34:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 20:24:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_n_flag(char *str)
+void	expand_all_vars(t_data *data, char **cmd, size_t i)
 {
-	if (ft_strcmp(str, "-n") == 0)
-		return (TRUE);
-	return (FALSE);
+	while (cmd[i])
+	{
+		if (var_in_str(cmd[i]))
+			expand_string_var(data, &cmd[i]);
+		i++;
+	}
 }
 
 char	*build_echo_str(char **cmd)
@@ -48,22 +51,24 @@ char	*build_echo_str(char **cmd)
 	return (out_str);
 }
 
-void	call_echo(char **cmd)
+void	call_echo(t_data *data, char **cmd)
 {
 	char	*out_str;
-	int		index;
+	size_t	i;
 	bool	is_flagged;
 
+	if (!cmd || !*cmd)
+		return ;
 	out_str = NULL;
 	is_flagged = FALSE;
-	index = 1;
-	if (!cmd[1])
-		ft_printf("\n");
-	if (cmd[1])
-		is_flagged = check_n_flag(cmd[1]);
-	if (is_flagged == TRUE)
-		index++;
-	out_str = build_echo_str(&cmd[index]);
+	i = 1;
+	if (cmd[i] && ft_strcmp(cmd[i], "-n") == 0)
+	{
+		is_flagged = TRUE;
+		i++;
+	}
+	expand_all_vars(data, cmd, i);
+	out_str = build_echo_str(&cmd[i]);
 	if (out_str)
 		ft_printf("%s", out_str);
 	if (is_flagged == FALSE)

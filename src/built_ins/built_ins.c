@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:20:25 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 19:32:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,12 @@
 #define FD_STDIN 3
 #define FD_STDOUT 4
 
-void	call_builtin(char **command, char **env, int mode)
+void	call_builtin(char **command, t_data *data, int mode)
 {
-	(void)env;
 	if (ft_strcmp(command[0], "echo") == 0)
-		call_echo(command);
+		call_echo(data, command);
 	else if (ft_strcmp(command[0], "cd") == 0)
-		call_cd(command);
+		call_cd(data, command);
 	else if (ft_strcmp(command[0], "pwd") == 0)
 		call_pwd(command);
 	else if (ft_strcmp(command[0], "exit") == 0)
@@ -30,16 +29,16 @@ void	call_builtin(char **command, char **env, int mode)
 			close(FD_STDIN);
 			close(FD_STDOUT);
 		}
-		call_exit(command);
+		call_exit(data, command);
 	}
 }
 
-void	execute_builtin(char *cmd, char **env, t_parser *data, int mode)
+void	execute_builtin(char *cmd, t_data *data, int mode)
 {
 	char	**command;
 
 	command = ft_split(cmd, ' ');
-	free_parsed_mem(data);
+	free_parsed_mem(data->parsedata);
 	if (!command || !command[0])
 	{
 		if (command)
@@ -49,7 +48,7 @@ void	execute_builtin(char *cmd, char **env, t_parser *data, int mode)
 		else
 			return ;
 	}
-	call_builtin(command, env, mode);
+	call_builtin(command, data, mode);
 }
 
 #undef FD_STDIN
