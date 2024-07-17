@@ -57,14 +57,12 @@ void	unlink_heredocs(t_data *data)
 {
 	t_heredoc_data	*roaming;
 	t_heredoc_data	*temp;
-	int				index;
 	t_heredoc_data	*here_data;
 
 	here_data = data->heredata;
 	if (!here_data->heredoc)
 		return ;
 	roaming = here_data;
-	index = 0;
 	while (roaming)
 	{
 		temp = roaming;
@@ -73,9 +71,9 @@ void	unlink_heredocs(t_data *data)
 				ft_printf("Error deleting file '%s': %s\n",
 					temp->heredoc->path, strerror(errno));
 		free(temp->heredoc);
-		if (index > 0)
-			free(temp);
+		free(temp);
 		roaming = roaming->next;
 	}
 	here_data->heredoc = NULL;
+	data->heredata = NULL;
 }
