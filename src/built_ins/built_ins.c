@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:51:38 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:10:58 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 
 	command = ft_split(cmd, ' ');
 	free_parsed_mem(data->parsedata);
-	free(data->parsedata);
+	// free(data->parsedata);
 	data->parsedata = NULL;
 	if (!command || !command[0])
 	{
