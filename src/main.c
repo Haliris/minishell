@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:06:04 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:32:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 int	parse_data(t_data *data)
 {
+	if (!data->parsedata)
+	{
+		data->parsedata = ft_calloc(1, sizeof(t_parser));
+		if (!data->parsedata)
+			return (PANIC);
+	}
 	if (data->token)
 		if (interprete_lexer(data) == PANIC)
 			return (PANIC);

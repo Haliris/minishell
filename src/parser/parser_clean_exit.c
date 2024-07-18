@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_clean_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 23:27:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 13:44:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tables(t_lex_parser *r)
+void	free_tables(t_parser *r)
 {
 	t_cmd_table			*cmd_table;
 	t_redirect_table	*redir_table;
@@ -35,28 +35,27 @@ void	free_tables(t_lex_parser *r)
 		free(redir_table);
 		redir_table = NULL;
 	}
+	r->table = NULL;
 }
 
-void	free_parsed_mem(t_parser *data)
+void	free_parsed_mem(t_parser **data)
 {
-	t_lex_parser	*roaming;
-	t_lex_parser	*temp;
+	t_parser	*roaming;
+	t_parser	*temp;
 
-	if (!data->node)
+	if (!*data)
 		return ;
-	roaming = data->node;
-	while (roaming->prev)
+	roaming = *data;
+	while (roaming && roaming->prev)
 		roaming = roaming->prev;
 	while (roaming)
 	{
 		free_tables(roaming);
 		temp = roaming;
 		roaming = roaming->next;
-		temp->type = 0;
 		temp->next = NULL;
 		temp->prev = NULL;
 		free(temp);
 	}
-	data->node = NULL;
-	data = NULL;
+	*data = NULL;
 }

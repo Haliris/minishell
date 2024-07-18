@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 14:54:27 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:30:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 	char	**command;
 
 	command = ft_split(cmd, ' ');
-	free_parsed_mem(data->parsedata);
+	free_parsed_mem(&data->parsedata);
+	free(data->parsedata);
 	if (!command || !command[0])
 	{
 		if (command)

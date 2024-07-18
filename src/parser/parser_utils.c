@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:35:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:32:39 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
 
-void	panic(t_lex_parser *parsed)
+void	panic(t_parser *parsed)
 {
 	(void)parsed;
 	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
@@ -44,10 +44,10 @@ char	*build_cmd_buffer(char *cmd_buff, t_token *roaming)
 	return (cmd_buff);
 }
 
-int	parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type)
+int	parsed_add_back(t_parser *p, void *t, t_parsed_token type)
 {
-	t_lex_parser	*last;
-	t_lex_parser	*new_node;
+	t_parser	*last;
+	t_parser	*new_node;
 
 	if (p->type == TK_PARS_NULL)
 	{
@@ -55,7 +55,7 @@ int	parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type)
 		p->type = type;
 		return (SUCCESS);
 	}
-	new_node = ft_calloc(1, sizeof(t_lex_parser));
+	new_node = ft_calloc(1, sizeof(t_parser));
 	if (!new_node)
 		return (PANIC);
 	new_node->table = t;
