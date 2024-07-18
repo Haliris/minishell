@@ -42,11 +42,12 @@ static void	panic_free(char **env)
 	env = NULL;
 }
 
-static void	assemble_strings(char *env, t_varlist *roaming)
+static char	*assemble_strings(char *env, t_varlist *roaming)
 {
 	env = ft_strdup(roaming->key);
 	env = ft_str_rejoin(env, "=");
 	env = ft_str_rejoin(env, roaming->val);
+	return (env);
 }
 
 char	**build_env(t_varlist *vars)
@@ -64,7 +65,7 @@ char	**build_env(t_varlist *vars)
 		return (NULL);
 	while (roaming)
 	{
-		assemble_strings(env[i], roaming);
+		env[i] = assemble_strings(env[i], roaming);
 		if (!env[i])
 		{
 			panic_free(env);
