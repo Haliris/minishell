@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 19:36:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:59:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 typedef struct s_data		t_data;
 typedef struct s_token		t_token;
-typedef struct s_lex_parser	t_lex_parser;
+typedef struct s_parser		t_parser;
 typedef enum e_tokentype	t_tokentype;
 typedef enum e_parsed_token
 {
@@ -46,25 +46,19 @@ typedef struct s_redirect_table
 	t_redir_token	type;
 	int				heredoc;
 }	t_redirect_table;
-
-typedef struct s_lex_parser
+typedef struct s_parser
 {
 	void			*table;
 	t_parsed_token	type;
-	t_lex_parser	*next;
-	t_lex_parser	*prev;
-}	t_lex_parser;
-
-typedef struct s_parsed_data
-{
-	t_lex_parser	*node;
+	t_parser		*next;
+	t_parser		*prev;
 }	t_parser;
 
 int				interprete_lexer(t_data *data);
-int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
+int				build_redirect_table(t_parser *parsed, t_token *lexer);
 char			*build_cmd_buffer(char *cmd_buff, t_token *roaming);
-int				parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type);
+int				parsed_add_back(t_parser *p, void *t, t_parsed_token type);
 void			free_parsed_mem(t_parser *data);
-void			panic(t_lex_parser *parsed);
+void			panic(t_parser *parsed);
 
 #endif

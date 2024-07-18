@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 10:20:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:57:05 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ int	init(t_data *data, char **env)
 	data->parsedata = malloc(sizeof(t_parser));
 	if (!data->parsedata)
 		return (PANIC);
-	data->parsedata->node = NULL;
+	data->parsedata->table = NULL;
+	data->parsedata->next = NULL;
 	data->heredata = malloc(sizeof(t_heredoc_data));
 	if (!data->heredata)
 		return (PANIC);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 22:37:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	execute_cmd(char *cmd, t_data *data, t_parser	*parser)
 	handle_error(strerror(errno), errno);
 }
 
-int	open_pipes(t_lex_parser *parsed, int p_fd[], int has_pipe[])
+int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 {
 	check_pipes(parsed, has_pipe);
 	p_fd[0] = -1;
@@ -70,7 +70,7 @@ void	execute_child(char *cmd, t_data *data)
 	exit(EXIT_SUCCESS);
 }
 
-int	process_command(t_lex_parser *p, t_data *data, int std_fd[])
+int	process_command(t_parser *p, t_data *data, int std_fd[])
 {
 	int			pipe_fd[2];
 	int			has_pipe[2];

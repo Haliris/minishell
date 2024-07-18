@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:24:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ void	trash(char **array)
 	free(array);
 }
 
-void	check_pipes(t_lex_parser *table, int pipe_status[])
+void	check_pipes(t_parser *table, int pipe_status[])
 {
-	t_lex_parser	*roaming;
+	t_parser	*roaming;
 
 	roaming = table;
 	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
@@ -49,7 +49,7 @@ void	check_pipes(t_lex_parser *table, int pipe_status[])
 		pipe_status[1] = TRUE;
 }
 
-int	get_redirections(t_lex_parser *roaming, char *redirection[])
+int	get_redirections(t_parser *roaming, char *redirection[])
 {
 	char				*outfile;
 	char				*infile;

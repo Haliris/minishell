@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parser_clean_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 23:27:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 12:58:26 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tables(t_lex_parser *r)
+void	free_tables(t_parser *r)
 {
 	t_cmd_table			*cmd_table;
 	t_redirect_table	*redir_table;
@@ -39,12 +39,12 @@ void	free_tables(t_lex_parser *r)
 
 void	free_parsed_mem(t_parser *data)
 {
-	t_lex_parser	*roaming;
-	t_lex_parser	*temp;
+	t_parser	*roaming;
+	t_parser	*temp;
 
-	if (!data->node)
+	if (!data->table)
 		return ;
-	roaming = data->node;
+	roaming = data;
 	while (roaming->prev)
 		roaming = roaming->prev;
 	while (roaming)
@@ -57,6 +57,6 @@ void	free_parsed_mem(t_parser *data)
 		temp->prev = NULL;
 		free(temp);
 	}
-	data->node = NULL;
+	data->table = NULL;
 	data = NULL;
 }

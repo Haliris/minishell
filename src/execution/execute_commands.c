@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:45:01 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:57:55 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ void	wait_for_children(int index)
 
 int	count_commands(t_parser *data)
 {
-	t_lex_parser	*roaming;
+	t_parser	*roaming;
 	int				cmd_count;
 
-	roaming = data->node;
+	roaming = data;
 	cmd_count = 0;
 	while (roaming)
 	{
@@ -57,12 +57,12 @@ int	execute_commands(t_data *data, int std_fds[])
 {
 	int				cmd_count;
 	int				index;
-	t_lex_parser	*roaming;
+	t_parser	*roaming;
 	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data->parsedata);
 	index = cmd_count;
-	roaming = data->parsedata->node;
+	roaming = data->parsedata;
 	while (roaming && index)
 	{
 		if (roaming->type == TK_PARS_CMD)
@@ -93,7 +93,7 @@ int	execute_data(t_data *data)
 	dup_status = 0;
 	if (std_fd[0] < 0 || std_fd[1] < 0)
 		return (PANIC);
-	if (data->parsedata->node)
+	if (data->parsedata->table)
 		status = execute_commands(data, std_fd);
 	if (data->parsedata)
 		free_parsed_mem(data->parsedata);

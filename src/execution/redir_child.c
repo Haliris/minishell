@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 13:08:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,12 @@ int	open_files(char *redir[], int file_fd[], int *append)
 	return (SUCCESS);
 }
 
-int	process_files(t_lex_parser *table)
+int	process_files(t_parser *table)
 {
 	char			*redir[2];
 	int				f_fd[2];
 	int				append;
-	t_lex_parser	*roaming;
+	t_parser	*roaming;
 
 	f_fd[0] = 0;
 	f_fd[1] = 0;
@@ -94,7 +94,7 @@ int	redirect_pipe(int p_fd[], int has_pipe[])
 	return (dup_status);
 }
 
-int	redir_child(t_lex_parser *p, int p_fd[], int has_pipe[], int std_fds[])
+int	redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fds[])
 {
 	close(std_fds[0]);
 	close(std_fds[1]);

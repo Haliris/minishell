@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 22:36:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ void	handle_error(char *message, int code);
 void	execute_cmd(char *cmd, t_data *data, t_parser *parser);
 char	**build_env(t_varlist *vars);
 
-int		process_files(t_lex_parser *table);
-int		get_redirections(t_lex_parser *roaming, char *redirection[]);
-void	check_pipes(t_lex_parser *table, int pipe_status[]);
+int		process_files(t_parser *table);
+int		get_redirections(t_parser *roaming, char *redirection[]);
+void	check_pipes(t_parser *table, int pipe_status[]);
 
 int		execute_data(t_data *data);
 int		execute_commands(t_data *data, int std_fds[]);
-int		process_command(t_lex_parser *p, t_data *data, int std_fd[]);
-int		redir_child(t_lex_parser *p, int p_fd[], int has_pipe[], int std_fd[]);
+int		process_command(t_parser *p, t_data *data, int std_fd[]);
+int		redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fd[]);
 
 #endif
