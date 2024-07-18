@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:25:18 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/17 18:55:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@
 # define EXIT_FAILURE 1
 # define CHILD 0
 # define PARENT 1
+# define BUILT_IN 2
 
 void	trash(char **array);
 void	handle_error(char *message, int code);
 void	execute_cmd(char *cmd, char **env, t_parser *data);
+int		count_commands(t_parser *data);
 
 int		process_files(t_lex_parser *table);
 int		get_redirections(t_lex_parser *roaming, char *redirection[]);
