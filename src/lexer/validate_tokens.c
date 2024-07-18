@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:24:19 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 17:06:39 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,27 +44,6 @@ static bool	is_orphaned_op(t_token *token)
 	return (false);
 }
 
-/* "cd with only a relative or absolute path" */
-static bool	is_invalid_cd(t_token *token)
-{
-	t_token	*next;
-
-	while (token)
-	{
-		if (token->type == TK_BUILTIN
-			&& ft_strncmp(token->lexstr, "cd", 2) == 0)
-		{
-			next = token->next;
-			if (!next || !next->lexstr)
-				return (true);
-			if (next->lexstr[0] == '-')
-				return (true);
-		}
-		token = token->next;
-	}
-	return (false);
-}
-
 static int	detect_executables(t_token *token)
 {
 	t_token	*curr_tk;
@@ -89,6 +68,5 @@ bool	invalid_tokens(t_token *token)
 {
 	return (detect_executables(token)
 		|| invalid_tk_exists(token)
-		|| is_orphaned_op(token)
-		|| is_invalid_cd(token));
+		|| is_orphaned_op(token));
 }
