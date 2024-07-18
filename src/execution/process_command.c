@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:30:24 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:18:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	execute_cmd(char *cmd, t_data *data, t_parser	*parser)
 	{
 		if (command)
 			trash(command);
-		handle_error("Command split error", EXIT_FAILURE);
+		handle_error("127: command not found", PATH_ERROR);
 	}
 	env = build_env(data->env_vars);
 	if (access(command[0], F_OK | X_OK) == 0)

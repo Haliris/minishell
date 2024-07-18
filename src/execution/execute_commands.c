@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 15:31:22 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:16:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_for_children(int index)
+void	wait_for_children(int index, t_data *data)
 {
 	int	status;
 	int	error_code;
@@ -22,17 +22,10 @@ void	wait_for_children(int index)
 	while (index > 0)
 	{
 		wait(&status);
-		if (WEXITSTATUS(status) != 0)
-		{
-			error_code = WEXITSTATUS(status);
-			ft_putstr_fd("Child exited early with error code: ", STDERR_FILENO);
-			ft_putnbr_fd(error_code, STDERR_FILENO);
-			ft_putchar_fd('\n', STDERR_FILENO);
-			ft_putstr_fd(strerror(error_code), STDERR_FILENO);
-			ft_putchar_fd('\n', STDERR_FILENO);
-		}
+		error_code = WEXITSTATUS(status);
 		index--;
 	}
+	data->errcode = error_code;
 }
 
 int	count_commands(t_parser *data)
@@ -77,7 +70,7 @@ int	execute_commands(t_data *data, int std_fds[])
 		if (data->parsedata)
 			roaming = roaming->next;
 	}
-	wait_for_children(cmd_count);
+	wait_for_children(cmd_count, data);
 	return (EXIT_SUCCESS);
 }
 
