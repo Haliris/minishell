@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:30:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	execute_cmd(char *cmd, t_data *data, t_parser	*parser)
 	char	**env;
 
 	command = ft_split(cmd, ' ');
-	free_parsed_mem(parser);
+	free_parsed_mem(&parser);
 	if (!command || !command[0])
 	{
 		if (command)

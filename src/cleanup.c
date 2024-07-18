@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:11:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:29:50 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,10 +83,9 @@ int	clean_exit(t_data *data, int exit_code)
 	rl_clear_history();
 	free_env(data);
 	if (data->parsedata)
-		free_parsed_mem(data->parsedata);
+		free_parsed_mem(&data->parsedata);
 	if (data->heredata)
 		unlink_heredocs(data);
-	// free(data->parsedata);
 	free(data->heredata);
 	return (exit_code);
 }

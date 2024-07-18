@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:00:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:01:38 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,11 @@ void	parse_operators(t_parser *parsed, t_token *tokens)
 
 int	interprete_lexer(t_data *data)
 {
-	t_parser	*parsed;
+	t_parser		*parsed;
 	t_token			*tokens_list;
 
+	parsed = data->parsedata;
 	tokens_list = data->token;
-	parsed = ft_calloc(1, sizeof(t_parser));
-	if (!parsed)
-		return (PANIC);
-	parsed->type = TK_PARS_NULL;
 	parse_operators(parsed, tokens_list);
 	data->parsedata = parsed;
 	return (SUCCESS);

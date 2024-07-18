@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:04:24 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:44:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,27 +35,27 @@ void	free_tables(t_parser *r)
 		free(redir_table);
 		redir_table = NULL;
 	}
+	r->table = NULL;
 }
 
-void	free_parsed_mem(t_parser *data)
+void	free_parsed_mem(t_parser **data)
 {
 	t_parser	*roaming;
 	t_parser	*temp;
 
-	if (!data)
+	if (!*data)
 		return ;
-	roaming = data;
-	while (roaming->prev)
+	roaming = *data;
+	while (roaming && roaming->prev)
 		roaming = roaming->prev;
 	while (roaming)
 	{
 		free_tables(roaming);
 		temp = roaming;
 		roaming = roaming->next;
-		temp->type = 0;
 		temp->next = NULL;
 		temp->prev = NULL;
 		free(temp);
 	}
-	data = NULL;
+	*data = NULL;
 }

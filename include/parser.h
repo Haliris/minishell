@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:59:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:30:56 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				interprete_lexer(t_data *data);
 int				build_redirect_table(t_parser *parsed, t_token *lexer);
 char			*build_cmd_buffer(char *cmd_buff, t_token *roaming);
 int				parsed_add_back(t_parser *p, void *t, t_parsed_token type);
-void			free_parsed_mem(t_parser *data);
+void			free_parsed_mem(t_parser **data);
 void			panic(t_parser *parsed);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:57:55 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:30:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	execute_data(t_data *data)
 	if (data->parsedata->table)
 		status = execute_commands(data, std_fd);
 	if (data->parsedata)
-		free_parsed_mem(data->parsedata);
+		free_parsed_mem(&data->parsedata);
 	dup_status += dup2(std_fd[0], STDIN_FILENO);
 	dup_status += dup2(std_fd[1], STDOUT_FILENO);
 	if (dup_status < 0)
