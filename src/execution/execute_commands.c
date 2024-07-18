@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:30:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:36:50 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	wait_for_children(int index)
 int	count_commands(t_parser *data)
 {
 	t_parser	*roaming;
-	int				cmd_count;
+	int			cmd_count;
 
 	roaming = data;
 	cmd_count = 0;
@@ -57,7 +57,7 @@ int	execute_commands(t_data *data, int std_fds[])
 {
 	int				cmd_count;
 	int				index;
-	t_parser	*roaming;
+	t_parser		*roaming;
 	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data->parsedata);

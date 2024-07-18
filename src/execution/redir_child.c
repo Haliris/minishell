@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 12:55:40 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:36:29 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	process_files(t_parser *table)
 	char			*redir[2];
 	int				f_fd[2];
 	int				append;
-	t_parser	*roaming;
+	t_parser		*roaming;
 
 	f_fd[0] = 0;
 	f_fd[1] = 0;

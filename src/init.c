@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:13:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:37:07 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	init(t_data *data, char **env)
 		return (PANIC);
 	data->parsedata->table = NULL;
 	data->parsedata->next = NULL;
-	data->heredata = ft_calloc(1 ,sizeof(t_heredoc_data));
+	data->heredata = ft_calloc(1, sizeof(t_heredoc_data));
 	if (!data->heredata)
 		return (PANIC);
 	data->heredata->heredoc = NULL;
