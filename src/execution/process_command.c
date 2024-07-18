@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 16:42:44 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:55:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	if (pid_child == 0)
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
-			handle_error("syscall error in exec child.\n", errno, data);
+			handle_error("Syscall error in exec child.\n", errno, data);
 		execute_child(cmd_table->cmd, data);
 	}
 	else
