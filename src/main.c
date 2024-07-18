@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:00:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 14:08:09 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 int	parse_data(t_data *data)
 {
+	if (!data->parsedata)
+	{
+		data->parsedata = ft_calloc(1, sizeof(t_parser));
+		if (!data->parsedata)
+			return (PANIC);
+	}
 	if (data->token)
 		if (interprete_lexer(data) == PANIC)
 			return (PANIC);
