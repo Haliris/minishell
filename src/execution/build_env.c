@@ -47,7 +47,6 @@ static char	*assemble_strings(char *env, t_varlist *roaming)
 	env = ft_strdup(roaming->key);
 	env = ft_str_rejoin(env, "=");
 	env = ft_str_rejoin(env, roaming->val);
-
 	return (env);
 }
 
