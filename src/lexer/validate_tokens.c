@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:55:33 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:24:19 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,21 +65,30 @@ static bool	is_invalid_cd(t_token *token)
 	return (false);
 }
 
-static void	expand_str_tks(t_data *data, t_token *token)
+static int	detect_executables(t_token *token)
 {
-	while (token)
+	t_token	*curr_tk;
+
+	curr_tk = token;
+	while (curr_tk)
 	{
-		if (token->type == TK_STRING && var_in_str(token->lexstr))
-			expand_string_var(data, &token->lexstr);
-		token = token->next;
+		if (curr_tk->type == TK_STRING && is_executable(curr_tk->lexstr, 0))
+		{
+			curr_tk->path = get_exec_path(curr_tk->lexstr, 0);
+			if (!curr_tk->path)
+				return (PANIC);
+			curr_tk->type = TK_EXECUTABLE;
+		}
+		curr_tk = curr_tk->next;
 	}
+	return (0);
 }
 
 /* bultins with invalid flags */
-bool	invalid_tokens(t_data *data, t_token *token)
+bool	invalid_tokens(t_token *token)
 {
-	expand_str_tks(data, token);
-	return (invalid_tk_exists(token)
+	return (detect_executables(token)
+		|| invalid_tk_exists(token)
 		|| is_orphaned_op(token)
 		|| is_invalid_cd(token));
 }

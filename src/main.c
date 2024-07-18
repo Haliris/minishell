@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:08:09 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:32:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@ int	tokenize_data(t_data *data)
 {
 	if (valid_input(data->input))
 	{
-		if (lexer(data))
+		if (lexer(data) || invalid_tokens(data->token))
 		{
-			if (invalid_tokens(data, data->token))
-			{
-				ft_printf("Error: Invalid token found\n");
-				return (PANIC);
-			}
+			ft_printf("Error: Invalid token\n");
+			return (PANIC);
 		}
 	}
 	return (SUCCESS);

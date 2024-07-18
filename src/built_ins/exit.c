@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 20:15:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:51:56 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	call_exit(t_data *data, char **cmd)
 	if (is_not_number(cmd[1]) == TRUE)
 		exit_error(cmd);
 	exit_code = ft_atoi(cmd[1]);
-	trash(cmd);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	trash(cmd);
 	exit(exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 10:21:00 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:37:43 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,4 @@ void	call_cd(t_data *data, char **cmd)
 		expand_string_var(data, &p);
 	if (chdir(p) != 0)
 		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
-	if (cmd)
-		trash(cmd);
 }

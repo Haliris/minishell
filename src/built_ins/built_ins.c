@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 13:57:32 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 15:30:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 			return ;
 	}
 	call_builtin(command, data, mode);
+	if (command)
+		trash(command);
 }
 
 #undef FD_STDIN
