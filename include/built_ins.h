@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:58:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 13:51:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 10:26:37 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 # define BUILT_INS_H
 # include "minishell.h"
 
-void	execute_builtin(char *cmd, char **env, t_parser *data, int mode);
+void	execute_builtin(char *cmd, t_data *data, int mode);
 
-void	call_echo(char **cmd);
-void	call_cd(char **cmd);
-void	call_exit(char **cmd);
+void	call_echo(t_data *data, char **cmd);
+void	call_cd(t_data *data, char **cmd);
+void	call_exit(t_data *data, char **cmd);
 void	call_pwd(char **cmd);
+void	call_export(t_data *data, char **cmd);
+void	call_env(t_data *data);
+void	call_unset(t_data *data, char **cmd);
 
 #endif

@@ -15,6 +15,7 @@ CFILES	= main.c \
 		  build_redirect_table.c \
 		  execute_commands.c \
 		  execution_utils.c \
+		  build_env.c \
 		  process_command.c \
 		  redir_child.c \
 		  parse_here_doc.c \
@@ -38,6 +39,8 @@ CFILES	= main.c \
 		  pwd.c \
 		  exit.c \
 		  export.c \
+		  env.c \
+		  unset.c \
 		  varlist_add.c \
 		  varlist_del.c \
 		  varlist_utils.c

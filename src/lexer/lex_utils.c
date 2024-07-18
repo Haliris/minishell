@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/16 11:54:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:57:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_substr(char *input, size_t start_idx)
 	size_t	i;
 
 	i = start_idx;
-	while (input[i] && !is_space(input[i]) && !in(input[i], "()|<>="))
+	while (input[i] && !is_space(input[i]) && !in(input[i], "()|<>=\"\'"))
 		i++;
 	substr = ft_substr(input, start_idx, i - start_idx);
 	if (!substr)
@@ -50,9 +50,9 @@ bool	var_in_str(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i] != '$')
+	while (str[i] && str[i + 1])
 	{
-		if (str[i] == '$' && str[i + 1] && !is_space(str[i + 1]))
+		if (str[i] == '$' && str[i + 1] && !in(str[i + 1], "$=()\"\' \t\n\v\f\r"))
 			return (true);
 		i++;
 	}

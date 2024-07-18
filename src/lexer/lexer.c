@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/16 13:02:37 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:12:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,14 @@ static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 	}
 }
 
-static t_token	*build_tokenlist2(t_data *data, size_t input_len, size_t *i)
+static t_token	*build_tokenlist2(t_data *data, size_t *i)
 {
 	t_token	*curr_tk;
 
 	curr_tk = NULL;
-	skip_invalid_chars(data, input_len, i);
-	if (is_builtin(data->input, *i))
+	if (data->input[*i] == '-' && !is_space(data->input[*i]))
+		curr_tk = get_flag_tk(data, data->input, *i);
+	else if (is_builtin(data->input, *i))
 		curr_tk = get_token(data, get_substr(data->input, *i),
 				NULL, TK_BUILTIN);
 	else if (data->input[*i] == '=')
@@ -65,20 +66,19 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 	while (i < input_len)
 	{
 		skip_invalid_chars(data, input_len, &i);
+		if (i >= input_len)
+			break ;
 		if (data->input[i] == '\"' || data->input[i] == '\'')
-			curr_tk = get_string_tk(data, data->input, i);
+			curr_tk = get_string_tk(data, data->input, &i);
 		else if (data->input[i] == '|')
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);
 		else if (in(data->input[i], "<>"))
 			curr_tk = get_redir_tk(data, data->input, i);
-		else if (data->input[i] == '-' && !is_space(data->input[i]))
-			curr_tk = get_flag_tk(data, data->input, i);
 		else
-			curr_tk = build_tokenlist2(data, input_len, &i);
+			curr_tk = build_tokenlist2(data, &i);
 		if (!curr_tk || !curr_tk->lexstr)
 			return (1);
 		i += ft_strlen(curr_tk->lexstr);
-		print_token(curr_tk);
 		lex_add_token(data, curr_tk);
 	}
 	return (0);

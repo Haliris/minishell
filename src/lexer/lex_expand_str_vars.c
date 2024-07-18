@@ -6,22 +6,22 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 16:27:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:33:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static char	*extract_key_from_str(char *str, size_t *start)
+static char	*extract_key_from_str(char *str, size_t start)
 {
 	size_t	end;
 
-	end = *start + 1;
-	while (str[end] && !is_space(str[end]) && str[end] != '$')
+	end = start + 1;
+	while (str[end] && !in(str[end], "$\"\' \t\r\v\n\f"))
 		end++;
-	if (end == *start + 1)
+	if (end == start + 1)
 		return (NULL);
-	return (ft_substr(str, *start + 1, end - *start - 1));
+	return (ft_substr(str, start + 1, end - start - 1));
 }
 
 void	replace_str(char **old, char *new)
@@ -33,32 +33,41 @@ void	replace_str(char **old, char *new)
 	return ;
 }
 
+static void	null_val_replace(char **str, char *val, char *key)
+{
+	if (!val && ft_strlen(*str) == (ft_strlen(key) + 1))
+	{
+		*str = NULL;
+	}
+}
+
 static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 {
-	size_t	i;
 	char	*pre_str;
 	char	*post_str;
 	char	*temp;
 	char	*new_str;
 
-	pre_str = ft_substr(*str, 0, key_idx);
-	if (!pre_str)
-		return ;
-	if (!val)
-		val = "";
+	pre_str = NULL;
+	if (key_idx != 0)
+	{
+		pre_str = ft_substr(*str, 0, key_idx);
+		if (!pre_str)
+			return ;
+	}
 	temp = ft_strjoin(pre_str, val);
-	free(pre_str);
 	if (!temp)
 		return ;
-	i = key_idx + ft_strlen(key) + 1;
-	post_str = ft_substr(*str, i, ft_strlen(*str) - i);
+	if (ft_strlen(*str) == key_idx + ft_strlen(key) + 1)
+		return (replace_str(str, temp), free(pre_str));
+	post_str = ft_substr(*str, key_idx + ft_strlen(key) + 1,
+			ft_strlen(*str) - key_idx + ft_strlen(key) + 1);
 	if (!post_str)
-		return (free(temp));
+		return (free(temp), free(pre_str));
 	new_str = ft_strjoin(temp, post_str);
-	free(temp);
-	free(post_str);
 	if (new_str)
 		replace_str(str, new_str);
+	return (free(temp), free(post_str), free(pre_str));
 }
 
 /* e.g., "hello $world" world=mark, "hello mark"*/
@@ -67,24 +76,22 @@ void	expand_string_var(t_data *data, char **str)
 	char	*val;
 	char	*key;
 	size_t	i;
-	size_t	key_start;
 
-	if (!str || !*str || !data)
-		return ;
 	i = 0;
-	while ((*str)[i])
+	while ((*str) && (*str)[i])
 	{
-		if ((*str)[i] == '$' && (*str)[i + 1] &&
-			(!in((*str)[i + 1], "$() \n\t\v\f\r")))
+		if ((*str)[i] && (*str)[i] == '$' &&
+			!in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
 		{
-			key_start = i;
-			key = extract_key_from_str(*str, &i);
+			key = extract_key_from_str(*str, i);
 			if (!key)
 				continue ;
 			val = get_varval(data->env_vars, key);
-			impute_var_val(str, val, key, key_start);
+			null_val_replace(str, val, key);
+			impute_var_val(str, val, key, i);
 			free(key);
-			i = key_start;
+			if (val)
+				free(val);
 		}
 		else
 			i++;

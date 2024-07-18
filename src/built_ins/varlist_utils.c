@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   varlist_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:01:52 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 16:59:54 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 11:41:23 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,9 @@ t_varlist	*get_varlist(char *key, char *val)
 
 char	*get_varval(t_varlist *vlist, char *key)
 {
-	char	*value;
-
 	while (vlist && ft_strcmp(key, vlist->key) != 0)
 		vlist = vlist->next;
 	if (!vlist)
 		return (NULL);
-	value = ft_strdup(vlist->val);
-	if (!value)
-		return (NULL);
-	return (value);
+	return (ft_strdup(vlist->val));
 }

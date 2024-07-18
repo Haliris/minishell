@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 23:08:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/17 19:36:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # define SUCCESS 1
 # define PANIC 0
 
+typedef struct s_data		t_data;
 typedef struct s_token		t_token;
 typedef struct s_lex_parser	t_lex_parser;
 typedef enum e_tokentype	t_tokentype;
@@ -59,12 +60,9 @@ typedef struct s_parsed_data
 	t_lex_parser	*node;
 }	t_parser;
 
-int				interprete_lexer(t_parser *data, t_token *tokens_list);
+int				interprete_lexer(t_data *data);
 int				build_redirect_table(t_lex_parser *parsed, t_token *lexer);
 char			*build_cmd_buffer(char *cmd_buff, t_token *roaming);
-
-bool			check_invalid_token(t_token *tokens);
-
 int				parsed_add_back(t_lex_parser *p, void *t, t_parsed_token type);
 void			free_parsed_mem(t_parser *data);
 void			panic(t_lex_parser *parsed);

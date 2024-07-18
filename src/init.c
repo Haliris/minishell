@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 14:56:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:20:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,19 @@ static int	init_env(t_data *data, char **env)
 	return (0);
 }
 
-int	init(t_data *data, char **env, t_parser *parser, t_heredoc_data *heredata)
+int	init(t_data *data, char **env)
 {
 	handle_signals();
 	data->token = NULL;
 	data->env_vars = NULL;
-	parser->node = NULL;
-	heredata->heredoc = NULL;
-	heredata->next = NULL;
+	data->parsedata = malloc(sizeof(t_parser));
+	if (!data->parsedata)
+		return (PANIC);
+	data->parsedata->node = NULL;
+	data->heredata = malloc(sizeof(t_heredoc_data));
+	if (!data->heredata)
+		return (PANIC);
+	data->heredata->heredoc = NULL;
+	data->heredata->next = NULL;
 	return (init_env(data, env));
 }

@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 17:36:02 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 11:02:42 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/18 10:23:03 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/18 10:26:00 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "built_ins.h"
 
-size_t	ft_strlen(const char *str)
+void	call_unset(t_data *data, char **cmd)
 {
-	int	i;
+	char	*key;
 
-	i = 0;
-	while (str && str[i])
-		i++;
-	return (i);
+	if (!cmd[1])
+		return ;
+	key = cmd[1];
+	del_varlist_key(data->env_vars, key);
 }
