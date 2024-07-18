@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 11:26:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:54:27 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 			return ;
 	}
 	call_builtin(command, data, mode);
+	if (command)
+		trash(command);
 }
 
 #undef FD_STDIN

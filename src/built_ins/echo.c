@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:54:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:49:45 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,4 @@ void	call_echo(t_data *data, char **cmd)
 		ft_printf("\n");
 	if (out_str)
 		free(out_str);
-	trash(cmd);
 }
