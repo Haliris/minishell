@@ -6,31 +6,30 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 16:18:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:42:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_cmd(char *cmd, t_data *data, t_parser	*parser)
+void	execute_cmd(char *cmd, t_data *data)
 {
 	char	**command;
 	char	**env;
 
 	command = ft_split(cmd, ' ');
-	free_parsed_mem(&parser);
 	if (!command || !command[0])
 	{
 		if (command)
 			trash(command);
-		handle_error("127: command not found", PATH_ERROR);
+		handle_error("127: command not found", PATH_ERROR, data);
 	}
 	env = build_env(data->env_vars);
 	if (access(command[0], F_OK | X_OK) == 0)
 		execve(command[0], command, env);
 	trash(command);
 	trash(env);
-	handle_error(strerror(errno), errno);
+	handle_error(strerror(errno), errno, data);
 }
 
 int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
@@ -66,7 +65,7 @@ void	execute_child(char *cmd, t_data *data)
 	if (is_builtin(cmd, 0))
 		execute_builtin(cmd, data, CHILD);
 	else
-		execute_cmd(cmd, data, data->parsedata);
+		execute_cmd(cmd, data);
 	exit(EXIT_SUCCESS);
 }
 
@@ -88,7 +87,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	if (pid_child == 0)
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
-			handle_error("syscall error in exec child.\n", errno);
+			handle_error("syscall error in exec child.\n", errno, data);
 		execute_child(cmd_table->cmd, data);
 	}
 	else
