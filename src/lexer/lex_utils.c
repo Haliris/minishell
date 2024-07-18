@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/18 15:41:27 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:53:43 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,9 @@ int	count_str_vars(char *str)
 		i++;
 	}
 	return (count);
+}
+
+bool	is_delim(char c)
+{
+	return (in(c, "$ \t\n\v\f\r=()<>|"));
 }

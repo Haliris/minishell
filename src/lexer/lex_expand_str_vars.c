@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 15:39:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:54:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,10 @@ void	expand_string_var(t_data *data, char **str)
 	int		var_count;
 
 	i = 0;
+	var_count = count_str_vars(*str);
 	while ((*str) && (*str)[i] && var_count)
 	{
-		if ((*str)[i] && (*str)[i] == '$' &&
-			!in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
+		if ((*str)[i] && (*str)[i] == '$' && is_delim((*str)[i]) && var_count--)
 		{
 			key = extract_key_from_str(*str, i);
 			if (!key)
@@ -91,9 +91,9 @@ void	expand_string_var(t_data *data, char **str)
 			null_val_replace(str, val, key);
 			impute_var_val(str, val, key, i);
 			free(key);
+			i += ft_strlen(val);
 			if (val)
 				free(val);
-			var_count--;
 		}
 		else
 			i++;

@@ -3,23 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:42:40 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:17:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:56:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #define POSIX_MAX_PATH 4096
 
-void	call_pwd(char **cmd)
+void	call_pwd(void)
 {
 	char	*cwd;
 	char	*status;
 
 	cwd = NULL;
-	trash(cmd);
 	cwd = ft_calloc(POSIX_MAX_PATH, sizeof(char));
 	if (!cwd)
 	{
