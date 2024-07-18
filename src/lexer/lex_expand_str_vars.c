@@ -6,22 +6,22 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:13:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:33:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static char	*extract_key_from_str(char *str, size_t *start)
+static char	*extract_key_from_str(char *str, size_t start)
 {
 	size_t	end;
 
-	end = *start + 1;
+	end = start + 1;
 	while (str[end] && !in(str[end], "$\"\' \t\r\v\n\f"))
 		end++;
-	if (end == *start + 1)
+	if (end == start + 1)
 		return (NULL);
-	return (ft_substr(str, *start + 1, end - *start - 1));
+	return (ft_substr(str, start + 1, end - start - 1));
 }
 
 void	replace_str(char **old, char *new)
@@ -31,6 +31,14 @@ void	replace_str(char **old, char *new)
 	free(*old);
 	*old = new;
 	return ;
+}
+
+static void	null_val_replace(char **str, char *val, char *key)
+{
+	if (!val && ft_strlen(*str) == (ft_strlen(key) + 1))
+	{
+		*str = NULL;
+	}
 }
 
 static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
@@ -68,23 +76,22 @@ void	expand_string_var(t_data *data, char **str)
 	char	*val;
 	char	*key;
 	size_t	i;
-	size_t	key_start;
 
 	i = 0;
-	while ((*str)[i])
+	while ((*str) && (*str)[i])
 	{
 		if ((*str)[i] && (*str)[i] == '$' &&
 			!in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
 		{
-			key_start = i;
-			key = extract_key_from_str(*str, &i);
+			key = extract_key_from_str(*str, i);
 			if (!key)
 				continue ;
 			val = get_varval(data->env_vars, key);
-			impute_var_val(str, val, key, key_start);
+			null_val_replace(str, val, key);
+			impute_var_val(str, val, key, i);
 			free(key);
-			free(val);
-			i = key_start;
+			if (val)
+				free(val);
 		}
 		else
 			i++;
