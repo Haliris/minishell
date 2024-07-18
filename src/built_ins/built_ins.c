@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 15:30:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:53:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 		if (command)
 			trash(command);
 		if (mode == CHILD)
-			handle_error("Command split error", EXIT_FAILURE);
+			handle_error("Built_in split error", EXIT_FAILURE, data);
 		else
 			return ;
 	}
