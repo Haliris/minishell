@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:47:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:13:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 	pre_str = NULL;
 	if (key_idx != 0)
 	{
-		pre_str = ft_substr(*str, 0, key_idx - 1);
+		pre_str = ft_substr(*str, 0, key_idx);
 		if (!pre_str)
 			return ;
 	}

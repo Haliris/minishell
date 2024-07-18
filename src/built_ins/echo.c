@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 10:43:19 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:54:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	expand_all_vars(t_data *data, char **cmd, size_t i)
 {
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '$' && cmd[i][1] && !in(cmd[i][1], "$ \t\n\v\f\r=()<>|"))
+		if (var_in_str(cmd[i]))
 			expand_string_var(data, &cmd[i]);
 		i++;
 	}

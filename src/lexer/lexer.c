@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/18 13:30:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:12:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 
 	curr_tk = NULL;
 	if (data->input[*i] == '-' && !is_space(data->input[*i]))
-			curr_tk = get_flag_tk(data, data->input, *i);
+		curr_tk = get_flag_tk(data, data->input, *i);
 	else if (is_builtin(data->input, *i))
 		curr_tk = get_token(data, get_substr(data->input, *i),
 				NULL, TK_BUILTIN);
