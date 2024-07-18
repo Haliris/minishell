@@ -6,43 +6,39 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 11:09:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:52:01 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static char	*extract_key_from_str(char *str, size_t start)
+static char	*extract_key_from_str(char *str, size_t *start)
 {
 	size_t	end;
 
-	start += 1;
-	end = start;
+	end = *start + 1;
 	while (str[end] && !in(str[end], "$\"\' \t\r\v\n\f"))
 		end++;
-	if (end == start)
+	if (end == *start + 1)
 		return (NULL);
-	return (ft_substr(str, start, end - start));
+	return (ft_substr(str, *start + 1, end - *start - 1));
 }
 
 void	replace_str(char **old, char *new)
 {
-	char	*temp;
-
 	if (!old || !*old)
 		return ;
-	temp = *old;
+	free(*old);
 	*old = new;
-	free(temp);
 	return ;
 }
 
 static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 {
-	size_t	i;
 	char	*pre_str;
 	char	*post_str;
 	char	*temp;
+	char	*new_str;
 
 	pre_str = NULL;
 	if (key_idx != 0)
@@ -54,16 +50,16 @@ static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 	temp = ft_strjoin(pre_str, val);
 	if (!temp)
 		return ;
-	i = key_idx + ft_strlen(key);
-	while ((*str)[i])
-		i++;
-	if (i == key_idx + ft_strlen(key))
-		return (free(pre_str), replace_str(str, temp));
-	post_str = ft_substr(*str, i, ft_strlen(*str) - i);
+	if (ft_strlen(*str) == key_idx + ft_strlen(key))
+		return (replace_str(str, temp), free(pre_str));
+	post_str = ft_substr(*str, key_idx + ft_strlen(key),
+			ft_strlen(*str) - key_idx + ft_strlen(key));
 	if (!post_str)
-		return (free(pre_str), free(temp));
-	return (replace_str(str, ft_strjoin(temp, post_str)),
-		free(pre_str), free(temp), free(post_str));
+		return (free(temp), free(pre_str));
+	new_str = ft_strjoin(temp, post_str);
+	if (new_str)
+		replace_str(str, new_str);
+	return (free(temp), free(post_str), free(pre_str));
 }
 
 /* e.g., "hello $world" world=mark, "hello mark"*/
@@ -72,21 +68,25 @@ void	expand_string_var(t_data *data, char **str)
 	char	*val;
 	char	*key;
 	size_t	i;
+	size_t	key_start;
 
-	if (!*str || !data)
-		return ;
 	i = 0;
 	while ((*str)[i])
 	{
-		if ((*str)[i] == '$' && !in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
+		if ((*str)[i] && (*str)[i] == '$' &&
+			!in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
 		{
-			key = extract_key_from_str(*str, i);
+			key_start = i;
+			key = extract_key_from_str(*str, &i);
 			if (!key)
 				continue ;
 			val = get_varval(data->env_vars, key);
-			impute_var_val(str, val, key, i);
+			impute_var_val(str, val, key, key_start);
+			free(key);
+			i = key_start;
 		}
-		i++;
+		else
+			i++;
 	}
 	free(val);
 	free(key);

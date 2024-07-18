@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 20:25:04 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:42:13 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,6 @@ void	wait_for_children(int index)
 		}
 		index--;
 	}
-}
-
-int	count_commands(t_parser *data)
-{
-	t_lex_parser	*roaming;
-	int				cmd_count;
-
-	roaming = data->node;
-	cmd_count = 0;
-	while (roaming)
-	{
-		if (roaming->type == TK_PARS_CMD)
-		{
-			cmd_count++;
-		}
-		roaming = roaming->next;
-	}
-	return (cmd_count);
 }
 
 int	execute_commands(t_data *data, int std_fds[])

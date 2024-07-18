@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 22:36:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 11:30:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@
 # define PARENT 1
 
 typedef struct s_varlist		t_varlist;
+# define BUILT_IN 2
 
 void	trash(char **array);
 void	handle_error(char *message, int code);
 void	execute_cmd(char *cmd, t_data *data, t_parser *parser);
 char	**build_env(t_varlist *vars);
+int		count_commands(t_parser *data);
 
 int		process_files(t_lex_parser *table);
 int		get_redirections(t_lex_parser *roaming, char *redirection[]);
