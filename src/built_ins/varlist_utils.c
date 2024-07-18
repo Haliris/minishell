@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:01:52 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 11:41:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 16:06:00 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,13 @@ char	*get_varval(t_varlist *vlist, char *key)
 	if (!vlist)
 		return (NULL);
 	return (ft_strdup(vlist->val));
+}
+
+bool	in_vlist(t_varlist *vlist, char *key)
+{
+	while (vlist && ft_strcmp(key, vlist->key) != 0)
+		vlist = vlist->next;
+	if (vlist)
+		return (true);
+	return (false);
 }
