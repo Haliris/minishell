@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 12:03:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 11:09:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ static char	*extract_key_from_str(char *str, size_t start)
 {
 	size_t	end;
 
+	start += 1;
 	end = start;
-	while (str[end] && !is_space(str[end]) && str[end] != '$')
+	while (str[end] && !in(str[end], "$\"\' \t\r\v\n\f"))
 		end++;
 	if (end == start)
 		return (NULL);
@@ -43,14 +44,18 @@ static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 	char	*post_str;
 	char	*temp;
 
-	pre_str = ft_substr(*str, 0, key_idx - 1);
-	if (!pre_str)
-		return ;
+	pre_str = NULL;
+	if (key_idx != 0)
+	{
+		pre_str = ft_substr(*str, 0, key_idx - 1);
+		if (!pre_str)
+			return ;
+	}
 	temp = ft_strjoin(pre_str, val);
 	if (!temp)
 		return ;
 	i = key_idx + ft_strlen(key);
-	while (*str[i])
+	while ((*str)[i])
 		i++;
 	if (i == key_idx + ft_strlen(key))
 		return (free(pre_str), replace_str(str, temp));
@@ -71,9 +76,9 @@ void	expand_string_var(t_data *data, char **str)
 	if (!*str || !data)
 		return ;
 	i = 0;
-	while (*str[i])
+	while ((*str)[i])
 	{
-		if (*str[i] == '$' && !is_space(*str[i + 1]) && *str[i + 1] != '$')
+		if ((*str)[i] == '$' && !in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
 		{
 			key = extract_key_from_str(*str, i);
 			if (!key)
@@ -83,4 +88,6 @@ void	expand_string_var(t_data *data, char **str)
 		}
 		i++;
 	}
+	free(val);
+	free(key);
 }
