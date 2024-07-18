@@ -6,24 +6,22 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 17:54:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 09:59:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "built_ins.h"
 
-static bool	is_empty_str(char *s)
+int	get_cmd_len(char **cmd)
 {
-	size_t	i;
+	int	len;
 
-	i = 0;
-	while (s && s[i])
-	{
-		if (!is_space(s[i]))
-			return (false);
-		i++;
-	}
-	return (true);
+	if (!cmd || !*cmd)
+		return (0);
+	len = 0;
+	while (cmd[len])
+		len++;
+	return (len);
 }
 
 static void	print_env(t_data *data)
@@ -34,69 +32,37 @@ static void	print_env(t_data *data)
 	while (curr)
 	{
 		if (curr->key)
-			ft_printf("declare -x %s=\"%s\"\n", curr->key, curr->val);
+			ft_printf("export %s=\"%s\"\n", curr->key, curr->val);
 		curr = curr->next;
 	}
 }
 
-static char	*extract_key_val(char **split_cmd)
-{
-	size_t	i;
-
-	i = 0;
-	while (split_cmd[0][i] && i > 0 && split_cmd[0][i - 1] != '=')
-		i++;
-	return (ft_substr(split_cmd[0], i, ft_strlen(split_cmd[0]) - i));
-}
-
-static bool	export_err(char **split_cmd)
-{
-	size_t	i;
-
-	if (split_cmd[0] && split_cmd[0][0] == '=')
-	{
-		ft_printf("minishell: export: '%s': not a valid identifier\n",
-			split_cmd[0]);
-		return (true);
-	}
-	if (split_cmd[1])
-	{
-		free_strarray(split_cmd);
-		ft_printf("bad assignment\n");
-		return (true);
-	}
-	i = 0;
-	while (split_cmd[0][i] && split_cmd[0][i] != '-')
-		i++;
-	return (split_cmd[0][i] != '=');
-}
-
 /* unfinished, need to add in / replace var */
-void	export(t_data *data, char *cmd)
+void	call_export(t_data *data, char **cmd)
 {
-	char	**split_cmd;
 	char	*key;
 	char	*val;
+	int		cmd_len;
 
-	cmd += 6;
-	if (is_empty_str(cmd))
+	cmd_len = get_cmd_len(cmd);
+	if (cmd_len == 1)
 		return (print_env(data));
-	split_cmd = ft_split(cmd, ' ');
-	if (!split_cmd)
-		return (ft_putendl_fd("Error: malloc failure.\n", 2));
-	if (export_err(split_cmd))
-		return (free_strarray(split_cmd));
-	key = get_substr(split_cmd[0], 0);
+	if (cmd[1][0] == '=')
+	{
+		ft_putstr_fd("minishell: export: '", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		return ;
+	}
+	if (cmd_len < 4 || ft_strcmp(cmd[2], "="))
+		return ;
+	key = ft_strdup(cmd[1]);
 	if (!key)
-		return (free_strarray(split_cmd));
-	val = extract_key_val(split_cmd);
-	free_strarray(split_cmd);
+		return ;
+	val = ft_strdup(cmd[3]);
 	if (!val)
 		return (free(key));
 	if (add_var(&data->env_vars, key, val))
-	{
-		ft_putendl_fd("Error: could not add variable to env.\n", 2);
-		free(key);
-		free(val);
-	}
+		return (ft_putendl_fd("Error: export allocation failed.", 2),
+			free(key), free(val));
 }

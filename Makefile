@@ -39,6 +39,7 @@ CFILES	= main.c \
 		  pwd.c \
 		  exit.c \
 		  export.c \
+		  env.c \
 		  varlist_add.c \
 		  varlist_del.c \
 		  varlist_utils.c

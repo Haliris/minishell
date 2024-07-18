@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 19:32:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:05:31 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	call_builtin(char **command, t_data *data, int mode)
 		}
 		call_exit(data, command);
 	}
+	else if (ft_strcmp(command[0], "export") == 0)
+		call_export(data, command);
+	else if (ft_strcmp(command[0], "env") == 0)
+		call_env(data);
 }
 
 void	execute_builtin(char *cmd, t_data *data, int mode)
