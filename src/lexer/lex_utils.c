@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/18 13:57:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:41:27 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,20 @@ bool	var_in_str(char *str)
 		i++;
 	}
 	return (false);
+}
+
+int	count_str_vars(char *str)
+{
+	int		count;
+	size_t	i;
+
+	count = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '$' && str[i + 1] && !in(str[i + 1], "$=()\"\' \t\n\v\f\r"))
+			count++;
+		i++;
+	}
+	return (count);
 }
