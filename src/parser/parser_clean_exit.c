@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 21:24:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/17 23:27:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,5 @@ void	free_parsed_mem(t_parser *data)
 		free(temp);
 	}
 	data->node = NULL;
+	data = NULL;
 }

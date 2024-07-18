@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 20:31:34 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/17 22:32:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@
 
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
+typedef struct s_varlist		t_varlist;
 
 typedef struct s_heredoc
 {
@@ -55,8 +56,6 @@ typedef struct s_heredoc_data
 	t_heredoc		*heredoc;
 	t_heredoc_data	*next;
 }	t_heredoc_data;
-
-typedef struct s_varlist		t_varlist;
 
 typedef struct s_varlist
 {
