@@ -40,6 +40,7 @@ CFILES	= main.c \
 		  exit.c \
 		  export.c \
 		  env.c \
+		  unset.c \
 		  varlist_add.c \
 		  varlist_del.c \
 		  varlist_utils.c

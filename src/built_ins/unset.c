@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cd.c                                               :+:      :+:    :+:   */
+/*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 10:21:00 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/18 10:23:03 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/18 10:26:00 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "built_ins.h"
 
-void	call_cd(t_data *data, char **cmd)
+void	call_unset(t_data *data, char **cmd)
 {
-	char	*p;
+	char	*key;
 
-	if (cmd[1] == NULL)
+	if (!cmd[1])
 		return ;
-	p = cmd[1];
-	if (var_in_str(cmd[1]))
-		expand_string_var(data, &p);
-	if (chdir(p) != 0)
-		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
-	if (cmd)
-		trash(cmd);
+	key = cmd[1];
+	del_varlist_key(data->env_vars, key);
 }
