@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 14:35:57 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 15:32:08 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,9 @@ void	trash(char **array)
 	free(array);
 }
 
-int	count_commands(t_parser *data)
+void	check_pipes(t_parser *table, int pipe_status[])
 {
-	t_lex_parser	*roaming;
-	int				cmd_count;
-
-	roaming = data->node;
-	cmd_count = 0;
-	while (roaming)
-	{
-		if (roaming->type == TK_PARS_CMD)
-		{
-			cmd_count++;
-		}
-		roaming = roaming->next;
-	}
-	return (cmd_count);
-}
-
-void	check_pipes(t_lex_parser *table, int pipe_status[])
-{
-	t_lex_parser	*roaming;
+	t_parser	*roaming;
 
 	roaming = table;
 	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
@@ -67,7 +49,7 @@ void	check_pipes(t_lex_parser *table, int pipe_status[])
 		pipe_status[1] = TRUE;
 }
 
-int	get_redirections(t_lex_parser *roaming, char *redirection[])
+int	get_redirections(t_parser *roaming, char *redirection[])
 {
 	char				*outfile;
 	char				*infile;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 20:31:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 14:01:38 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*assemble_cmd(t_token *roaming)
 	return (cmd_buff);
 }
 
-void	parse_command(t_lex_parser *parsed, t_token *roaming)
+void	parse_command(t_parser *parsed, t_token *roaming)
 {
 	t_cmd_table	*table;
 
@@ -45,7 +45,7 @@ void	parse_command(t_lex_parser *parsed, t_token *roaming)
 		free(table);
 }
 
-void	collect_redir_tk(t_lex_parser *parsed, t_token *roaming)
+void	collect_redir_tk(t_parser *parsed, t_token *roaming)
 {
 	while (roaming && roaming->type != TK_PIPE)
 	{
@@ -61,7 +61,7 @@ void	collect_redir_tk(t_lex_parser *parsed, t_token *roaming)
 		roaming = roaming->prev;
 }
 
-void	parse_operators(t_lex_parser *parsed, t_token *tokens)
+void	parse_operators(t_parser *parsed, t_token *tokens)
 {
 	t_token	*roaming;
 
@@ -86,15 +86,12 @@ void	parse_operators(t_lex_parser *parsed, t_token *tokens)
 
 int	interprete_lexer(t_data *data)
 {
-	t_lex_parser	*parsed;
+	t_parser		*parsed;
 	t_token			*tokens_list;
 
+	parsed = data->parsedata;
 	tokens_list = data->token;
-	parsed = ft_calloc(1, sizeof(t_lex_parser));
-	if (!parsed)
-		return (PANIC);
-	parsed->type = TK_PARS_NULL;
 	parse_operators(parsed, tokens_list);
-	data->parsedata->node = parsed;
+	data->parsedata = parsed;
 	return (SUCCESS);
 }
