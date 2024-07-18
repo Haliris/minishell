@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 11:30:19 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:06:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,10 @@ int	tokenize_data(t_data *data)
 {
 	if (valid_input(data->input))
 	{
-		if (lexer(data))
+		if (lexer(data) || invalid_tokens(data->token))
 		{
-			if (invalid_tokens(data, data->token))
-			{
-				ft_printf("Error: Invalid token found\n");
-				return (PANIC);
-			}
+			ft_printf("Error: Invalid token\n");
+			return (PANIC);
 		}
 	}
 	return (SUCCESS);

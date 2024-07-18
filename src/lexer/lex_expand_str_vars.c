@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 11:52:01 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:47:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 	temp = ft_strjoin(pre_str, val);
 	if (!temp)
 		return ;
-	if (ft_strlen(*str) == key_idx + ft_strlen(key))
+	if (ft_strlen(*str) == key_idx + ft_strlen(key) + 1)
 		return (replace_str(str, temp), free(pre_str));
-	post_str = ft_substr(*str, key_idx + ft_strlen(key),
-			ft_strlen(*str) - key_idx + ft_strlen(key));
+	post_str = ft_substr(*str, key_idx + ft_strlen(key) + 1,
+			ft_strlen(*str) - key_idx + ft_strlen(key) + 1);
 	if (!post_str)
 		return (free(temp), free(pre_str));
 	new_str = ft_strjoin(temp, post_str);
@@ -83,11 +83,10 @@ void	expand_string_var(t_data *data, char **str)
 			val = get_varval(data->env_vars, key);
 			impute_var_val(str, val, key, key_start);
 			free(key);
+			free(val);
 			i = key_start;
 		}
 		else
 			i++;
 	}
-	free(val);
-	free(key);
 }

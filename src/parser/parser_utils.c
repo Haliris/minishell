@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 11:30:38 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/18 13:35:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*build_cmd_buffer(char *cmd_buff, t_token *roaming)
 		cmd_buff = ft_str_rejoin(cmd_buff, " ");
 		if (!cmd_buff)
 			return (NULL);
-		if (roaming->path)
+		if (roaming->path && !roaming->prev)
 			cmd_buff = ft_str_rejoin(cmd_buff, roaming->path);
 		else
 			cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);
