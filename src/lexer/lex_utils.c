@@ -48,7 +48,7 @@ bool	var_in_str(char *s)
 	i = 0;
 	while (s[i] && s[i + 1])
 	{
-		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
+		if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1]))
 			return (true);
 		i++;
 	}
