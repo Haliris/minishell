@@ -98,7 +98,7 @@ int	put_line(char *limiter, int here_fd)
 	}
 }
 
-t_heredoc	*process_here_doc(char *limiter)
+t_heredoc	*process_here_doc(char *limiter, t_data *data)
 {
 	int			here_fd;
 	t_heredoc	*heredoc;
@@ -119,6 +119,7 @@ t_heredoc	*process_here_doc(char *limiter)
 		return (NULL);
 	}
 	close(here_fd);
+	add_heredoc_node(heredoc, data);
 	return (heredoc);
 }
 

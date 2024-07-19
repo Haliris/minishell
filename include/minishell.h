@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
 /*   Updated: 2024/07/19 18:15:51 by bthomas          ###   ########.fr       */
@@ -101,9 +101,9 @@ int			clean_exit(t_data *data, int exit_code);
 
 /* utils */
 void		handle_signals(void);
-t_heredoc	*process_here_doc(char *limiter);
+t_heredoc	*process_here_doc(char *limiter, t_data *data);
 
-int			collect_heredocs(t_data *data);
+void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);

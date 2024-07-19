@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:45:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:32:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,19 @@ int	parse_data(t_data *data)
 
 int	tokenize_data(t_data *data)
 {
+	t_token	*roaming;
+
 	if (valid_input(data->input))
 	{
 		if (lexer(data))
 		{
-			ft_printf("Error: Lexer failed\n");
+			if (data->token)
+				roaming = data->token;
+			while (roaming && roaming->next)
+				roaming = roaming->next;
+			ft_printf("minishell: syntax error near unexpected token ");
+			ft_printf("'%s'\n", roaming->lexstr);
+			free_lexmem(data);
 			return (PANIC);
 		}
 	}
@@ -65,12 +73,10 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
+		if (get_input(&data, prompt) == PANIC)
 			break ;
-		if (invalid_tokens(&data))
+		if (tokenize_data(&data) == PANIC)
 			continue ;
-		if (collect_heredocs(&data) == PANIC)
-			break ;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);
