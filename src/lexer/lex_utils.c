@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/18 13:57:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 10:25:53 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,14 @@ char	*get_substr(char *input, size_t start_idx)
 	return (substr);
 }
 
-bool	var_in_str(char *str)
+bool	var_in_str(char *s)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i + 1])
+	while (s[i] && s[i + 1])
 	{
-		if (str[i] == '$' && str[i + 1] && !in(str[i + 1], "$=()\"\' \t\n\v\f\r"))
+		if (s[i] == '$' && s[i + 1] && !in(s[i + 1], "$=()\"\' \t\n\v\f\r"))
 			return (true);
 		i++;
 	}
