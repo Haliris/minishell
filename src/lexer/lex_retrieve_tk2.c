@@ -3,20 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 11:55:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:09:34 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+t_tokentype	check_prev_tk(t_data *data)
+{
+	t_token	*roaming;
+
+	if (!data->token)
+		return (TK_INVALID);
+	roaming = data->token;
+	while (roaming && roaming->prev)
+		roaming = roaming->prev;
+	return (roaming->type);
+}
 
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*lexstr;
 
 	lexstr = NULL;
+	if (check_prev_tk(data) == TK_REDIR || check_prev_tk(data) == TK_PIPE)
+		return (NULL);
 	if (input[start_idx] == '<')
 	{
 		if (input[start_idx + 1] == '<')
@@ -55,6 +69,21 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 	return (get_token(data, search_str, path, TK_PATH));
 }
 
+static int	is_operator(char *limiter)
+{
+	if (ft_strcmp(limiter, "<") == 0)
+		return (TRUE);
+	if (ft_strcmp(limiter, ">") == 0)
+		return (TRUE);
+	if (ft_strcmp(limiter, "<<") == 0)
+		return (TRUE);
+	if (ft_strcmp(limiter, ">>") == 0)
+		return (TRUE);
+	if (ft_strcmp(limiter, "|") == 0)
+		return (TRUE);
+	return (FALSE);
+}
+
 /* problem chars: & | < > ; ( ) \ " ' 
 	but, bash allows them */
 t_token	*get_heredoc_tk(t_data *data, char *input, size_t start_idx)
@@ -70,11 +99,13 @@ t_token	*get_heredoc_tk(t_data *data, char *input, size_t start_idx)
 	limit_end = limit_start;
 	while (input[limit_end] && !is_space(input[limit_end]))
 		limit_end++;
-	if (limit_end == limit_start)
+	if (limit_end == limit_start) 
 		return (NULL);
 	limiter = ft_substr(input, limit_start, limit_end - limit_start);
 	if (!limiter)
 		return (NULL);
+	if (is_operator(limiter))
+		return (free(limiter), NULL);
 	token = get_token(data, ft_substr(input, start_idx, limit_end - start_idx),
 			NULL, TK_HEREDOC);
 	if (!token)

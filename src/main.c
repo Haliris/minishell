@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:45:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 14:29:14 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	tokenize_data(t_data *data)
 		if (lexer(data))
 		{
 			ft_printf("Error: Lexer failed\n");
+			free_lexmem(data);
 			return (PANIC);
 		}
 	}
@@ -65,8 +66,10 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		prompt = get_prompt(prompt);
-		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
+		if (get_input(&data, prompt) == PANIC)
 			break ;
+		if (tokenize_data(&data) == PANIC)
+			continue ;
 		if (invalid_tokens(&data))
 			continue ;
 		if (collect_heredocs(&data) == PANIC)
