@@ -16,7 +16,7 @@ void	add_heredoc_node(t_heredoc *heredoc, t_data *data)
 {
 	t_heredoc_data	*roaming;
 	t_heredoc_data	*node;
-	
+
 	node = ft_calloc(1, sizeof(t_heredoc_data));
 	if (!node)
 		return ;
@@ -27,7 +27,7 @@ void	add_heredoc_node(t_heredoc *heredoc, t_data *data)
 	else
 	{
 		roaming = data->heredata;
-		while(roaming->next)	
+		while (roaming->next)
 			roaming = roaming->next;
 		roaming->next = node;
 	}
