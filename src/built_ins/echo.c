@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:49:45 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:07:24 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ char	*build_echo_str(char **cmd)
 		}
 		else
 		{
-			out_str = ft_str_rejoin(out_str, " ");
-			if (!out_str)
-				return (NULL);
 			out_str = ft_str_rejoin(out_str, cmd[index]);
 			if (!out_str)
 				return (NULL);

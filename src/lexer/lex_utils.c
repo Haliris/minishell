@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 11:52:57 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:16:37 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_delim(char c)
 {
-	return (in(c, "$ \t\n\v\f\r=()<>|"));
+	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
 }
 
 void	replace_str(char **old, char *new)
@@ -31,8 +31,10 @@ char	*get_substr(char *input, size_t start_idx)
 	size_t	i;
 
 	i = start_idx;
-	while (input[i] && !is_space(input[i]) && !in(input[i], "$()|<>=\"\'"))
+	while (input[i] && !is_delim(input[i]))
 		i++;
+	if (i == start_idx)
+		return (NULL);
 	substr = ft_substr(input, start_idx, i - start_idx);
 	if (!substr)
 		return (NULL);
@@ -46,7 +48,7 @@ bool	var_in_str(char *str)
 	i = 0;
 	while (str[i] && str[i + 1])
 	{
-		if (str[i] == '$' && str[i + 1] && !in(str[i + 1], "$=()\"\' \t\n\v\f\r"))
+		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
 			return (true);
 		i++;
 	}
@@ -62,7 +64,7 @@ int	count_str_vars(char *str)
 	i = 0;
 	while (str && str[i])
 	{
-		if (str[i] == '$' && str[i + 1] && !in(str[i + 1], "$=()\"\' \t\n\v\f\r"))
+		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
 			count++;
 		i++;
 	}
