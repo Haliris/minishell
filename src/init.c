@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:15:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 18:42:19 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,23 +53,6 @@ static int	init_env(t_data *data, char **env)
 	return (0);
 }
 
-static int	add_old_pwd(t_data *data)
-{
-	char	*key;
-	char	*val;
-
-	key = "OLDPWD";
-	val = get_cwd();
-	if (!val)
-		return (1);
-	if (replace_var(&data->env_vars, key, val))
-	{
-		free(val);
-		return (1);
-	}
-	return (0);
-}
-
 int	init(t_data *data, char **env)
 {
 	handle_signals();
@@ -86,7 +69,5 @@ int	init(t_data *data, char **env)
 		return (PANIC);
 	data->heredata->heredoc = NULL;
 	data->heredata->next = NULL;
-	if (init_env(data, env))
-		return (PANIC);
-	return (add_old_pwd(data));
+	return (init_env(data, env));
 }
