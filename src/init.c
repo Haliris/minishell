@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 16:22:58 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:42:19 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ static char	*extract_val(char *s)
 	i = 0;
 	while (s[i - 1] != '=')
 		i++;
+	if (i == 0)
+		return (NULL);
 	return (ft_substr(s, i, ft_strlen(s) - i));
 }
 
@@ -36,9 +38,16 @@ static int	init_env(t_data *data, char **env)
 			return (1);
 		val = extract_val(env[i]);
 		if (!val)
+		{
+			free(key);
 			return (1);
+		}
 		if (add_var(&data->env_vars, key, val))
+		{
+			free(key);
+			free(val);
 			return (1);
+		}
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:42:40 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/19 10:18:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:45:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ void	call_pwd(void)
 		ft_putstr_fd(cwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
-	if (cwd)
-		free(cwd);
+	free(cwd);
 }
 
 #undef POSIX_MAX_PATH

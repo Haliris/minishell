@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 17:06:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:09:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #define POSIX_MAX_PATH 4096
 
-static char	*get_cwd(void)
+char	*get_cwd(void)
 {
 	char	*status;
 	char	*cwd;
+	char	*ret;
 
 	cwd = ft_calloc(POSIX_MAX_PATH, sizeof(char *));
 	if (!cwd)
@@ -31,51 +32,56 @@ static char	*get_cwd(void)
 		free(cwd);
 		return (NULL);
 	}
-	else
-		return (cwd);
+	ret = ft_strdup(cwd);
+	free(cwd);
+	if (!ret)
+		return (NULL);
+	return (ret);
 }
 
-static void	update_env(char *cwd, t_varlist *env, char *var)
+static int	update_pwd(t_data *data, bool is_old)
 {
-	t_varlist	*roaming;
+	char	*key;
+	char	*val;
+	char	*placeholder;
 
-	roaming = env;
-	if (!cwd)
-		return ;
-	while (roaming)
+	placeholder = "PWD";
+	if (is_old)
+		placeholder = "OLDPWD";
+	val = get_cwd();
+	if (!val)
+		return (1);
+	if (in_vlist(data->env_vars, placeholder))
+		key = placeholder;
+	else
 	{
-		if (ft_strcmp(roaming->key, var) == 0)
+		key = ft_strdup(placeholder);
+		if (!key)
 		{
-			free(roaming->val);
-			roaming->val = ft_strdup(cwd);
-			if (!roaming->val)
-				ft_putstr_fd("minishell: error updating env\n", STDERR_FILENO);
-			break ;
+			free(val);
+			return (1);
 		}
-		roaming = roaming->next;
+		return (add_var(&data->env_vars, key, val));
 	}
+	return (replace_var(&data->env_vars, key, val));
 }
 
 void	call_cd(t_data *data, char **cmd)
 {
 	char	*p;
-	char	*cwd;
 
 	if (!cmd[1] || ft_strcmp(cmd[1], "-") == 0)
 		return ;
 	p = cmd[1];
 	if (var_in_str(cmd[1]))
 		expand_string_var(data, &p);
-	cwd = get_cwd();
-	update_env(cwd, data->env_vars, "OLDPWD");
-	if (cwd)
-		free(cwd);
+	update_pwd(data, true);
 	if (chdir(p) != 0)
+	{
 		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
-	cwd = get_cwd();
-	update_env(cwd, data->env_vars, "PWD");
-	if (cwd)
-		free(cwd);
+		return ;
+	}
+	update_pwd(data, false);
 }
 
 #undef POSIX_MAX_PATH

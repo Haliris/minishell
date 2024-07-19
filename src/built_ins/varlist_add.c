@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:38:28 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 11:37:48 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:24:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	replace_var(t_varlist **vlist, char *key, char *val)
 {
 	t_varlist	*curr;
 
+	if (!key || !val)
+		return (1);
 	curr = *vlist;
 	while (curr && ft_strcmp(key, curr->key) != 0)
 		curr = curr->next;
@@ -33,6 +35,8 @@ int	add_var(t_varlist **vlist, char *key, char *val)
 	t_varlist	*node;
 	t_varlist	*curr;
 
+	if (!key || !val)
+		return (1);
 	if (in_vlist(*vlist, key))
 		return (replace_var(vlist, key, val));
 	node = get_varlist(key, val);
