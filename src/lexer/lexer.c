@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 17:36:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:11:22 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int	lexer(t_data *data)
 
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
+		return (1);
+	if (invalid_tokens(data))
 		return (1);
 	build_heredocs(data);
 	return (0);

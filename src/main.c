@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 16:25:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:11:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,6 @@ int	main(int argc, char **argv, char **env)
 		if (get_input(&data, prompt) == PANIC)
 			break ;
 		if (tokenize_data(&data) == PANIC)
-			continue ;
-		if (invalid_tokens(&data))
 			continue ;
 		parse_data(&data);
 		free_lexmem(&data);

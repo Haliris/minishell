@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 17:42:32 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:06:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,14 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
 	t_token	*token;
 
-	if (data->token && type == TK_PIPE && data->token->prev)
-		if (data->token->prev->type == TK_REDIR || data->token->prev->type == TK_PIPE)
+	if (data->token && type == TK_PIPE)
+	{
+		token = data->token;
+		while (token->next)
+			token = token->next;
+		if (token->type == TK_PIPE || token->type == TK_REDIR)
 			return (NULL);
+	}
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 	{
