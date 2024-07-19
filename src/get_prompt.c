@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_prompt.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 14:41:50 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/15 14:42:10 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:20:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ char	*get_trunc_path(void)
 	int		depth;
 
 	full_cwd = getcwd(NULL, 0);
+	if (!full_cwd)
+		return (NULL);
 	len = ft_strlen(full_cwd);
 	i = len;
 	depth = 0;

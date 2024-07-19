@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:42:40 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 16:56:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 10:18:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	call_pwd(void)
 	cwd = ft_calloc(POSIX_MAX_PATH, sizeof(char));
 	if (!cwd)
 	{
-		ft_putstr_fd("minishell: pwd error\n", STDERR_FILENO);
+		ft_putstr_fd("minishell: pwd calloc error\n", STDERR_FILENO);
 		return ;
 	}
 	status = getcwd(cwd, POSIX_MAX_PATH);
