@@ -60,7 +60,7 @@ void	unlink_heredocs(t_data *data)
 	t_heredoc_data	*here_data;
 
 	here_data = data->heredata;
-	if (!here_data->heredoc)
+	if (!here_data)
 		return ;
 	roaming = here_data;
 	while (roaming)
