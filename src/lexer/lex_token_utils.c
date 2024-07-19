@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:06:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:42:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
 	t_token	*token;
 
+	if (data->token && type == TK_PIPE && data->token->prev)
+		if (data->token->prev->type == TK_REDIR || data->token->prev->type == TK_PIPE)
+			return (NULL);
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
 	{

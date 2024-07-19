@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 16:14:03 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 17:53:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ t_tokentype	check_prev_tk(t_data *data)
 	if (!data->token)
 		return (TK_INVALID);
 	roaming = data->token;
-	while (roaming && roaming->prev)
-		roaming = roaming->prev;
+	while (roaming && roaming->next)
+		roaming = roaming->next;
 	return (roaming->type);
 }
 

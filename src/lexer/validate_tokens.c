@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:52:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:50:02 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static bool	is_orphaned_op(t_token *token)
 			return (true);
 		if (token->type == TK_OPERATOR && !next)
 			return (true);
-		if (token->type == TK_REDIR && (!next || !token->prev))
+		if (token->type == TK_REDIR && (!next))
 			return (true);
 		token = next;
 	}
