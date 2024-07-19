@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 10:50:35 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 11:55:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*search_str;
 	char	*path;
+	size_t	end_idx;
 
-	search_str = get_substr(input, start_idx);
+	end_idx = start_idx + 1;
+	while (input[end_idx] && !is_delim(input[end_idx]))
+		end_idx++;
+	if (end_idx == start_idx + 1)
+		return (NULL);
+	search_str = ft_substr(input, start_idx, end_idx - start_idx);
 	if (!search_str)
 		return (NULL);
 	search_str++;
