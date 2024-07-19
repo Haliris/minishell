@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 15:31:59 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:14:21 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	build_heredocs(t_data *data)
 	{
 		if (roaming->type == TK_REDIR && ft_strcmp(roaming->lexstr, "<<") == 0)
 		{	
-			get_heredoc_tk(roaming);
+			get_heredoc_tk(roaming, data);
 			if (roaming->type == TK_INVALID)
 				return (PANIC);
 		}

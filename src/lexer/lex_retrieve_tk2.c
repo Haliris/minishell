@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 15:40:02 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:14:03 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	remove_lim_node(t_token *node)
 	free(node);
 }
 
-void	get_heredoc_tk(t_token *roaming)
+void	get_heredoc_tk(t_token *roaming, t_data *data)
 {
 	char	*limiter;
 
@@ -99,6 +99,6 @@ void	get_heredoc_tk(t_token *roaming)
 	}
 	remove_lim_node(roaming->next);
 	roaming->type = TK_HEREDOC;
-	roaming->heredoc = process_here_doc(limiter);
+	roaming->heredoc = process_here_doc(limiter, data);
 	free(limiter);
 }

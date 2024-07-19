@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 14:29:14 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 16:25:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (invalid_tokens(&data))
 			continue ;
-		if (collect_heredocs(&data) == PANIC)
-			break ;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);

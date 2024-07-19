@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/16 11:49:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 16:15:29 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	put_line(char *limiter, int here_fd)
 	}
 }
 
-t_heredoc	*process_here_doc(char *limiter)
+t_heredoc	*process_here_doc(char *limiter, t_data *data)
 {
 	int			here_fd;
 	t_heredoc	*heredoc;
@@ -119,6 +119,7 @@ t_heredoc	*process_here_doc(char *limiter)
 		return (NULL);
 	}
 	close(here_fd);
+	add_heredoc_node(heredoc, data);
 	return (heredoc);
 }
 
