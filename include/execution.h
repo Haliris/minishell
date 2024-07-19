@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 15:30:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 17:08:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct s_varlist		t_varlist;
 # define BUILT_IN 2
 
 void	trash(char **array);
-void	handle_error(char *message, int code);
-void	execute_cmd(char *cmd, t_data *data, t_parser *parser);
+void	handle_error(char *message, int code, t_data *data);
+void	execute_cmd(char *cmd, t_data *data);
 char	**build_env(t_varlist *vars);
 int		count_commands(t_parser *data);
 

@@ -71,6 +71,8 @@ int	main(int argc, char **argv, char **env)
 			continue ;
 		if (collect_heredocs(&data) == PANIC)
 			break ;
+		free(prompt);
+		prompt = NULL;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);
@@ -78,5 +80,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (prompt)
 		free(prompt);
-	return (clean_exit(&data, 0));
+	return (clean_exit(&data, data.errcode));
 }

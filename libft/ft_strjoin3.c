@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_ins.h                                        :+:      :+:    :+:   */
+/*   ft_strjoin3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/16 17:58:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 16:56:48 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/19 10:31:28 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/19 12:19:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef BUILT_INS_H
-# define BUILT_INS_H
-# include "minishell.h"
+#include "libft.h"
 
-void	execute_builtin(char *cmd, t_data *data, int mode);
+char	*ft_strjoin3(char *s1, char *s2, char *s3)
+{
+	char	*result;
+	size_t	len;
 
-void	call_echo(t_data *data, char **cmd);
-void	call_cd(t_data *data, char **cmd);
-void	call_exit(t_data *data, char **cmd);
-void	call_pwd(void);
-void	call_export(t_data *data, char **cmd);
-void	call_env(t_data *data);
-void	call_unset(t_data *data, char **cmd);
-
-#endif
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
+	result = (char *)malloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	ft_strlcpy(result, s1, len + 1);
+	ft_strlcat(result, s2, len + 1);
+	ft_strlcat(result, s3, len + 1);
+	return (result);
+}

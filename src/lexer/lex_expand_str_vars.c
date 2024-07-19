@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/15 17:15:20 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 14:33:46 by bthomas          ###   ########.fr       */
+/*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
+/*   Updated: 2024/07/19 12:08:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,81 +17,85 @@ static char	*extract_key_from_str(char *str, size_t start)
 	size_t	end;
 
 	end = start + 1;
-	while (str[end] && !in(str[end], "$\"\' \t\r\v\n\f"))
+	while (str[end] && !is_delim(str[end]))
 		end++;
 	if (end == start + 1)
 		return (NULL);
 	return (ft_substr(str, start + 1, end - start - 1));
 }
 
-void	replace_str(char **old, char *new)
+static char	*prepare_strings(char *str, char *key, size_t key_idx)
 {
-	if (!old || !*old)
-		return ;
-	free(*old);
-	*old = new;
-	return ;
-}
+	char	*pre_str;
+	char	*post_str;
+	char	*result;
 
-static void	null_val_replace(char **str, char *val, char *key)
-{
-	if (!val && ft_strlen(*str) == (ft_strlen(key) + 1))
+	pre_str = NULL;
+	if (key_idx > 0)
+		pre_str = ft_substr(str, 0, key_idx);
+	else
+		pre_str = ft_strdup("");
+	if (!pre_str)
+		return (NULL);
+	post_str = ft_substr(str, key_idx + ft_strlen(key) + 1,
+			ft_strlen(str) - (key_idx + ft_strlen(key) + 1));
+	if (!post_str)
 	{
-		*str = NULL;
+		free(pre_str);
+		return (NULL);
 	}
+	result = ft_strjoin(pre_str, post_str);
+	free(pre_str);
+	free(post_str);
+	return (result);
 }
 
 static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 {
-	char	*pre_str;
-	char	*post_str;
 	char	*temp;
 	char	*new_str;
 
-	pre_str = NULL;
-	if (key_idx != 0)
-	{
-		pre_str = ft_substr(*str, 0, key_idx);
-		if (!pre_str)
-			return ;
-	}
-	temp = ft_strjoin(pre_str, val);
+	temp = prepare_strings(*str, key, key_idx);
 	if (!temp)
 		return ;
-	if (ft_strlen(*str) == key_idx + ft_strlen(key) + 1)
-		return (replace_str(str, temp), free(pre_str));
-	post_str = ft_substr(*str, key_idx + ft_strlen(key) + 1,
-			ft_strlen(*str) - key_idx + ft_strlen(key) + 1);
-	if (!post_str)
-		return (free(temp), free(pre_str));
-	new_str = ft_strjoin(temp, post_str);
+	new_str = ft_strjoin(temp, val);
 	if (new_str)
 		replace_str(str, new_str);
-	return (free(temp), free(post_str), free(pre_str));
+	free(temp);
 }
 
-/* e.g., "hello $world" world=mark, "hello mark"*/
-void	expand_string_var(t_data *data, char **str)
+static void	expand_single_var(t_data *data, char **str, size_t key_idx)
 {
 	char	*val;
 	char	*key;
+
+	key = extract_key_from_str(*str, key_idx);
+	if (!key)
+		return ;
+	val = get_nestedval(data->env_vars, key);
+	if (val)
+	{
+		impute_var_val(str, val, key, key_idx);
+		free(val);
+	}
+	else
+		impute_var_val(str, "", key, key_idx);
+	free(key);
+}
+
+void	expand_string_var(t_data *data, char **str)
+{
 	size_t	i;
+	char	expanded[4096];
 
 	i = 0;
-	while ((*str) && (*str)[i])
+	ft_bzero(expanded, 4096);
+	while ((*str) && (*str)[i] && i < 4096)
 	{
-		if ((*str)[i] && (*str)[i] == '$' &&
-			!in((*str)[i + 1], "$ \t\n\v\f\r=()<>|"))
+		if ((*str)[i] == '$' && !is_delim((*str)[i + 1]) && expanded[i] == 0)
 		{
-			key = extract_key_from_str(*str, i);
-			if (!key)
-				continue ;
-			val = get_varval(data->env_vars, key);
-			null_val_replace(str, val, key);
-			impute_var_val(str, val, key, i);
-			free(key);
-			if (val)
-				free(val);
+			expand_single_var(data, str, i);
+			expanded[i] = 1;
 		}
 		else
 			i++;

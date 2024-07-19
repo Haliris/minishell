@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_executables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 19:17:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:13:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ char	*get_exec_path(char *input, size_t start_idx)
 
 	exec_path = NULL;
 	cmd = get_substr(input, start_idx);
-	if (!cmd || !cmd[0])
+	if (!cmd)
 		return (NULL);
+	if (!cmd[0])
+		return (free(cmd), NULL);
 	path = getenv("PATH");
 	if (!path)
 		return (free(cmd), NULL);
