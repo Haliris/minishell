@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 19:07:41 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 19:09:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	call_cd(t_data *data, char **cmd)
 		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
 		return ;
 	}
-	update_pwd(data, false); 
+	update_pwd(data, false);
 }
 
 #undef POSIX_MAX_PATH
