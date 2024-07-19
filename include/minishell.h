@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 17:24:05 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 11:38:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void		del_varlist(t_varlist *head);
 void		del_varlist_node(t_varlist **head, t_varlist *node);
 void		del_varlist_key(t_varlist *vlist_head, char *key);
 bool		in_vlist(t_varlist *vlist, char *key);
+char		*get_nestedval(t_varlist *vlist, char *key);
 
 /* cleanup */
 void		free_strarray(char **array);

@@ -6,29 +6,23 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/18 16:53:43 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 11:19:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
+bool	is_delim(char c)
 {
-	t_token	*token;
+	return (in(c, "$ \t\n\v\f\r=()<>|"));
+}
 
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		write(2, "Error: bad malloc\n", 19);
-		exit(clean_exit(data, 1));
-	}
-	token->lexstr = lexstr;
-	token->path = path;
-	token->type = type;
-	token->next = NULL;
-	token->prev = NULL;
-	token->heredoc = NULL;
-	return (token);
+void	replace_str(char **old, char *new)
+{
+	if (!old || !*old)
+		return ;
+	free(*old);
+	*old = new;
 }
 
 char	*get_substr(char *input, size_t start_idx)
@@ -73,9 +67,4 @@ int	count_str_vars(char *str)
 		i++;
 	}
 	return (count);
-}
-
-bool	is_delim(char c)
-{
-	return (in(c, "$ \t\n\v\f\r=()<>|"));
 }
