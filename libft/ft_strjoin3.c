@@ -6,16 +6,16 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:31:28 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 10:31:54 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:19:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strjoin3(char *s1, char *s2, char *s3)
+char	*ft_strjoin3(char *s1, char *s2, char *s3)
 {
-	char *result;
-	size_t len;
+	char	*result;
+	size_t	len;
 
 	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3);
 	result = (char *)malloc(sizeof(char) * (len + 1));
