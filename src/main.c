@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:11:30 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:32:17 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,18 @@ int	parse_data(t_data *data)
 
 int	tokenize_data(t_data *data)
 {
+	t_token	*roaming;
+
 	if (valid_input(data->input))
 	{
 		if (lexer(data))
 		{
-			ft_printf("Error: Lexer failed\n");
+			if (data->token)
+				roaming = data->token;
+			while (roaming && roaming->next)
+				roaming = roaming->next;
+			ft_printf("minishell: syntax error near unexpected token ");
+			ft_printf("'%s'\n", roaming->lexstr);
 			free_lexmem(data);
 			return (PANIC);
 		}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 17:50:02 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 18:34:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,5 @@ bool	invalid_tokens(t_data *data)
 	ret = (detect_executables(token)
 			|| invalid_tk_exists(token)
 			|| is_orphaned_op(token));
-	if (ret)
-		free_lexmem(data);
 	return (ret);
 }
