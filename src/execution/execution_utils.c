@@ -6,17 +6,17 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 15:32:08 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:49:56 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *message, int code)
+void	handle_error(char *message, int code, t_data *data)
 {
 	ft_putstr_fd(message, 2);
 	ft_putchar_fd('\n', 2);
-	exit(code);
+	exit(clean_exit(data, code));
 }
 
 void	trash(char **array)

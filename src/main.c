@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 15:32:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:44:11 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	main(int argc, char **argv, char **env)
 			break ;
 		if (collect_heredocs(&data) == PANIC)
 			break ;
+		free(prompt);
+		prompt = NULL;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);
@@ -76,5 +78,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (prompt)
 		free(prompt);
-	return (clean_exit(&data, 0));
+	return (clean_exit(&data, data.errcode));
 }

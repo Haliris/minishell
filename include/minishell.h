@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/17 22:32:37 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 10:24:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_data
 {
 	char			*input;
 	char			**env;
+	int				errcode;
 	t_token			*token;
 	t_varlist		*env_vars;
 	t_parser		*parsedata;
@@ -104,6 +105,6 @@ void		unlink_heredocs(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
-bool		var_in_str(char *str);
+bool		var_in_str(char *s);
 
 #endif
