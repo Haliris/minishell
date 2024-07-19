@@ -61,7 +61,7 @@ void	call_cd(t_data *data, char **cmd)
 	char	*p;
 	char	*cwd;
 
-	if (!cmd[1] || cmd[1][0] == '-')
+	if (!cmd[1] || ft_strcmp(cmd[1], "-") == 0)
 		return ;
 	p = cmd[1];
 	if (var_in_str(cmd[1]))
