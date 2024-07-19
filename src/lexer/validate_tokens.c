@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 17:06:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:52:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,16 @@ static int	detect_executables(t_token *token)
 }
 
 /* bultins with invalid flags */
-bool	invalid_tokens(t_token *token)
+bool	invalid_tokens(t_data *data)
 {
-	return (detect_executables(token)
-		|| invalid_tk_exists(token)
-		|| is_orphaned_op(token));
+	t_token	*token;
+	bool	ret;
+
+	token = data->token;
+	ret = (detect_executables(token)
+			|| invalid_tk_exists(token)
+			|| is_orphaned_op(token));
+	if (ret)
+		free_lexmem(data);
+	return (ret);
 }

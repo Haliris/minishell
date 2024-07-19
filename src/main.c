@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 16:44:11 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:45:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	tokenize_data(t_data *data)
 {
 	if (valid_input(data->input))
 	{
-		if (lexer(data) || invalid_tokens(data->token))
+		if (lexer(data))
 		{
-			ft_printf("Error: Invalid token\n");
+			ft_printf("Error: Lexer failed\n");
 			return (PANIC);
 		}
 	}
@@ -67,10 +67,10 @@ int	main(int argc, char **argv, char **env)
 		prompt = get_prompt(prompt);
 		if (get_input(&data, prompt) == PANIC || tokenize_data(&data) == PANIC)
 			break ;
+		if (invalid_tokens(&data))
+			continue ;
 		if (collect_heredocs(&data) == PANIC)
 			break ;
-		free(prompt);
-		prompt = NULL;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);
