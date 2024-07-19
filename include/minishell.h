@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 10:24:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 11:38:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ int			add_var(t_varlist **vlist, char *key, char *val);
 void		del_varlist(t_varlist *head);
 void		del_varlist_node(t_varlist **head, t_varlist *node);
 void		del_varlist_key(t_varlist *vlist_head, char *key);
+bool		in_vlist(t_varlist *vlist, char *key);
+char		*get_nestedval(t_varlist *vlist, char *key);
 
 /* cleanup */
 void		free_strarray(char **array);
@@ -105,6 +107,8 @@ void		unlink_heredocs(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
-bool		var_in_str(char *s);
+
+bool		var_in_str(char *str);
+int			count_str_vars(char *str);
 
 #endif

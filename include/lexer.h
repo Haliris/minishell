@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 13:21:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 11:12:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);
+void	replace_str(char **old, char *new);
 
 /* utilities - bools */
 bool	is_builtin(char *input, size_t start_idx);
@@ -64,6 +65,7 @@ bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 bool	empty_quote(char *input, size_t start_idx);
 bool	is_executable(char *input, size_t start_idx);
+bool	is_delim(char c);
 
 /* input validation */
 bool	valid_input(char *input);

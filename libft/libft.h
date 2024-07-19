@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:02:39 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/13 16:38:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:19:28 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_putstr_fd(char *s, int fd);
+
+char		*ft_strjoin3(char *s1, char *s2, char *s3);
+
 typedef struct s_list
 {
 	void			*content;

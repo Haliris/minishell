@@ -6,29 +6,23 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 10:25:53 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:16:37 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
+bool	is_delim(char c)
 {
-	t_token	*token;
+	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
+}
 
-	token = (t_token *)malloc(sizeof(t_token));
-	if (!token)
-	{
-		write(2, "Error: bad malloc\n", 19);
-		exit(clean_exit(data, 1));
-	}
-	token->lexstr = lexstr;
-	token->path = path;
-	token->type = type;
-	token->next = NULL;
-	token->prev = NULL;
-	token->heredoc = NULL;
-	return (token);
+void	replace_str(char **old, char *new)
+{
+	if (!old || !*old)
+		return ;
+	free(*old);
+	*old = new;
 }
 
 char	*get_substr(char *input, size_t start_idx)
@@ -37,8 +31,10 @@ char	*get_substr(char *input, size_t start_idx)
 	size_t	i;
 
 	i = start_idx;
-	while (input[i] && !is_space(input[i]) && !in(input[i], "()|<>=\"\'"))
+	while (input[i] && !is_delim(input[i]))
 		i++;
+	if (i == start_idx)
+		return (NULL);
 	substr = ft_substr(input, start_idx, i - start_idx);
 	if (!substr)
 		return (NULL);
@@ -52,9 +48,25 @@ bool	var_in_str(char *s)
 	i = 0;
 	while (s[i] && s[i + 1])
 	{
-		if (s[i] == '$' && s[i + 1] && !in(s[i + 1], "$=()\"\' \t\n\v\f\r"))
+		if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1]))
 			return (true);
 		i++;
 	}
 	return (false);
+}
+
+int	count_str_vars(char *str)
+{
+	int		count;
+	size_t	i;
+
+	count = 0;
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
+			count++;
+		i++;
+	}
+	return (count);
 }

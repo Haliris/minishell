@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:40:04 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/18 17:06:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	call_cd(t_data *data, char **cmd)
 	char	*p;
 	char	*cwd;
 
-	cwd = NULL;
-	if (cmd[1] == NULL || ft_strcmp(cmd[1], "-") == 0)
+	if (!cmd[1] || ft_strcmp(cmd[1], "-") == 0)
 		return ;
 	p = cmd[1];
 	if (var_in_str(cmd[1]))

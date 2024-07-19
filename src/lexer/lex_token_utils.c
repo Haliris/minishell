@@ -6,11 +6,30 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/13 12:13:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:06:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
+{
+	t_token	*token;
+
+	token = (t_token *)malloc(sizeof(t_token));
+	if (!token)
+	{
+		write(2, "Error: bad malloc\n", 19);
+		exit(clean_exit(data, 1));
+	}
+	token->lexstr = lexstr;
+	token->path = path;
+	token->type = type;
+	token->next = NULL;
+	token->prev = NULL;
+	token->heredoc = NULL;
+	return (token);
+}
 
 t_token	*lex_get_last_token(t_data *data)
 {
@@ -50,7 +69,7 @@ void	print_token(t_token *token)
 	if (!token)
 		return ;
 	ft_printf("Token type: %d\n", token->type);
-	ft_printf("Token lexstr: %s\n", token->lexstr);
+	ft_printf("Token lexstr: [%s]\n", token->lexstr);
 	ft_printf("Token path: %s\n", token->path);
 	if (token->heredoc)
 		ft_printf("Heredoc path: %s\n", token->heredoc->path);
