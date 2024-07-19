@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:20:58 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:23:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void	update_env(char *cwd, t_varlist *env, char *var)
 	t_varlist	*roaming;
 
 	roaming = env;
+	if (!cwd)
+		return ;
 	while (roaming)
 	{
 		if (ft_strcmp(roaming->key, var) == 0)
