@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 17:09:03 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 16:22:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,6 @@ int	init(t_data *data, char **env)
 		return (PANIC);
 	data->parsedata->table = NULL;
 	data->parsedata->next = NULL;
-	data->heredata = ft_calloc(1, sizeof(t_heredoc_data));
-	if (!data->heredata)
-		return (PANIC);
-	data->heredata->heredoc = NULL;
-	data->heredata->next = NULL;
+	data->heredata = NULL;
 	return (init_env(data, env));
 }

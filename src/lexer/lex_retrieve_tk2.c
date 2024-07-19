@@ -3,24 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 11:55:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 17:53:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+t_tokentype	check_prev_tk(t_data *data)
+{
+	t_token	*roaming;
+
+	if (!data->token)
+		return (TK_INVALID);
+	roaming = data->token;
+	while (roaming && roaming->next)
+		roaming = roaming->next;
+	return (roaming->type);
+}
 
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*lexstr;
 
 	lexstr = NULL;
+	if (check_prev_tk(data) == TK_REDIR || check_prev_tk(data) == TK_PIPE)
+		return (NULL);
 	if (input[start_idx] == '<')
 	{
 		if (input[start_idx + 1] == '<')
-			return (get_heredoc_tk(data, input, start_idx));
+			lexstr = ft_strdup("<<");
 		else
 			lexstr = ft_strdup("<");
 	}
@@ -57,29 +71,34 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 
 /* problem chars: & | < > ; ( ) \ " ' 
 	but, bash allows them */
-t_token	*get_heredoc_tk(t_data *data, char *input, size_t start_idx)
+static void	remove_lim_node(t_token *node)
+{
+	if (node->prev && node->next)
+	{
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+	}
+	else if (node->prev)
+		node->prev->next = node->next;
+	else if (node->next)
+		node->next->prev = node->prev;
+	if (node->lexstr)
+		free(node->lexstr);
+	free(node);
+}
+
+void	get_heredoc_tk(t_token *roaming, t_data *data)
 {
 	char	*limiter;
-	size_t	limit_start;
-	size_t	limit_end;
-	t_token	*token;
 
-	limit_start = start_idx + 2;
-	while (is_space(input[limit_start]))
-		limit_start++;
-	limit_end = limit_start;
-	while (input[limit_end] && !is_space(input[limit_end]))
-		limit_end++;
-	if (limit_end == limit_start)
-		return (NULL);
-	limiter = ft_substr(input, limit_start, limit_end - limit_start);
+	limiter = ft_strdup(roaming->next->lexstr);
 	if (!limiter)
-		return (NULL);
-	token = get_token(data, ft_substr(input, start_idx, limit_end - start_idx),
-			NULL, TK_HEREDOC);
-	if (!token)
-		return (free(limiter), NULL);
-	token->heredoc = process_here_doc(limiter);
+	{
+		roaming->type = TK_INVALID;
+		return ;
+	}
+	remove_lim_node(roaming->next);
+	roaming->type = TK_HEREDOC;
+	roaming->heredoc = process_here_doc(limiter, data);
 	free(limiter);
-	return (token);
 }
