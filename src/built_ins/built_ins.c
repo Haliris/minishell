@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 15:30:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:42:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	call_builtin(char **command, t_data *data, int mode)
 	else if (ft_strcmp(command[0], "cd") == 0)
 		call_cd(data, command);
 	else if (ft_strcmp(command[0], "pwd") == 0)
-		call_pwd(command);
+		call_pwd(data);
 	else if (ft_strcmp(command[0], "exit") == 0)
 	{
 		if (mode == PARENT)

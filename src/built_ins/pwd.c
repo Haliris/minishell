@@ -3,39 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 13:42:40 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/17 14:17:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:51:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define POSIX_MAX_PATH 4096
 
-void	call_pwd(char **cmd)
+char	*fetch_pwd_var(t_data *data)
+{
+	t_varlist	*roaming;
+	char		*path;
+
+	roaming = data->env_vars;
+	path = NULL;
+	while (roaming)
+	{
+		if (ft_strcmp(roaming->key, "PWD") == 0)
+		{
+			path = roaming->val;
+			break ;
+		}
+		roaming = roaming->next;
+	}
+	return (path);
+}
+
+void	call_pwd(t_data *data)
 {
 	char	*cwd;
-	char	*status;
 
-	cwd = NULL;
-	trash(cmd);
-	cwd = ft_calloc(POSIX_MAX_PATH, sizeof(char));
+	cwd = fetch_pwd_var(data);
 	if (!cwd)
-	{
-		ft_putstr_fd("minishell: pwd error\n", STDERR_FILENO);
-		return ;
-	}
-	status = getcwd(cwd, POSIX_MAX_PATH);
-	if (!status)
 		ft_putstr_fd("minishell: pwd error\n", STDERR_FILENO);
 	else
 	{
 		ft_putstr_fd(cwd, STDOUT_FILENO);
 		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
-	if (cwd)
-		free(cwd);
 }
-
-#undef POSIX_MAX_PATH
