@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:18:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 12:20:58 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,14 @@ void	call_cd(t_data *data, char **cmd)
 		expand_string_var(data, &p);
 	cwd = get_cwd();
 	update_env(cwd, data->env_vars, "OLDPWD");
-	free(cwd);
+	if (cwd)
+		free(cwd);
 	if (chdir(p) != 0)
 		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
 	cwd = get_cwd();
 	update_env(cwd, data->env_vars, "PWD");
-	free(cwd);
+	if (cwd)
+		free(cwd);
 }
 
 #undef POSIX_MAX_PATH
