@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:46:37 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 12:52:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ bool	invalid_tokens(t_data *data)
 
 	token = data->token;
 	ret = (detect_executables(token)
-		|| invalid_tk_exists(token)
-		|| is_orphaned_op(token));
+			|| invalid_tk_exists(token)
+			|| is_orphaned_op(token));
 	if (ret)
 		free_lexmem(data);
 	return (ret);
