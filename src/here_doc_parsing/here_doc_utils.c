@@ -70,10 +70,9 @@ void	unlink_heredocs(t_data *data)
 			if (unlink(temp->heredoc->path) != 0)
 				ft_printf("Error deleting file '%s': %s\n",
 					temp->heredoc->path, strerror(errno));
+		roaming = roaming->next;
 		free(temp->heredoc);
 		free(temp);
-		roaming = roaming->next;
 	}
-	here_data->heredoc = NULL;
 	data->heredata = NULL;
 }

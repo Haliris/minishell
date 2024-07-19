@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 14:20:16 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/19 15:31:59 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,24 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 	return (0);
 }
 
+int	build_heredocs(t_data *data)
+{
+	t_token	*roaming;
+
+	roaming = data->token;
+	while (roaming)
+	{
+		if (roaming->type == TK_REDIR && ft_strcmp(roaming->lexstr, "<<") == 0)
+		{	
+			get_heredoc_tk(roaming);
+			if (roaming->type == TK_INVALID)
+				return (PANIC);
+		}
+		roaming = roaming->next;
+	}
+	return (SUCCESS);
+}
+
 /* Unfortunately we're not allowed to use case statmements :( */
 int	lexer(t_data *data)
 {
@@ -92,5 +110,6 @@ int	lexer(t_data *data)
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
 		return (1);
+	build_heredocs(data);
 	return (0);
 }

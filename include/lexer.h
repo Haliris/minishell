@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:48:54 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/19 15:34:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,6 @@ t_token	*get_word_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_path_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_heredoc_tk(t_data *data, char *input, size_t start_idx);
+void	get_heredoc_tk(t_token *roaming);
 
 #endif
