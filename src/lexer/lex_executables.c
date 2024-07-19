@@ -42,8 +42,10 @@ char	*get_exec_path(char *input, size_t start_idx)
 
 	exec_path = NULL;
 	cmd = get_substr(input, start_idx);
-	if (!cmd || !cmd[0])
+	if (!cmd)
 		return (NULL);
+	if (!cmd[0])
+		return (free(cmd), NULL);
 	path = getenv("PATH");
 	if (!path)
 		return (free(cmd), NULL);

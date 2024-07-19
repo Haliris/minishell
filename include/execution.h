@@ -28,8 +28,8 @@ typedef struct s_varlist		t_varlist;
 # define BUILT_IN 2
 
 void	trash(char **array);
-void	handle_error(char *message, int code);
-void	execute_cmd(char *cmd, t_data *data, t_parser *parser);
+void	handle_error(char *message, int code, t_data *data);
+void	execute_cmd(char *cmd, t_data *data);
 char	**build_env(t_varlist *vars);
 int		count_commands(t_parser *data);
 

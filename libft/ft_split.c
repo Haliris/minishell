@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 17:14:10 by jteissie          #+#    #+#             */
-/*   Updated: 2024/06/12 18:29:45 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:34:59 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	count_words(char const *str, char sep)
 	words = 0;
 	if (!str || str[0] == '\0')
 		return (0);
+	if (check_sep(str[i], sep))
+		i++;
 	while (str[i])
 	{
 		if (check_sep(str[i], sep)

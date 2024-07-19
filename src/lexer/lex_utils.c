@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
 /*   Updated: 2024/07/19 12:16:37 by bthomas          ###   ########.fr       */
@@ -41,12 +41,12 @@ char	*get_substr(char *input, size_t start_idx)
 	return (substr);
 }
 
-bool	var_in_str(char *str)
+bool	var_in_str(char *s)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] && str[i + 1])
+	while (s[i] && s[i + 1])
 	{
 		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
 			return (true);

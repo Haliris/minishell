@@ -51,7 +51,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 		if (command)
 			trash(command);
 		if (mode == CHILD)
-			handle_error("Command split error", EXIT_FAILURE);
+			handle_error("Built_in split error", EXIT_FAILURE, data);
 		else
 			return ;
 	}

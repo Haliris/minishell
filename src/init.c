@@ -49,6 +49,7 @@ int	init(t_data *data, char **env)
 	handle_signals();
 	data->token = NULL;
 	data->env_vars = NULL;
+	data->errcode = EXIT_SUCCESS;
 	data->parsedata = ft_calloc(1, sizeof(t_parser));
 	if (!data->parsedata)
 		return (PANIC);

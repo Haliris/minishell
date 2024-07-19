@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lex_bools1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
 /*   Updated: 2024/07/19 12:11:22 by bthomas          ###   ########.fr       */

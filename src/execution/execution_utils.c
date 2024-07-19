@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void	handle_error(char *message, int code)
+void	handle_error(char *message, int code, t_data *data)
 {
 	ft_putstr_fd(message, 2);
 	ft_putchar_fd('\n', 2);
-	exit(code);
+	exit(clean_exit(data, code));
 }
 
 void	trash(char **array)

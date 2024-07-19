@@ -69,6 +69,7 @@ typedef struct s_data
 {
 	char			*input;
 	char			**env;
+	int				errcode;
 	t_token			*token;
 	t_varlist		*env_vars;
 	t_parser		*parsedata;
@@ -106,6 +107,7 @@ void		unlink_heredocs(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
+
 bool		var_in_str(char *str);
 int			count_str_vars(char *str);
 
