@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 15:05:32 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:50:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void		free_env(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 
 /* utils */
-void		handle_signals(void);
+void		init_signals(void);
 void		interrupt_heredoc(int status);
 void		interrupt_main(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
