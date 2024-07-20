@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/20 12:37:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 15:43:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,31 @@ int	count_str_vars(char *str)
 		i++;
 	}
 	return (count);
+}
+
+size_t	get_str_tk_len(char *input, size_t startidx)
+{
+	size_t	len;
+	bool	in_quote;
+	char	quote;
+
+	len = 0;
+	in_quote = false;
+	quote = input[startidx];
+	while (input[startidx])
+	{
+		if (!in_quote && in(input[startidx], "\'\""))
+		{
+			in_quote = true;
+			quote = input[startidx];
+		}
+		else if (in_quote && input[startidx] == quote)
+			in_quote = false;
+		else if (!in_quote && is_delim(input[startidx]))
+			break ;
+		else
+			len++;
+		startidx++;
+	}
+	return (len);
 }

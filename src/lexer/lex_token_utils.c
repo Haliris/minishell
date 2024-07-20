@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:06:39 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:37:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 		while (token->next)
 			token = token->next;
 		if (token->type == TK_PIPE || token->type == TK_REDIR)
+		{
+			free(lexstr);
 			return (NULL);
+		}
 	}
 	token = (t_token *)malloc(sizeof(t_token));
 	if (!token)
@@ -30,12 +33,10 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 		write(2, "Error: bad malloc\n", 19);
 		exit(clean_exit(data, 1));
 	}
+	ft_bzero(token, sizeof(t_token));
 	token->lexstr = lexstr;
 	token->path = path;
 	token->type = type;
-	token->next = NULL;
-	token->prev = NULL;
-	token->heredoc = NULL;
 	return (token);
 }
 
