@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:32:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 13:06:53 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
 typedef struct s_varlist		t_varlist;
 
+typedef struct	s_signal
+{
+	int	heredoc_read;
+	int	sigcode;
+}	t_signal;
+extern	t_signal	global_sig;
 typedef struct s_heredoc
 {
 	int		fd;
@@ -103,6 +109,7 @@ int			clean_exit(t_data *data, int exit_code);
 /* utils */
 void		handle_signals(void);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
+char		*ft_str_rejoin(char *stash, char *append);
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:33:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 12:29:59 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+t_signal	global_sig = {0};
 
 int	parse_data(t_data *data)
 {
@@ -67,14 +69,16 @@ int	get_input(t_data *data, char *prompt)
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
+	char			*prompt;
 
 	(void)argv;
 	(void)argc;
 	init(&data, env);
+	prompt = get_prompt(NULL);
 	while (1)
 	{
-		data.prompt = get_prompt(data.prompt);
-		if (get_input(&data, data.prompt) == PANIC)
+		prompt = get_prompt(prompt);
+		if (get_input(&data, prompt) == PANIC)
 			break ;
 		if (tokenize_data(&data) == PANIC)
 			continue ;
@@ -83,5 +87,7 @@ int	main(int argc, char **argv, char **env)
 		execute_data(&data);
 		unlink_heredocs(&data);
 	}
+	if (prompt)
+		free(prompt);
 	return (clean_exit(&data, data.errcode));
 }

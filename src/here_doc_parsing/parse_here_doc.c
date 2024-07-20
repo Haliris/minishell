@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/19 18:19:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 13:12:48 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,30 @@ int	create_here_file(t_heredoc *heredoc)
 	return (here_fd);
 }
 
+#include <stdio.h>
+
+void	interrupt_heredoc(int status)
+{
+	(void)status;
+	printf("interrupt heredoc entered\n");
+	rl_replace_line("", 0);
+	rl_redisplay();
+	rl_done = 1;
+	global_sig.heredoc_read = TRUE;
+	global_sig.sigcode = 0;
+}
+
 int	put_line(char *limiter, int here_fd)
 {
 	char	*gnl_line;
 	int		len;
 
 	len = ft_strlen(limiter);
+	signal(SIGINT, interrupt_heredoc);
 	while (1)
 	{
-		gnl_line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(gnl_line, limiter, len) == 0 && gnl_line[len] == '\n')
+		gnl_line = readline("> ");
+		if (ft_strncmp(gnl_line, limiter, len) == 0)
 		{
 			free(gnl_line);
 			return (SUCCESS);
@@ -113,8 +127,19 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		free(heredoc);
 		return (NULL);
 	}
-	if (put_line(limiter, here_fd) < 0)
+	if (global_sig.heredoc_read == TRUE)
 	{
+		printf("entered early unlink path\n");
+		global_sig.heredoc_read = FALSE;
+		close(here_fd);
+		unlink(heredoc->path);
+		free(heredoc);
+		return (NULL);
+	}
+	else if (put_line(limiter, here_fd) < 0)
+	{
+		close(here_fd);
+		unlink(heredoc->path);
 		free(heredoc);
 		return (NULL);
 	}

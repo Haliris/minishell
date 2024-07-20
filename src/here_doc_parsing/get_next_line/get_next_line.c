@@ -6,11 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 14:12:35 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 11:34:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 12:51:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "minishell.h"
 #include "libft.h"
 
 char	*ft_str_rejoin(char *stash, char *add)
@@ -38,6 +39,8 @@ char	*fetch_line(char *line_stash, int fd, int *status)
 	while (!find_eol(line_stash))
 	{
 		*status = read(fd, read_buff, BUFFER_SIZE);
+		if (errno == EINTR)
+			printf("caught read () errno\n");
 		if (*status <= 0)
 		{
 			free(read_buff);
