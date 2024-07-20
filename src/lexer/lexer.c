@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/20 21:04:09 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 21:11:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,9 @@ int	lexer(t_data *data)
 	if (invalid_tokens(data))
 		return (1);
 	if (build_heredocs(data) == PANIC)
+	{
+		unlink_heredocs(data);
 		return (1);
+	}
 	return (0);
 }

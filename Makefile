@@ -32,6 +32,7 @@ CFILES	= main.c \
 		  validate_input.c \
 		  validate_tokens.c \
 		  signals.c \
+		  signals_utils.c \
 		  built_ins.c \
 		  cd.c \
 		  echo.c \

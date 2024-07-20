@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 17:37:42 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:48:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	put_line(char *limiter, int here_fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (global_sig.heredoc_int == TRUE)
+		if (g_sig.heredoc_int == TRUE)
 		{
 			if (line)
 				free(line);
@@ -120,19 +120,10 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		return (NULL);
 	}
 	if (put_line(limiter, here_fd) < 0)
-	{
-		close(here_fd);
-		unlink(heredoc->path);
-		free(heredoc);
 		return (NULL);
-	}
-	else if (global_sig.heredoc_int == TRUE)
+	else if (g_sig.heredoc_int == TRUE)
 	{
-		printf("entered early unlink path\n");
-		global_sig.heredoc_int = FALSE;
-		close(here_fd);
-		unlink(heredoc->path);
-		free(heredoc);
+		g_sig.heredoc_int = FALSE;
 		return (NULL);
 	}
 	close(here_fd);
