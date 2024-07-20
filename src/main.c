@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 15:50:16 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:08:38 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	main(int argc, char **argv, char **env)
 	prompt = get_prompt(NULL);
 	while (1)
 	{
+		init_signals();
 		prompt = get_prompt(prompt);
 		if (get_input(&data, prompt) == PANIC)
 			break ;
