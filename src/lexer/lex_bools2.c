@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 13:06:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:19:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool	is_delim(char c)
 {
-	return (in(c, "$ \t\n\v\f\r=()<>|\"\'[]"));
+	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
 }
 
 bool	var_in_str(char *s)
@@ -57,5 +57,13 @@ bool	is_invalid_export(t_data *data, size_t curr_idx)
 				return (true);
 		}
 	}
+	return (false);
+}
+
+bool	invalid_path_char(char c)
+{
+	if (!ft_isalnum(c))
+		if (c != '_')
+			return (true);
 	return (false);
 }
