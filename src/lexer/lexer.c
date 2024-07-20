@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 18:11:22 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 13:14:39 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	t_token	*curr_tk;
 
 	curr_tk = NULL;
-	if (data->input[*i] == '-' && !is_space(data->input[*i]))
+	if (in(data->input[*i], "<>"))
+		curr_tk = get_redir_tk(data, data->input, *i);
+	else if (data->input[*i] == '-' && !is_space(data->input[*i]))
 		curr_tk = get_flag_tk(data, data->input, *i);
 	else if (is_builtin(data->input, *i))
 		curr_tk = get_token(data, get_substr(data->input, *i),
@@ -65,6 +67,8 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 	i = 0;
 	while (i < input_len)
 	{
+		if (is_invalid_export(data, i))
+			return (PANIC);
 		skip_invalid_chars(data, input_len, &i);
 		if (i >= input_len)
 			break ;
@@ -72,8 +76,6 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 			curr_tk = get_string_tk(data, data->input, &i);
 		else if (data->input[i] == '|')
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);
-		else if (in(data->input[i], "<>"))
-			curr_tk = get_redir_tk(data, data->input, i);
 		else
 			curr_tk = build_tokenlist2(data, &i);
 		if (!curr_tk || !curr_tk->lexstr)
