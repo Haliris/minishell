@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 15:50:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:40:15 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # include <readline/history.h>
 
 # include "libft.h"
-# include "get_next_line.h"
 # include "parser.h"
 # include "lexer.h"
 # include "execution.h"
@@ -114,6 +113,8 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data);
 void		interrupt_exec(int status);
 
 char		*ft_str_rejoin(char *stash, char *append);
+void		copy_and_cat(char *out, char *cpy_src, char *cat_src);
+
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);

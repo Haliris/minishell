@@ -12,6 +12,38 @@
 
 #include "minishell.h"
 
+char	*ft_str_rejoin(char *stash, char *add)
+{
+	char	*joined;
+
+	if (!stash)
+		return (NULL);
+	joined = ft_calloc((ft_strlen(stash) + ft_strlen(add) + 1), sizeof(char));
+	if (!joined)
+		return (free(stash), NULL);
+	copy_and_cat(joined, stash, add);
+	return (free(stash), joined);
+}
+
+void	copy_and_cat(char *out, char *cpy_src, char *cat_src)
+{
+	int	i;
+	int	src_i;
+
+	i = 0;
+	src_i = 0;
+	while (cpy_src[src_i])
+	{
+		out[i] = cpy_src[src_i];
+		i++;
+		src_i++;
+	}
+	src_i = 0;
+	while (cat_src[src_i])
+		out[i++] = cat_src[src_i++];
+	out[i] = '\0';
+}
+
 void	add_heredoc_node(t_heredoc *heredoc, t_data *data)
 {
 	t_heredoc_data	*roaming;

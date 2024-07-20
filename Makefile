@@ -20,8 +20,6 @@ CFILES	= main.c \
 		  redir_child.c \
 		  parse_here_doc.c \
 		  here_doc_utils.c \
-		  get_next_line.c \
-		  get_next_line_utils.c \
 		  lex_bools1.c \
 		  lex_executables.c \
 		  lex_retrieve_tk1.c \
@@ -47,7 +45,7 @@ CFILES	= main.c \
 INCS	=	-I ./include \
 			-I ./libft
 
-vpath %.c ./ src/ src/here_doc_parsing src/here_doc_parsing/get_next_line src/parser src/lexer/ src/execution src/built_ins
+vpath %.c ./ src/ src/here_doc_parsing src/parser src/lexer/ src/execution src/built_ins
 
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 

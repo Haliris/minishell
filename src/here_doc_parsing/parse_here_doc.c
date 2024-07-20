@@ -6,13 +6,12 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 16:55:12 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:37:42 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "get_next_line.h"
 #define FILENAME_TAKEN -1
 #define SYS_ERROR -2
 #define SUCCESS 1
