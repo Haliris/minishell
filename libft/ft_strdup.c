@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 16:46:49 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/19 18:12:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 17:32:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ char	*ft_strdup(const char *s)
 	char	*cpy;
 
 	len = ft_strlen(s);
-	cpy = malloc(len + 1 * sizeof(char));
+	if (!len)
+		return (NULL);
+	cpy = malloc(len + 1);
 	if (cpy != NULL)
 		ft_strlcpy(cpy, s, len + 1);
 	return (cpy);
