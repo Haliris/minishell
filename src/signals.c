@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 17:16:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:30:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	rl_end_event(void)
 void	interrupt_heredoc(int status)
 {
 	(void)status;
-	write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
@@ -43,7 +42,6 @@ void	interrupt_main(int status)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	rl_done = 1;
 	global_sig.sigcode = 0;
 }
 void	setup_signals(void)
