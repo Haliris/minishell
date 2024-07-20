@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 17:53:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 14:24:40 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 	return (get_token(data, search_str, path, TK_PATH));
 }
 
-/* problem chars: & | < > ; ( ) \ " ' 
+/* problem chars: & | < > ; ( ) \ " '
 	but, bash allows them */
 static void	remove_lim_node(t_token *node)
 {
@@ -87,7 +87,7 @@ static void	remove_lim_node(t_token *node)
 	free(node);
 }
 
-void	get_heredoc_tk(t_token *roaming, t_data *data)
+int	get_heredoc_tk(t_token *roaming, t_data *data)
 {
 	char	*limiter;
 
@@ -95,10 +95,13 @@ void	get_heredoc_tk(t_token *roaming, t_data *data)
 	if (!limiter)
 	{
 		roaming->type = TK_INVALID;
-		return ;
+		return (PANIC);
 	}
 	remove_lim_node(roaming->next);
 	roaming->type = TK_HEREDOC;
 	roaming->heredoc = process_here_doc(limiter, data);
 	free(limiter);
+	if (!roaming->heredoc)
+		return (PANIC);
+	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 13:12:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:15:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,33 +82,45 @@ int	create_here_file(t_heredoc *heredoc)
 void	interrupt_heredoc(int status)
 {
 	(void)status;
-	printf("interrupt heredoc entered\n");
 	rl_replace_line("", 0);
 	rl_redisplay();
 	rl_done = 1;
-	global_sig.heredoc_read = TRUE;
+	printf("rl_done: %d\n", rl_done);
+	global_sig.heredoc_int = TRUE;
 	global_sig.sigcode = 0;
 }
 
 int	put_line(char *limiter, int here_fd)
 {
-	char	*gnl_line;
+	char	*line;
 	int		len;
 
 	len = ft_strlen(limiter);
 	signal(SIGINT, interrupt_heredoc);
 	while (1)
 	{
-		gnl_line = readline("> ");
-		if (ft_strncmp(gnl_line, limiter, len) == 0)
+		line = readline("> ");
+		if (global_sig.heredoc_int == TRUE)
 		{
-			free(gnl_line);
+			if (line)
+				free(line);
 			return (SUCCESS);
 		}
-		if (!gnl_line)
+		if (line)
+		{
+			line = ft_str_rejoin(line, "\n");
+			if (!line)
+				return (SYS_ERROR);
+		}
+		if ((ft_strncmp(line, limiter, len) == 0) && line[len] == '\n')
+		{
+			free(line);
+			return (SUCCESS);
+		}
+		if (!line)
 			return (SYS_ERROR);
-		ft_putstr_fd(gnl_line, here_fd);
-		free(gnl_line);
+		ft_putstr_fd(line, here_fd);
+		free(line);
 	}
 }
 
@@ -127,17 +139,17 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		free(heredoc);
 		return (NULL);
 	}
-	if (global_sig.heredoc_read == TRUE)
+	if (put_line(limiter, here_fd) < 0)
 	{
-		printf("entered early unlink path\n");
-		global_sig.heredoc_read = FALSE;
 		close(here_fd);
 		unlink(heredoc->path);
 		free(heredoc);
 		return (NULL);
 	}
-	else if (put_line(limiter, here_fd) < 0)
+	else if (global_sig.heredoc_int == TRUE)
 	{
+		printf("entered early unlink path\n");
+		global_sig.heredoc_int = FALSE;
 		close(here_fd);
 		unlink(heredoc->path);
 		free(heredoc);

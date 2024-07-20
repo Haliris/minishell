@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 13:06:53 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:03:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_varlist		t_varlist;
 
 typedef struct	s_signal
 {
-	int	heredoc_read;
+	int	heredoc_int;
 	int	sigcode;
 }	t_signal;
 extern	t_signal	global_sig;
