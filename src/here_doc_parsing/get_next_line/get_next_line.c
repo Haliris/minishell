@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 14:12:35 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/08 19:02:47 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:59:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_str_rejoin(char *stash, char *add)
 
 	if (!stash)
 		return (NULL);
+	if (!add)
+		return (stash);
 	joined = ft_calloc((ft_strlen(stash) + ft_strlen(add) + 1), sizeof(char));
 	if (!joined)
 		return (free(stash), NULL);
