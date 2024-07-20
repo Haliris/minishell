@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 10:40:33 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 11:33:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ int	get_input(t_data *data, char *prompt)
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
-	char			*prompt;
 
 	(void)argv;
 	(void)argc;
 	init(&data, env);
-	prompt = get_prompt(NULL);
 	while (1)
 	{
-		prompt = get_prompt(prompt);
-		if (get_input(&data, prompt) == PANIC)
+		data.prompt = get_prompt(data.prompt);
+		if (get_input(&data, data.prompt) == PANIC)
 			break ;
 		if (tokenize_data(&data) == PANIC)
 			continue ;
@@ -85,7 +83,5 @@ int	main(int argc, char **argv, char **env)
 		execute_data(&data);
 		unlink_heredocs(&data);
 	}
-	if (prompt)
-		free(prompt);
 	return (clean_exit(&data, data.errcode));
 }
