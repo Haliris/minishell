@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 14:24:40 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:03:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 	size_t	end_idx;
 
 	end_idx = start_idx + 1;
-	while (input[end_idx] && !is_delim(input[end_idx]))
+	if (!ft_isalpha(input[end_idx]) && input[end_idx] != '_')
+		return (NULL);
+	while (input[end_idx] && !is_delim(input[end_idx])
+		&& !invalid_path_char(input[end_idx]))
 		end_idx++;
 	if (end_idx == start_idx + 1)
 		return (NULL);

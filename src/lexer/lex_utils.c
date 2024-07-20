@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lex_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 12:16:37 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 15:43:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-bool	is_delim(char c)
-{
-	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
-}
 
 void	replace_str(char **old, char *new)
 {
@@ -41,20 +36,6 @@ char	*get_substr(char *input, size_t start_idx)
 	return (substr);
 }
 
-bool	var_in_str(char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] && s[i + 1])
-	{
-		if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1]))
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 int	count_str_vars(char *str)
 {
 	int		count;
@@ -69,4 +50,31 @@ int	count_str_vars(char *str)
 		i++;
 	}
 	return (count);
+}
+
+size_t	get_str_tk_len(char *input, size_t startidx)
+{
+	size_t	len;
+	bool	in_quote;
+	char	quote;
+
+	len = 0;
+	in_quote = false;
+	quote = input[startidx];
+	while (input[startidx])
+	{
+		if (!in_quote && in(input[startidx], "\'\""))
+		{
+			in_quote = true;
+			quote = input[startidx];
+		}
+		else if (in_quote && input[startidx] == quote)
+			in_quote = false;
+		else if (!in_quote && is_delim(input[startidx]))
+			break ;
+		else
+			len++;
+		startidx++;
+	}
+	return (len);
 }

@@ -6,11 +6,25 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/18 09:59:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 14:30:47 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_ins.h"
+
+static bool	contains_bad_chars(char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s && s[i])
+	{
+		if (invalid_path_char(s[i]))
+			return (true);
+		i++;
+	}
+	return (false);
+}
 
 int	get_cmd_len(char **cmd)
 {
@@ -47,7 +61,7 @@ void	call_export(t_data *data, char **cmd)
 	cmd_len = get_cmd_len(cmd);
 	if (cmd_len == 1)
 		return (print_env(data));
-	if (cmd[1][0] == '=')
+	if (contains_bad_chars(cmd[1]))
 	{
 		ft_putstr_fd("minishell: export: '", 2);
 		ft_putstr_fd(cmd[1], 2);

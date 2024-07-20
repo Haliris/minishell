@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:34:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 17:11:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,20 @@ static bool	is_orphaned_op(t_token *token)
 	return (false);
 }
 
+static bool	space_within_lexstr(t_token *token)
+{
+	size_t	i;
+
+	i = 0;
+	while (token->lexstr && token->lexstr[i])
+	{
+		if (is_space(token->lexstr[i]))
+			return (true);
+		i++;
+	}
+	return (false);
+}
+
 static int	detect_executables(t_token *token)
 {
 	t_token	*curr_tk;
@@ -51,7 +65,8 @@ static int	detect_executables(t_token *token)
 	curr_tk = token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && is_executable(curr_tk->lexstr, 0))
+		if (curr_tk->type == TK_STRING && !space_within_lexstr(token)
+			&& is_executable(curr_tk->lexstr, 0))
 		{
 			curr_tk->path = get_exec_path(curr_tk->lexstr, 0);
 			if (!curr_tk->path)

@@ -21,6 +21,7 @@ CFILES	= main.c \
 		  parse_here_doc.c \
 		  here_doc_utils.c \
 		  lex_bools1.c \
+		  lex_bools2.c \
 		  lex_executables.c \
 		  lex_retrieve_tk1.c \
 		  lex_retrieve_tk2.c \

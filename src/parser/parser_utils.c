@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 17:37:45 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:05:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*build_cmd_buffer(char *cmd_buff, t_token *roaming)
 		cmd_buff = ft_str_rejoin(cmd_buff, " ");
 		if (!cmd_buff)
 			return (NULL);
-		if (roaming->path && !roaming->prev)
+		if ((roaming->path && !roaming->prev) || roaming->type == TK_PATH)
 			cmd_buff = ft_str_rejoin(cmd_buff, roaming->path);
 		else
 			cmd_buff = ft_str_rejoin(cmd_buff, roaming->lexstr);

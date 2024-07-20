@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 14:23:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:03:04 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,9 @@ void	print_token(t_token *token);
 char	*get_env_var(char *var_str);
 char	*get_exec_path(char *input, size_t start_idx);
 void	replace_str(char **old, char *new);
+size_t	get_str_tk_len(char *input, size_t startidx);
+void	get_extended_str(char *input, size_t *startidx,
+			char **outstr, size_t str_tk_len);
 
 /* utilities - bools */
 bool	is_builtin(char *input, size_t start_idx);
@@ -66,10 +69,12 @@ bool	in(unsigned char c, const char *str);
 bool	empty_quote(char *input, size_t start_idx);
 bool	is_executable(char *input, size_t start_idx);
 bool	is_delim(char c);
+bool	invalid_path_char(char c);
 
 /* input validation */
 bool	valid_input(char *input);
 bool	invalid_tokens(t_data *data);
+bool	is_invalid_export(t_data *data, size_t curr_idx);
 
 /* token retrieval */
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
@@ -78,7 +83,6 @@ t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx);
 t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_word_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_path_tk(t_data *data, char *input, size_t start_idx);
