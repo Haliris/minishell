@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:32:17 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 10:40:33 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ int	tokenize_data(t_data *data)
 		{
 			if (data->token)
 				roaming = data->token;
+			else
+				roaming = NULL;
 			while (roaming && roaming->next)
 				roaming = roaming->next;
 			ft_printf("minishell: syntax error near unexpected token ");
-			ft_printf("'%s'\n", roaming->lexstr);
+			if (roaming)
+				ft_printf("'%s'\n", roaming->lexstr);
 			free_lexmem(data);
 			return (PANIC);
 		}
