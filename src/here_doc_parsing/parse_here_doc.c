@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 14:15:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:57:04 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,6 @@ int	create_here_file(t_heredoc *heredoc)
 		return (SYS_ERROR);
 	heredoc->fd = here_fd;
 	return (here_fd);
-}
-
-#include <stdio.h>
-
-void	interrupt_heredoc(int status)
-{
-	(void)status;
-	rl_replace_line("", 0);
-	rl_redisplay();
-	rl_done = 1;
-	printf("rl_done: %d\n", rl_done);
-	global_sig.heredoc_int = TRUE;
-	global_sig.sigcode = 0;
 }
 
 int	put_line(char *limiter, int here_fd)

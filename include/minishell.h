@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 14:03:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:05:32 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,11 @@ int			clean_exit(t_data *data, int exit_code);
 
 /* utils */
 void		handle_signals(void);
+void		interrupt_heredoc(int status);
+void		interrupt_main(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
+void		interrupt_exec(int status);
+
 char		*ft_str_rejoin(char *stash, char *append);
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);

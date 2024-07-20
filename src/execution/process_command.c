@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:56 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 15:02:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	has_pipe[1] = FALSE;
 	if (open_pipes(p, pipe_fd, has_pipe) == -1)
 		return (PANIC);
+	signal(SIGINT, interrupt_exec);
 	pid_child = fork();
 	if (pid_child < 0)
 		return (PANIC);

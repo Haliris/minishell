@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 12:29:59 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:05:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	init(&data, env);
 	prompt = get_prompt(NULL);
+	signal(SIGINT, interrupt_main);
 	while (1)
 	{
 		prompt = get_prompt(prompt);
