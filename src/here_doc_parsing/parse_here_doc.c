@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 14:57:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:16:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int	put_line(char *limiter, int here_fd)
 				free(line);
 			return (SUCCESS);
 		}
+		if (!line)
+			return (SUCCESS);
 		if (line)
 		{
 			line = ft_str_rejoin(line, "\n");
@@ -104,8 +106,6 @@ int	put_line(char *limiter, int here_fd)
 			free(line);
 			return (SUCCESS);
 		}
-		if (!line)
-			return (SYS_ERROR);
 		ft_putstr_fd(line, here_fd);
 		free(line);
 	}
