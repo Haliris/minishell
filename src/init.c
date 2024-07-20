@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 18:42:19 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 11:42:57 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	init(t_data *data, char **env)
 {
 	handle_signals();
 	data->token = NULL;
+	data->prompt = NULL;
 	data->env_vars = NULL;
 	data->errcode = EXIT_SUCCESS;
 	data->parsedata = ft_calloc(1, sizeof(t_parser));
