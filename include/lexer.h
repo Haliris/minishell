@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 16:14:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/20 12:58:14 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ bool	is_delim(char c);
 /* input validation */
 bool	valid_input(char *input);
 bool	invalid_tokens(t_data *data);
+bool	is_invalid_export(t_data *data, size_t curr_idx);
 
 /* token retrieval */
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
