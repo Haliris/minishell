@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:23:28 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:17:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 	char	*lexstr;
 
 	lexstr = NULL;
-	if (check_prev_tk(data) == TK_REDIR || check_prev_tk(data) == TK_PIPE)
+	if (check_prev_tk(data) == TK_REDIR)
 		return (NULL);
 	if (input[start_idx] == '<')
 	{
