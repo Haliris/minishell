@@ -18,8 +18,8 @@ void	interrupt_heredoc(int status)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig.sigoffset += status;
 	rl_done = 1;
-	g_sig.heredoc_int = TRUE;
 }
 
 void	interrupt_exec(int status)

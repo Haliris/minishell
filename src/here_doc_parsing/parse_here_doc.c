@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 21:48:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 17:13:21 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	put_line(char *limiter, int here_fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_sig.heredoc_int == TRUE)
+		if (g_sig.sigoffset)
 		{
 			if (line)
 				free(line);
@@ -119,11 +119,11 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		free(heredoc);
 		return (NULL);
 	}
-	if (put_line(limiter, here_fd) < 0)
-		return (NULL);
-	else if (g_sig.heredoc_int == TRUE)
+	if (put_line(limiter, here_fd) < 0 || g_sig.sigoffset)
 	{
-		g_sig.heredoc_int = FALSE;
+		close(here_fd);
+		unlink(heredoc->path);
+		free(heredoc);
 		return (NULL);
 	}
 	close(here_fd);

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:32:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:33:55 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ int	get_input(t_data *data, char *prompt)
 	return (SUCCESS);
 }
 
+
+
+
+
 #include <stdio.h>
 
 int	main(int argc, char **argv, char **env)
@@ -86,20 +90,26 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		init_signals();
+		printf("g_sig.sigoffset: %d\n", g_sig.sigoffset);
 		if (g_sig.sigoffset)
+		{
 			data.errcode = SIG_OFFSET + 2;
+			g_sig.sigoffset = 0;
+		}
+		printf("errcode before get_prompt:%d\n", data.errcode);
 		prompt = get_prompt(prompt);
 		if (get_input(&data, prompt) == PANIC)
 			break ;
-
 		if (tokenize_data(&data) == PANIC)
 			continue ;
 		parse_data(&data);
 		free_lexmem(&data);
 		execute_data(&data);
+		printf("errcode after execute:%d\n", data.errcode);
 		unlink_heredocs(&data);
 	}
 	if (prompt)
 		free(prompt);
+	printf("errcode before exit:%d\n", data.errcode);
 	return (clean_exit(&data, data.errcode));
 }

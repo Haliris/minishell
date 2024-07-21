@@ -6,11 +6,16 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 16:03:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:19:26 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+
+
+
 
 #include <stdio.h>
 
@@ -32,7 +37,9 @@ void	wait_for_children(t_data *data)
 		error_code += WTERMSIG(status);
 	else
 		error_code = WEXITSTATUS(status);
+	printf("child error_code: %d\n", error_code);
 	data->errcode = error_code;
+	printf("data->errcode after child: %d\n", data->errcode);
 }
 
 int	count_commands(t_parser *data)

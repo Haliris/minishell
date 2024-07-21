@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/21 16:31:27 by jteissie         ###   ########.fr       */
+/*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
+/*   Updated: 2024/07/21 17:03:27 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -48,7 +47,6 @@ typedef struct s_varlist		t_varlist;
 typedef struct s_pid_data		t_pid_data;
 typedef struct s_signal
 {
-	int	heredoc_int;
 	int	sigoffset;
 }	t_signal;
 

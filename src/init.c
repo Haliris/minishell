@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 15:39:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:25:14 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ int	init(t_data *data, char **env)
 	data->parsedata->next = NULL;
 	data->heredata = NULL;
 	data->piddata = NULL;
-	g_sig.sigoffset = SIG_OFFSET;
+	g_sig.sigoffset = 0;
 	return (init_env(data, env));
 }
