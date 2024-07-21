@@ -75,7 +75,7 @@ void	call_echo(t_data *data, char **cmd)
 	out_str = NULL;
 	is_flagged = FALSE;
 	i = 1;
-	if (cmd[i] && is_nflag(cmd[i]))
+	while (cmd[i] && is_nflag(cmd[i]))
 	{
 		is_flagged = TRUE;
 		i++;
