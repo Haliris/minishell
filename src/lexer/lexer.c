@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/20 17:12:18 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:11:19 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ int	build_heredocs(t_data *data)
 	{
 		if (roaming->type == TK_REDIR && ft_strcmp(roaming->lexstr, "<<") == 0)
 		{
-			get_heredoc_tk(roaming, data);
+			if (get_heredoc_tk(roaming, data) == PANIC)
+				return (PANIC);
 			if (roaming->type == TK_INVALID)
 				return (PANIC);
 		}
@@ -114,6 +115,10 @@ int	lexer(t_data *data)
 		return (1);
 	if (invalid_tokens(data))
 		return (1);
-	build_heredocs(data);
+	if (build_heredocs(data) == PANIC)
+	{
+		unlink_heredocs(data);
+		return (1);
+	}
 	return (0);
 }

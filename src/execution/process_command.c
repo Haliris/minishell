@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:56 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:35:47 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,18 @@ int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 
 int	redirect_parent(int p_fd[])
 {
-	int	dup_status;
+	int	status;
 
-	dup_status = 0;
+	status = SUCCESS;
 	if (p_fd[0] != -1)
 	{
-		dup_status += dup2(p_fd[0], STDIN_FILENO);
+		dup2(p_fd[0], STDIN_FILENO);
 		close(p_fd[0]);
+		status = PANIC;
 	}
 	if (p_fd[1] != -1)
 		close(p_fd[1]);
-	return (dup_status);
+	return (status);
 }
 
 void	execute_child(char *cmd, t_data *data)
@@ -81,6 +82,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	has_pipe[1] = FALSE;
 	if (open_pipes(p, pipe_fd, has_pipe) == -1)
 		return (PANIC);
+	signal(SIGINT, interrupt_exec);
 	pid_child = fork();
 	if (pid_child < 0)
 		return (PANIC);
@@ -91,9 +93,6 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 		execute_child(cmd_table->cmd, data);
 	}
 	else
-	{
-		if (redirect_parent(pipe_fd) < 0)
-			return (PANIC);
-	}
+		return (redirect_parent(pipe_fd));
 	return (SUCCESS);
 }

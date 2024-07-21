@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:42:57 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 15:49:42 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	init_env(t_data *data, char **env)
 
 int	init(t_data *data, char **env)
 {
-	handle_signals();
+	init_signals();
 	data->token = NULL;
 	data->prompt = NULL;
 	data->env_vars = NULL;

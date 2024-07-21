@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_here_doc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/19 18:19:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 21:48:51 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "minishell.h"
-#include "get_next_line.h"
 #define FILENAME_TAKEN -1
 #define SYS_ERROR -2
 #define SUCCESS 1
@@ -79,22 +78,29 @@ int	create_here_file(t_heredoc *heredoc)
 
 int	put_line(char *limiter, int here_fd)
 {
-	char	*gnl_line;
+	char	*line;
 	int		len;
 
 	len = ft_strlen(limiter);
+	signal(SIGINT, interrupt_heredoc);
 	while (1)
 	{
-		gnl_line = get_next_line(STDIN_FILENO);
-		if (ft_strncmp(gnl_line, limiter, len) == 0 && gnl_line[len] == '\n')
+		line = readline("> ");
+		if (g_sig.heredoc_int == TRUE)
 		{
-			free(gnl_line);
+			if (line)
+				free(line);
 			return (SUCCESS);
 		}
-		if (!gnl_line)
-			return (SYS_ERROR);
-		ft_putstr_fd(gnl_line, here_fd);
-		free(gnl_line);
+		if (!line)
+			return (SUCCESS);
+		if (ft_strncmp(line, limiter, len) == 0)
+		{
+			free(line);
+			return (SUCCESS);
+		}
+		ft_putendl_fd(line, here_fd);
+		free(line);
 	}
 }
 
@@ -114,8 +120,10 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		return (NULL);
 	}
 	if (put_line(limiter, here_fd) < 0)
+		return (NULL);
+	else if (g_sig.heredoc_int == TRUE)
 	{
-		free(heredoc);
+		g_sig.heredoc_int = FALSE;
 		return (NULL);
 	}
 	close(here_fd);

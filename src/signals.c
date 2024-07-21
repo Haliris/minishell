@@ -3,32 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 12:57:23 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/16 11:06:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:12:50 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	sigint(int sig)
+int	rl_end_event(void)
 {
-	(void)sig;
-	ft_printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	return (0);
 }
 
-/* ctrl \ */
-void	sigquit(int sig)
+void	setup_signals(void)
 {
-	(void)sig;
+	signal(SIGINT, interrupt_main);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
 }
 
-void	handle_signals(void)
+void	init_signals(void)
 {
-	signal(SIGINT, sigint);
-	signal(SIGQUIT, sigquit);
+	rl_event_hook = rl_end_event;
+	setup_signals();
 }

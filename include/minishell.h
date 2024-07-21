@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:32:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/20 22:10:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # include <readline/history.h>
 
 # include "libft.h"
-# include "get_next_line.h"
 # include "parser.h"
 # include "lexer.h"
 # include "execution.h"
@@ -44,6 +43,14 @@
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
 typedef struct s_varlist		t_varlist;
+
+typedef struct s_signal
+{
+	int	heredoc_int;
+	int	sigcode;
+}	t_signal;
+
+extern t_signal					g_sig;
 
 typedef struct s_heredoc
 {
@@ -101,8 +108,14 @@ void		free_env(t_data *data);
 int			clean_exit(t_data *data, int exit_code);
 
 /* utils */
-void		handle_signals(void);
+void		init_signals(void);
+void		interrupt_heredoc(int status);
+void		interrupt_main(int status);
+void		interrupt_exec(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
+
+char		*ft_str_rejoin(char *stash, char *append);
+void		copy_and_cat(char *out, char *cpy_src, char *cat_src);
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);
