@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:22:26 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:14:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,6 @@ void	free_piddata(t_data *data)
 	}
 }
 
-#include <stdio.h>
-
 int	clean_exit(t_data *data, int exit_code)
 {
 	free_lexmem(data);
@@ -112,6 +110,5 @@ int	clean_exit(t_data *data, int exit_code)
 	if (data->piddata)
 		free_piddata(data);
 	free(data->heredata);
-	printf("errcode: %d\n", exit_code);
 	return (exit_code);
 }

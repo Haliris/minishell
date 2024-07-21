@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 16:35:27 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:59:00 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	execute_cmd(char *cmd, t_data *data)
 	}
 	env = build_env(data->env_vars);
 	if (access(command[0], F_OK) != 0)
-		data->errcode = 127;
+		data->errcode = NOT_FOUND;
 	else if (access(command[0], X_OK) != 0)
-		data->errcode = 126;
+		data->errcode = CANNOT_EXECUTE;
 	else
 		execve(command[0], command, env);
 	trash(command);

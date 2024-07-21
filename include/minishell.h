@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:38:17 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:58:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@
 # include "execution.h"
 # include "built_ins.h"
 # define SIG_OFFSET 128
+# define NOT_FOUND 127
+# define CANNOT_EXECUTE 126
 
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;

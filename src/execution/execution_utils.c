@@ -6,13 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 15:28:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:58:43 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define NOT_FOUND 127
-#define CANNOT_EXECUTE 126
 
 void	handle_error(char *message, int code, t_data *data)
 {
@@ -82,6 +80,3 @@ int	get_redirections(t_parser *roaming, char *redirection[])
 	redirection[1] = outfile;
 	return (append);
 }
-
-#undef NOT_FOUND
-#undef CANNOT_EXECUTE
