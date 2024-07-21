@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 21:03:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 16:23:28 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,19 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 	char	*path;
 	size_t	end_idx;
 
+	search_str = NULL;
+	if (input[start_idx] == '$' && input[start_idx + 1] == '$')
+		search_str = ft_strdup("$$");
 	end_idx = start_idx + 1;
-	if (!ft_isalpha(input[end_idx]) && input[end_idx] != '_')
+	if (!search_str && !ft_isalpha(input[end_idx]) && input[end_idx] != '_' )
 		return (NULL);
 	while (input[end_idx] && !is_delim(input[end_idx])
 		&& !invalid_path_char(input[end_idx]))
 		end_idx++;
-	if (end_idx == start_idx + 1)
+	if (end_idx == start_idx + 1 && !search_str)
 		return (NULL);
-	search_str = ft_substr(input, start_idx, end_idx - start_idx);
+	if (!search_str)
+		search_str = ft_substr(input, start_idx, end_idx - start_idx);
 	if (!search_str)
 		return (NULL);
 	search_str++;

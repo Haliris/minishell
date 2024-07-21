@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 13:39:50 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:52:47 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 
 static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 {
+	char	*input;
+
+	input = data->input;
 	while (*i < input_len)
 	{
-		if (is_space(data->input[*i]))
+		if (is_space(input[*i]))
 		{
-			while (is_space(data->input[*i]))
+			while (is_space(input[*i]))
 				(*i)++;
 		}
 		else if (empty_quote(data->input, *i))
@@ -26,6 +29,11 @@ static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 			while (empty_quote(data->input, *i))
 				(*i) += 2;
 		}
+		else if (input[*i] == '$' && input[(*i) + 1]
+			&& input[(*i) + 1] != '$'
+			&& !is_space(input[(*i) + 1])
+			&& (!ft_isalpha(input[(*i) + 1]) && input[(*i) + 1] != '_'))
+			(*i) += 2;
 		else
 			return ;
 	}
@@ -38,8 +46,6 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	curr_tk = NULL;
 	if (in(data->input[*i], "<>"))
 		curr_tk = get_redir_tk(data, data->input, *i);
-	else if (data->input[*i] == '-' && !is_space(data->input[*i]))
-		curr_tk = get_flag_tk(data, data->input, *i);
 	else if (is_builtin(data->input, *i))
 		curr_tk = get_token(data, get_substr(data->input, *i),
 				NULL, TK_BUILTIN);
@@ -48,6 +54,11 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 				NULL, TK_OPERATOR);
 	else if (is_executable(data->input, *i))
 		curr_tk = get_exec_tk(data, data->input, *i);
+	else if (data->input[*i] == '$' && data->input[(*i) + 1] == '$')
+		curr_tk = get_path_tk(data, data->input, *i);
+	else if (data->input[*i] == '$'
+		&& (!data->input[*i + 1] || is_space(data->input[*i + 1])))
+		curr_tk = get_token(data, ft_strdup("$"), NULL, TK_NUMBER);
 	else if (data->input[*i] == '$' && data->input[*i + 1] == '?')
 		curr_tk = get_token(data, ft_strdup("$?"), NULL, TK_EXITSTATUS);
 	else if (data->input[*i] == '$' && data->input[*i + 1])

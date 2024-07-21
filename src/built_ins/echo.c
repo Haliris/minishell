@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 14:36:56 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:06:45 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	is_nflag(char *s)
 	size_t	i;
 
 	i = 1;
-	if ((s && s[0] != '-') || !s)
+	if (s[0] != '-' || !s[1])
 		return (false);
 	while (s && s[i])
 	{
