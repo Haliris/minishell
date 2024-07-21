@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:40:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:45:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static void	add_dummies(t_data *data)
 	ppid = ft_strdup("$");
 	if (!ppid)
 		return ;
-	val_ppid = ft_strdup("Segmentation_fault..... SIKE");
+	val_ppid = ft_strdup("[1]....883183.segmentation.fault.(core.dumped).SIKE");
 	if (!val_ppid)
 		return (free(ppid));
 	if (add_var(&data->env_vars, ppid, val_ppid))
