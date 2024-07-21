@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 13:21:51 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:20:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 	size_t		token_size;
 	char		*outstr;
 
+	if (input[*start_idx] == '?')
+		return (get_token(data, ft_strdup(&input[(*start_idx)++]),
+				NULL, TK_STRING));
 	token_size = get_str_tk_len(input, *start_idx);
 	if (!token_size)
 		return (NULL);
@@ -90,16 +93,5 @@ t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 	str_tk = get_token(data, outstr, NULL, TK_STRING);
 	if (!str_tk)
 		free(outstr);
-	(*start_idx)++;
 	return (str_tk);
-}
-
-t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx)
-{
-	char	*lexstr;
-
-	lexstr = get_substr(input, start_idx);
-	if (!lexstr)
-		return (get_token(data, NULL, NULL, TK_INVALID));
-	return (get_token(data, lexstr, NULL, TK_FLAG));
 }

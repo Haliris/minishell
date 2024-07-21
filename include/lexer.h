@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 14:12:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:08:57 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,10 @@ typedef enum e_tokentype
 	TK_PIPE,
 	TK_REDIR,
 	TK_OPERATOR,
-	TK_FLAG,
 	TK_STRING,
 	TK_EXITSTATUS,
 	TK_CMD,
 	TK_RESERVED,
-	TK_IN,
-	TK_OUT,
-	TK_OUT_APPEND,
 }	t_tokentype;
 
 typedef struct s_heredoc	t_heredoc;
