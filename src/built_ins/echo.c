@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 11:17:28 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 14:36:56 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	call_echo(t_data *data, char **cmd)
 	out_str = NULL;
 	is_flagged = FALSE;
 	i = 1;
-	if (cmd[i] && is_nflag(cmd[i]))
+	while (cmd[i] && is_nflag(cmd[i]))
 	{
 		is_flagged = TRUE;
 		i++;
