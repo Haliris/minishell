@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 17:11:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 14:07:07 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,23 @@ static bool	space_within_lexstr(t_token *token)
 	return (false);
 }
 
-static int	detect_executables(t_token *token)
+static int	detect_executables(t_data *data)
 {
 	t_token	*curr_tk;
 
-	curr_tk = token;
+	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && !space_within_lexstr(token)
+		if (var_in_str(curr_tk->lexstr))
+			expand_string_var(data, &curr_tk->lexstr);
+		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(curr_tk->lexstr, 0))
 		{
 			curr_tk->path = get_exec_path(curr_tk->lexstr, 0);
-			if (!curr_tk->path)
-				return (PANIC);
-			curr_tk->type = TK_EXECUTABLE;
+			if (curr_tk->path)
+				curr_tk->type = TK_EXECUTABLE;
 		}
+		print_token(curr_tk);
 		curr_tk = curr_tk->next;
 	}
 	return (0);
@@ -85,7 +87,7 @@ bool	invalid_tokens(t_data *data)
 	bool	ret;
 
 	token = data->token;
-	ret = (detect_executables(token)
+	ret = (detect_executables(data)
 			|| invalid_tk_exists(token)
 			|| is_orphaned_op(token));
 	return (ret);

@@ -39,7 +39,7 @@ void	copy_and_cat(char *out, char *cpy_src, char *cat_src)
 		src_i++;
 	}
 	src_i = 0;
-	while (cat_src[src_i])
+	while (out[i] && cat_src[src_i])
 		out[i++] = cat_src[src_i++];
 	out[i] = '\0';
 }
