@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 15:49:42 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 13:19:55 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ int	init(t_data *data, char **env)
 	data->parsedata->table = NULL;
 	data->parsedata->next = NULL;
 	data->heredata = NULL;
+	data->piddata = NULL;
 	return (init_env(data, env));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 22:10:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 11:49:36 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
 typedef struct s_varlist		t_varlist;
-
+typedef struct s_pid_data		t_pid_data;
 typedef struct s_signal
 {
 	int	heredoc_int;
@@ -81,6 +81,7 @@ typedef struct s_data
 	t_token			*token;
 	t_varlist		*env_vars;
 	t_parser		*parsedata;
+	t_pid_data		*piddata;
 	t_heredoc_data	*heredata;
 }	t_data;
 

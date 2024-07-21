@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:37:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 13:07:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,22 @@ void	free_env(t_data *data)
 	}
 }
 
+void	free_piddata(t_data *data)
+{
+	t_pid_data	*roaming;
+	t_pid_data	*temp;
+
+	if (!data->piddata)
+		return ;
+	roaming = data->piddata;
+	while (roaming)
+	{
+		temp = roaming;
+		free(temp);
+		roaming = roaming->next;
+	}
+}
+
 int	clean_exit(t_data *data, int exit_code)
 {
 	free_lexmem(data);
@@ -91,6 +107,8 @@ int	clean_exit(t_data *data, int exit_code)
 	}
 	if (data->heredata)
 		unlink_heredocs(data);
+	if (data->piddata)
+		free_piddata(data);
 	free(data->heredata);
 	return (exit_code);
 }

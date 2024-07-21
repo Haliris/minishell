@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 13:18:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,16 @@
 # define EXIT_FAILURE 1
 # define CHILD 0
 # define PARENT 1
+# define BUILT_IN 2
 
 typedef struct s_varlist		t_varlist;
-# define BUILT_IN 2
+
+typedef struct s_pid_data		t_pid_data;
+typedef struct s_pid_data
+{
+	pid_t		pid;
+	t_pid_data	*next;
+}	t_pid_data;
 
 void	trash(char **array);
 void	handle_error(char *message, int code, t_data *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 21:35:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 13:23:10 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int	redirect_parent(int p_fd[])
 	status = SUCCESS;
 	if (p_fd[0] != -1)
 	{
-		dup2(p_fd[0], STDIN_FILENO);
+		if (dup2(p_fd[0], STDIN_FILENO) < 0)
+			status = PANIC;
 		close(p_fd[0]);
-		status = PANIC;
 	}
 	if (p_fd[1] != -1)
 		close(p_fd[1]);
@@ -68,6 +68,28 @@ void	execute_child(char *cmd, t_data *data)
 	else
 		execute_cmd(cmd, data);
 	exit(EXIT_SUCCESS);
+}
+
+int	add_pid_node(t_data *data, int pid)
+{
+	t_pid_data	*node;
+	t_pid_data	*roaming;
+
+	roaming = data->piddata;
+	node = ft_calloc(1, sizeof(t_pid_data));
+	if (!node)
+		return (PANIC);
+	node->pid = pid;
+	node->next = NULL;
+	if (!roaming)
+		data->piddata = node;
+	else
+	{
+		while (roaming->next)
+			roaming = roaming->next;
+		roaming->next = node;
+	}
+	return (SUCCESS);
 }
 
 int	process_command(t_parser *p, t_data *data, int std_fd[])
@@ -93,6 +115,9 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 		execute_child(cmd_table->cmd, data);
 	}
 	else
-		return (redirect_parent(pipe_fd));
+	{
+		if (add_pid_node(data, pid_child) == PANIC || redirect_parent(pipe_fd) == PANIC)
+			return (PANIC);
+	}
 	return (SUCCESS);
 }
