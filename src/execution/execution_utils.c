@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:58:43 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:43:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@ void	handle_error(char *message, int code, t_data *data)
 	exit(clean_exit(data, code));
 }
 
-void	trash(char **array)
+int	redirect_parent(int p_fd[])
 {
-	int	i;
+	int	status;
 
-	i = 0;
-	if (!array)
-		return ;
-	while (array[i])
+	status = SUCCESS;
+	if (p_fd[0] != -1)
 	{
-		free(array[i]);
-		i++;
+		if (dup2(p_fd[0], STDIN_FILENO) < 0)
+			status = PANIC;
+		close(p_fd[0]);
 	}
-	free(array);
+	if (p_fd[1] != -1)
+		close(p_fd[1]);
+	return (status);
 }
 
 void	check_pipes(t_parser *table, int pipe_status[])
@@ -79,4 +80,26 @@ int	get_redirections(t_parser *roaming, char *redirection[])
 	redirection[0] = infile;
 	redirection[1] = outfile;
 	return (append);
+}
+
+int	add_pid_node(t_data *data, int pid)
+{
+	t_pid_data	*node;
+	t_pid_data	*roaming;
+
+	roaming = data->piddata;
+	node = ft_calloc(1, sizeof(t_pid_data));
+	if (!node)
+		return (PANIC);
+	node->pid = pid;
+	node->next = NULL;
+	if (!roaming)
+		data->piddata = node;
+	else
+	{
+		while (roaming->next)
+			roaming = roaming->next;
+		roaming->next = node;
+	}
+	return (SUCCESS);
 }

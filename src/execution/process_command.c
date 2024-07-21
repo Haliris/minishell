@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:59:00 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:44:41 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_cmd(char *cmd, t_data *data)
 	if (!command || !command[0])
 	{
 		if (command)
-			trash(command);
+			free_strarray(command);
 		handle_error("127: command not found", PATH_ERROR, data);
 	}
 	env = build_env(data->env_vars);
@@ -31,8 +31,8 @@ void	execute_cmd(char *cmd, t_data *data)
 		data->errcode = CANNOT_EXECUTE;
 	else
 		execve(command[0], command, env);
-	trash(command);
-	trash(env);
+	free_strarray(command);
+	free_strarray(env);
 	handle_error(strerror(errno), data->errcode, data);
 }
 
@@ -49,22 +49,6 @@ int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 	return (SUCCESS);
 }
 
-int	redirect_parent(int p_fd[])
-{
-	int	status;
-
-	status = SUCCESS;
-	if (p_fd[0] != -1)
-	{
-		if (dup2(p_fd[0], STDIN_FILENO) < 0)
-			status = PANIC;
-		close(p_fd[0]);
-	}
-	if (p_fd[1] != -1)
-		close(p_fd[1]);
-	return (status);
-}
-
 void	execute_child(char *cmd, t_data *data)
 {
 	if (is_builtin(cmd, 0))
@@ -74,25 +58,11 @@ void	execute_child(char *cmd, t_data *data)
 	exit(EXIT_SUCCESS);
 }
 
-int	add_pid_node(t_data *data, int pid)
+int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[])
 {
-	t_pid_data	*node;
-	t_pid_data	*roaming;
-
-	roaming = data->piddata;
-	node = ft_calloc(1, sizeof(t_pid_data));
-	if (!node)
+	if (add_pid_node(data, pid_child) == PANIC
+		|| redirect_parent(pipe_fd) == PANIC)
 		return (PANIC);
-	node->pid = pid;
-	node->next = NULL;
-	if (!roaming)
-		data->piddata = node;
-	else
-	{
-		while (roaming->next)
-			roaming = roaming->next;
-		roaming->next = node;
-	}
 	return (SUCCESS);
 }
 
@@ -119,9 +89,6 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 		execute_child(cmd_table->cmd, data);
 	}
 	else
-	{
-		if (add_pid_node(data, pid_child) == PANIC || redirect_parent(pipe_fd) == PANIC)
-			return (PANIC);
-	}
+		return (handle_parent(data, pid_child, pipe_fd));
 	return (SUCCESS);
 }

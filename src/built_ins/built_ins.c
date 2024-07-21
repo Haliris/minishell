@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/19 18:24:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 18:39:46 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 	if (!command || !command[0])
 	{
 		if (command)
-			trash(command);
+			free_strarray(command);
 		if (mode == CHILD)
 			handle_error("Built_in split error", EXIT_FAILURE, data);
 		else
@@ -59,7 +59,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 	}
 	call_builtin(command, data, mode);
 	if (command)
-		trash(command);
+		free_strarray(command);
 }
 
 #undef FD_STDIN

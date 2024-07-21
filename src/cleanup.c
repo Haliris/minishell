@@ -6,23 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:26:45 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:31:33 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
-
-void	free_strarray(char **array)
-{
-	size_t	i;
-
-	i = 0;
-	while (array && array[i])
-		free(array[i++]);
-	if (array)
-		free(array);
-}
 
 void	free_tokens(t_token *token)
 {

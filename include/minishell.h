@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:58:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:37:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ void		interrupt_heredoc(int status);
 void		interrupt_main(int status);
 void		interrupt_exec(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
+void		throw_lexer_error(t_data *data);
 
 char		*ft_str_rejoin(char *stash, char *append);
 void		copy_and_cat(char *out, char *cpy_src, char *cat_src, int len);
