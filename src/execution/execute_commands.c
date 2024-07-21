@@ -6,14 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 13:25:33 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:03:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// WIFSIGNALED
-// 			WTERMSIG(status)
+#include <stdio.h>
 
 void	wait_for_children(t_data *data)
 {
@@ -21,15 +20,18 @@ void	wait_for_children(t_data *data)
 	t_pid_data	*roaming;
 	int			error_code;
 
-	error_code = 0;
+	error_code = SIG_OFFSET;
 	status = 0;
 	roaming = data->piddata;
 	while (roaming)
 	{
 		waitpid(roaming->pid, &status, 0);
-		error_code = WEXITSTATUS(status);
 		roaming = roaming->next;
 	}
+	if (WIFSIGNALED(status))
+		error_code += WTERMSIG(status);
+	else
+		error_code = WEXITSTATUS(status);
 	data->errcode = error_code;
 }
 

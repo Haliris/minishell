@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2024/07/21 14:31:38 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:38:34 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # include "lexer.h"
 # include "execution.h"
 # include "built_ins.h"
+# define SIG_OFFSET 128
 
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
@@ -48,7 +49,7 @@ typedef struct s_pid_data		t_pid_data;
 typedef struct s_signal
 {
 	int	heredoc_int;
-	int	sigcode;
+	int	sigoffset;
 }	t_signal;
 
 extern t_signal					g_sig;
