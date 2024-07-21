@@ -76,9 +76,6 @@ t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 	size_t		token_size;
 	char		*outstr;
 
-	if (input[*start_idx] == '?')
-		return (get_token(data, ft_strdup(&input[(*start_idx)++]),
-				NULL, TK_STRING));
 	token_size = get_str_tk_len(input, *start_idx);
 	if (!token_size)
 		return (NULL);
