@@ -30,9 +30,9 @@ void	interrupt_exec(int status)
 
 void	interrupt_main(int status)
 {
-	(void)status;
 	write(STDIN_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
+	g_sig.sigoffset += status;
 }

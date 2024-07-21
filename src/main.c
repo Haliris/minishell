@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 15:31:42 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:14:39 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ int	get_input(t_data *data, char *prompt)
 	return (SUCCESS);
 }
 
-#include <stdio.h>
-
 int	main(int argc, char **argv, char **env)
 {
 	t_data			data;
@@ -98,6 +96,5 @@ int	main(int argc, char **argv, char **env)
 	}
 	if (prompt)
 		free(prompt);
-	printf("errcode: %d\n", data.errcode);
 	return (clean_exit(&data, data.errcode));
 }
