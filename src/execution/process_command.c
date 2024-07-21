@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:44:41 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:24:18 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	execute_child(char *cmd, t_data *data)
 		execute_builtin(cmd, data, CHILD);
 	else
 		execute_cmd(cmd, data);
-	exit(EXIT_SUCCESS);
+	exit(clean_exit(data, data->errcode));
 }
 
 int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[])
