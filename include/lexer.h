@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 21:03:04 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 15:31:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	is_delim(char c);
 bool	invalid_path_char(char c);
 
 /* input validation */
-bool	valid_input(char *input);
+bool	valid_input(char *input, t_data *data);
 bool	invalid_tokens(t_data *data);
 bool	is_invalid_export(t_data *data, size_t curr_idx);
 

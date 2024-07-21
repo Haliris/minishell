@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 13:23:10 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 14:49:29 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ void	execute_cmd(char *cmd, t_data *data)
 		handle_error("127: command not found", PATH_ERROR, data);
 	}
 	env = build_env(data->env_vars);
-	if (access(command[0], F_OK | X_OK) == 0)
+	if (access(command[0], F_OK) != 0)
+		data->errcode = 127;
+	else if (access(command[0], X_OK) != 0)
+		data->errcode = 126;
+	else
 		execve(command[0], command, env);
 	trash(command);
 	trash(env);
-	handle_error(strerror(errno), errno, data);
+	handle_error(strerror(errno), data->errcode, data);
 }
 
 int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])

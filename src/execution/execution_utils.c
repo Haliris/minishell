@@ -6,16 +6,22 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 11:54:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:28:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define NOT_FOUND 127
+#define CANNOT_EXECUTE 126
 
 void	handle_error(char *message, int code, t_data *data)
 {
-	ft_putstr_fd(message, 2);
-	ft_putchar_fd('\n', 2);
+	if (code == NOT_FOUND)
+		message = "minishell: command not found";
+	if (code == CANNOT_EXECUTE)
+		message = "minishell: cannot execute command";
+	ft_putstr_fd(message, STDERR_FILENO);
+	ft_putchar_fd('\n', STDERR_FILENO);
 	exit(clean_exit(data, code));
 }
 
@@ -76,3 +82,6 @@ int	get_redirections(t_parser *roaming, char *redirection[])
 	redirection[1] = outfile;
 	return (append);
 }
+
+#undef NOT_FOUND
+#undef CANNOT_EXECUTE

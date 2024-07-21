@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 14:07:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 15:28:02 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ static int	detect_executables(t_data *data)
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}
-		print_token(curr_tk);
 		curr_tk = curr_tk->next;
 	}
 	return (0);
