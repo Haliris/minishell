@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:17:08 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 16:22:26 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,6 @@ int	clean_exit(t_data *data, int exit_code)
 	if (data->piddata)
 		free_piddata(data);
 	free(data->heredata);
-	if (g_sig.sigoffset > SIG_OFFSET)
-		exit_code = SIG_OFFSET + 2;
 	printf("errcode: %d\n", exit_code);
 	return (exit_code);
 }
