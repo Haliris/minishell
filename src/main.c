@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 17:33:55 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:42:21 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_signal	g_sig = {0};
+int	g_sig_offset = 0;
 
 int	parse_data(t_data *data)
 {
@@ -90,11 +90,11 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		init_signals();
-		printf("g_sig.sigoffset: %d\n", g_sig.sigoffset);
-		if (g_sig.sigoffset)
+		printf("g_sig_offset: %d\n", g_sig_offset);
+		if (g_sig_offset)
 		{
 			data.errcode = SIG_OFFSET + 2;
-			g_sig.sigoffset = 0;
+			g_sig_offset = 0;
 		}
 		printf("errcode before get_prompt:%d\n", data.errcode);
 		prompt = get_prompt(prompt);

@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:03:27 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:38:17 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,7 @@ typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
 typedef struct s_varlist		t_varlist;
 typedef struct s_pid_data		t_pid_data;
-typedef struct s_signal
-{
-	int	sigoffset;
-}	t_signal;
-
-extern t_signal					g_sig;
+extern int						g_sig_offset;
 
 typedef struct s_heredoc
 {

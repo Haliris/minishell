@@ -18,7 +18,7 @@ void	interrupt_heredoc(int status)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_sig.sigoffset += status;
+	g_sig_offset += status;
 	rl_done = 1;
 }
 
@@ -34,5 +34,5 @@ void	interrupt_main(int status)
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	g_sig.sigoffset += status;
+	g_sig_offset += status;
 }

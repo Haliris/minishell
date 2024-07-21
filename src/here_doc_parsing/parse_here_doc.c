@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 17:13:21 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:38:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	put_line(char *limiter, int here_fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_sig.sigoffset)
+		if (g_sig_offset)
 		{
 			if (line)
 				free(line);
@@ -119,7 +119,7 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		free(heredoc);
 		return (NULL);
 	}
-	if (put_line(limiter, here_fd) < 0 || g_sig.sigoffset)
+	if (put_line(limiter, here_fd) < 0 || g_sig_offset)
 	{
 		close(here_fd);
 		unlink(heredoc->path);
