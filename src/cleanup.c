@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 11:37:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 17:00:53 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	free_lexmem(t_data *data)
 		free(data->input);
 		data->input = NULL;
 	}
+	if (data->prompt)
+	{
+		free(data->prompt);
+		data->prompt = NULL;
+	}
 }
 
 void	free_env(t_data *data)
@@ -82,8 +87,6 @@ int	clean_exit(t_data *data, int exit_code)
 	free_lexmem(data);
 	rl_clear_history();
 	free_env(data);
-	if (data->prompt)
-		free(data->prompt);
 	if (data->parsedata)
 	{
 		free_parsed_mem(&data->parsedata);
