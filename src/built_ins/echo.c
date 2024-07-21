@@ -6,11 +6,27 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 16:26:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 11:17:28 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static bool	is_nflag(char *s)
+{
+	size_t	i;
+
+	i = 1;
+	if ((s && s[0] != '-') || !s)
+		return (false);
+	while (s && s[i])
+	{
+		if (s[i] != 'n')
+			return (false);
+		i++;
+	}
+	return (true);
+}
 
 void	expand_all_vars(t_data *data, char **cmd, size_t i)
 {
@@ -59,7 +75,7 @@ void	call_echo(t_data *data, char **cmd)
 	out_str = NULL;
 	is_flagged = FALSE;
 	i = 1;
-	if (cmd[i] && ft_strcmp(cmd[i], "-n") == 0)
+	if (cmd[i] && is_nflag(cmd[i]))
 	{
 		is_flagged = TRUE;
 		i++;
