@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 16:20:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 17:40:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	get_extended_str(char *input, size_t *startidx,
 			(*outstr)[i++] = input[*startidx];
 		(*startidx)++;
 	}
+	if (in_quote)
+		(*startidx)++;
 }
 
 static void	process_empty_str(char **outstr)
