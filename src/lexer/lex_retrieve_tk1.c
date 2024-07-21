@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/20 16:57:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 13:21:51 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,7 @@ void	get_extended_str(char *input, size_t *startidx,
 		else if (in_quote && input[*startidx] == quote)
 			in_quote = false;
 		else if (!in_quote && is_delim(input[*startidx]))
-		{
-			(*startidx)++;
 			break ;
-		}
 		else
 			(*outstr)[i++] = input[*startidx];
 		(*startidx)++;
@@ -93,6 +90,7 @@ t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 	str_tk = get_token(data, outstr, NULL, TK_STRING);
 	if (!str_tk)
 		free(outstr);
+	(*start_idx)++;
 	return (str_tk);
 }
 

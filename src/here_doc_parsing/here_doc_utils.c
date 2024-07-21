@@ -15,17 +15,19 @@
 char	*ft_str_rejoin(char *stash, char *add)
 {
 	char	*joined;
+	int		len;
 
 	if (!stash)
 		return (NULL);
-	joined = ft_calloc((ft_strlen(stash) + ft_strlen(add) + 1), sizeof(char));
+	len = ft_strlen(stash) + ft_strlen(add);
+	joined = ft_calloc((len + 1), sizeof(char));
 	if (!joined)
 		return (free(stash), NULL);
-	copy_and_cat(joined, stash, add);
+	copy_and_cat(joined, stash, add, len);
 	return (free(stash), joined);
 }
 
-void	copy_and_cat(char *out, char *cpy_src, char *cat_src)
+void	copy_and_cat(char *out, char *cpy_src, char *cat_src, int len)
 {
 	int	i;
 	int	src_i;
@@ -39,7 +41,7 @@ void	copy_and_cat(char *out, char *cpy_src, char *cat_src)
 		src_i++;
 	}
 	src_i = 0;
-	while (cat_src[src_i])
+	while (i < len && cat_src[src_i])
 		out[i++] = cat_src[src_i++];
 	out[i] = '\0';
 }

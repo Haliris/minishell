@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 22:10:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 14:27:50 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void		interrupt_exec(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
 
 char		*ft_str_rejoin(char *stash, char *append);
-void		copy_and_cat(char *out, char *cpy_src, char *cat_src);
+void		copy_and_cat(char *out, char *cpy_src, char *cat_src, int len);
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 21:48:40 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/21 13:59:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,14 @@ int	tokenize_data(t_data *data)
 				roaming = NULL;
 			while (roaming && roaming->next)
 				roaming = roaming->next;
-			ft_printf("minishell: syntax error near unexpected token ");
+			ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
 			if (roaming)
-				ft_printf("'%s'\n", roaming->lexstr);
+			{
+				ft_putchar_fd('\'', 2);
+				ft_putstr_fd(roaming->lexstr, 2);
+				ft_putchar_fd('\'', 2);
+			}
+			ft_putchar_fd('\n', 2);
 			free_lexmem(data);
 			return (PANIC);
 		}
@@ -74,7 +79,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	(void)argc;
 	init(&data, env);
-	prompt = get_prompt(NULL);
+	prompt = NULL;
 	while (1)
 	{
 		init_signals();
