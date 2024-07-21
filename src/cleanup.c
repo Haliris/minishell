@@ -6,10 +6,11 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:14:19 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:26:45 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell.h"
 #include "lexer.h"
 
 void	free_strarray(char **array)
@@ -48,6 +49,11 @@ void	free_lexmem(t_data *data)
 	{
 		free(data->input);
 		data->input = NULL;
+	}
+	if (data->prompt)
+	{
+		free(data->prompt);
+		data->prompt = NULL;
 	}
 }
 
@@ -98,8 +104,6 @@ int	clean_exit(t_data *data, int exit_code)
 	free_lexmem(data);
 	rl_clear_history();
 	free_env(data);
-	if (data->prompt)
-		free(data->prompt);
 	if (data->parsedata)
 	{
 		free_parsed_mem(&data->parsedata);

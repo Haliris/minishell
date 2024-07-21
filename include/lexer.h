@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 15:31:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:27:04 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ typedef struct s_data		t_data;
 typedef enum e_tokentype
 {
 	TK_INVALID,
-	TK_WORD,
 	TK_BUILTIN,
 	TK_EXECUTABLE,
 	TK_NUMBER,
@@ -28,14 +27,10 @@ typedef enum e_tokentype
 	TK_PIPE,
 	TK_REDIR,
 	TK_OPERATOR,
-	TK_FLAG,
 	TK_STRING,
 	TK_EXITSTATUS,
 	TK_CMD,
 	TK_RESERVED,
-	TK_IN,
-	TK_OUT,
-	TK_OUT_APPEND,
 }	t_tokentype;
 
 typedef struct s_heredoc	t_heredoc;

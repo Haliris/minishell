@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 17:38:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/21 18:26:05 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,31 @@ static int	init_env(t_data *data, char **env)
 	return (0);
 }
 
+static void	add_dummies(t_data *data)
+{
+	char	*ppid;
+	char	*val_ppid;
+	char	*uid;
+	char	*val_uid;
+
+	ppid = ft_strdup("$");
+	if (!ppid)
+		return ;
+	val_ppid = ft_strdup("[1]....883183.segmentation.fault.(core.dumped).SIKE");
+	if (!val_ppid)
+		return (free(ppid));
+	if (add_var(&data->env_vars, ppid, val_ppid))
+		return (free(ppid), free(val_ppid));
+	uid = ft_strdup("UID");
+	if (!uid)
+		return ;
+	val_uid = ft_strdup("VERY_NICE_I_LIKE!");
+	if (!val_uid)
+		return (free(uid));
+	if (add_var(&data->env_vars, uid, val_uid))
+		return (free(uid), free(val_uid));
+}
+
 int	init(t_data *data, char **env)
 {
 	init_signals();
@@ -68,5 +93,8 @@ int	init(t_data *data, char **env)
 	data->heredata = NULL;
 	data->piddata = NULL;
 	g_sig_offset = 0;
-	return (init_env(data, env));
+	if (init_env(data, env))
+		return (PANIC);
+	add_dummies(data);
+	return (0);
 }
