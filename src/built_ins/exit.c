@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 14:03:52 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:18:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_not_number(char *str)
+static int	is_not_number(char *str)
 {
 	int	index;
 
@@ -28,7 +28,7 @@ int	is_not_number(char *str)
 	return (FALSE);
 }
 
-void	exit_error(char **cmd)
+static void	exit_error(char **cmd)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(cmd[1], STDERR_FILENO);
@@ -36,16 +36,9 @@ void	exit_error(char **cmd)
 	free_strarray(cmd);
 }
 
-static int	check_overflow(char *str)
-{
-	if (ft_strlen(str) > 11)
-		return (TRUE);
-	return (FALSE);
-}
-
 void	call_exit(t_data *data, char **cmd, int mode)
 {
-	int	exit_code;
+	long	exit_code;
 
 	(void)data;
 	exit_code = EXIT_FAILURE;
@@ -58,7 +51,7 @@ void	call_exit(t_data *data, char **cmd, int mode)
 			ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
-	if (is_not_number(cmd[1]) == TRUE || check_overflow(cmd[1]))
+	if (is_not_number(cmd[1]) == TRUE)
 	{
 		exit_error(cmd);
 		exit(clean_exit(data, EXIT_FAILURE));
