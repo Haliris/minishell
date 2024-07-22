@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:37:13 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:42:46 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,14 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		init_signals();
+		data.prompt = get_prompt(data.prompt);
+		if (get_input(&data, data.prompt) == PANIC)
+			break ;
 		if (g_sig_offset)
 		{
 			data.errcode = SIG_OFFSET + 2;
 			g_sig_offset = 0;
 		}
-		data.prompt = get_prompt(data.prompt);
-		if (get_input(&data, data.prompt) == PANIC)
-			break ;
 		if (tokenize_data(&data) == PANIC)
 			continue ;
 		parse_data(&data);

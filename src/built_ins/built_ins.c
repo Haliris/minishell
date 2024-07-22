@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 13:56:49 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:29:05 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	execute_builtin(char *cmd, t_data *data, int mode)
 		if (command)
 			free_strarray(command);
 		if (mode == CHILD)
-			handle_error("Built_in split error", EXIT_FAILURE, data);
+			handle_error("Built_in split error", EXIT_FAILURE, data, NULL);
 		else
 			return ;
 	}

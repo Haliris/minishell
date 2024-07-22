@@ -3,23 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 12:11:51 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:43:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_error(char *message, int code, t_data *data)
+void	handle_error(char *message, int code, t_data *data, char **cmd)
 {
 	if (code == NOT_FOUND)
-		message = "minishell: command not found";
+		message = ": command not found";
 	if (code == CANNOT_EXECUTE)
-		message = "minishell: cannot execute command";
+		message = ": cannot execute command";
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	if (cmd && cmd[0])
+		ft_putstr_fd(cmd[0], STDERR_FILENO);
 	ft_putstr_fd(message, STDERR_FILENO);
 	ft_putchar_fd('\n', STDERR_FILENO);
+	if (cmd)
+		free_strarray(cmd);
 	exit(clean_exit(data, code));
 }
 
