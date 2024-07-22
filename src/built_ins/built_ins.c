@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 14:29:05 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:42:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	call_builtin(char **command, t_data *data, int mode)
 			close(FD_STDIN);
 			close(FD_STDOUT);
 		}
-		call_exit(data, command);
+		call_exit(data, command, mode);
 	}
 	else if (ft_strcmp(command[0], "export") == 0)
 		call_export(data, command);

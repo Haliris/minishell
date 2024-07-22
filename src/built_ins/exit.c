@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:39:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:03:52 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,31 +36,36 @@ void	exit_error(char **cmd)
 	free_strarray(cmd);
 }
 
-void	call_exit(t_data *data, char **cmd)
+static int	check_overflow(char *str)
+{
+	if (ft_strlen(str) > 11)
+		return (TRUE);
+	return (FALSE);
+}
+
+void	call_exit(t_data *data, char **cmd, int mode)
 {
 	int	exit_code;
 
 	(void)data;
 	exit_code = EXIT_FAILURE;
-	if (!cmd[1])
+	if (!cmd[1] || cmd[2])
 	{
 		free_strarray(cmd);
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
+		if (mode == PARENT && !cmd[1])
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+		else if (cmd[1] && cmd[2])
+			ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
-	if (cmd[2] != NULL)
-	{
-		free_strarray(cmd);
-		ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
-		exit(clean_exit(data, EXIT_FAILURE));
-	}
-	if (is_not_number(cmd[1]) == TRUE)
+	if (is_not_number(cmd[1]) == TRUE || check_overflow(cmd[1]))
 	{
 		exit_error(cmd);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
 	exit_code = ft_atoi(cmd[1]);
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	if (mode == PARENT)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free_strarray(cmd);
 	exit(clean_exit(data, exit_code));
 }
