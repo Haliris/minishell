@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:27:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:40:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ bool	is_invalid_export(t_data *data, size_t curr_idx);
 /* token retrieval */
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
 t_token	*lex_get_last_token(t_data *data);
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx);
 t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx);
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);

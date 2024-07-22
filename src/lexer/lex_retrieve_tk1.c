@@ -6,22 +6,11 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 17:40:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:30:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx)
-{
-	size_t	i;
-
-	i = start_idx;
-	while (ft_isdigit(input[i]))
-		i++;
-	return (get_token(data, ft_substr(input, start_idx, i - start_idx),
-			NULL, TK_NUMBER));
-}
 
 void	get_extended_str(char *input, size_t *startidx,
 	char **outstr, size_t str_tk_len)
