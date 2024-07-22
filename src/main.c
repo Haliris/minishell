@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:59:27 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:37:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_signal	g_sig = {0};
+int	g_sig_offset = 0;
 
 int	parse_data(t_data *data)
 {
@@ -31,27 +31,11 @@ int	parse_data(t_data *data)
 
 int	tokenize_data(t_data *data)
 {
-	t_token	*roaming;
-
-	if (valid_input(data->input))
+	if (valid_input(data->input, data))
 	{
 		if (lexer(data))
 		{
-			if (data->token)
-				roaming = data->token;
-			else
-				roaming = NULL;
-			while (roaming && roaming->next)
-				roaming = roaming->next;
-			ft_putstr_fd("minishell: syntax error near unexpected token ", 2);
-			if (roaming)
-			{
-				ft_putchar_fd('\'', 2);
-				ft_putstr_fd(roaming->lexstr, 2);
-				ft_putchar_fd('\'', 2);
-			}
-			ft_putchar_fd('\n', 2);
-			free_lexmem(data);
+			throw_lexer_error(data);
 			return (PANIC);
 		}
 	}
@@ -82,6 +66,11 @@ int	main(int argc, char **argv, char **env)
 	while (1)
 	{
 		init_signals();
+		if (g_sig_offset)
+		{
+			data.errcode = SIG_OFFSET + 2;
+			g_sig_offset = 0;
+		}
 		data.prompt = get_prompt(data.prompt);
 		if (get_input(&data, data.prompt) == PANIC)
 			break ;

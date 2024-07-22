@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 13:21:34 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 14:27:50 by jteissie         ###   ########.fr       */
+/*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
+/*   Updated: 2024/07/21 18:37:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,15 @@
 # include "lexer.h"
 # include "execution.h"
 # include "built_ins.h"
+# define SIG_OFFSET 128
+# define NOT_FOUND 127
+# define CANNOT_EXECUTE 126
 
 typedef struct s_heredoc_data	t_heredoc_data;
 typedef struct s_data			t_data;
 typedef struct s_varlist		t_varlist;
-
-typedef struct s_signal
-{
-	int	heredoc_int;
-	int	sigcode;
-}	t_signal;
-
-extern t_signal					g_sig;
+typedef struct s_pid_data		t_pid_data;
+extern int						g_sig_offset;
 
 typedef struct s_heredoc
 {
@@ -81,6 +78,7 @@ typedef struct s_data
 	t_token			*token;
 	t_varlist		*env_vars;
 	t_parser		*parsedata;
+	t_pid_data		*piddata;
 	t_heredoc_data	*heredata;
 }	t_data;
 
@@ -113,6 +111,7 @@ void		interrupt_heredoc(int status);
 void		interrupt_main(int status);
 void		interrupt_exec(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
+void		throw_lexer_error(t_data *data);
 
 char		*ft_str_rejoin(char *stash, char *append);
 void		copy_and_cat(char *out, char *cpy_src, char *cat_src, int len);

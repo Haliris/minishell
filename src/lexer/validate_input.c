@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/12 16:33:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 15:30:27 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static bool	special_chars(char *input, size_t len)
 	return (false);
 }
 
-/* Not interpret unclosed quotes or special characters which are not required 
+/* Not interpret unclosed quotes or special characters which are not required
 by the subject such as \ (backslash) or ; (semicolon) */
-bool	valid_input(char *input)
+bool	valid_input(char *input, t_data *data)
 {
 	size_t	len;
 
@@ -67,11 +67,13 @@ bool	valid_input(char *input)
 	if (unclosed_quotes(input, len))
 	{
 		ft_printf("Error: unclosed quotes\n");
+		data->errcode = 2;
 		return (false);
 	}
 	if (special_chars(input, len))
 	{
 		ft_printf("Error: invalid special chars\n");
+		data->errcode = 2;
 		return (false);
 	}
 	return (true);

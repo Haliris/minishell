@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 11:31:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:39:46 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	exit_error(char **cmd)
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(cmd[1], STDERR_FILENO);
 	ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-	trash(cmd);
+	free_strarray(cmd);
 }
 
 void	call_exit(t_data *data, char **cmd)
@@ -44,13 +44,13 @@ void	call_exit(t_data *data, char **cmd)
 	exit_code = EXIT_FAILURE;
 	if (!cmd[1])
 	{
-		trash(cmd);
+		free_strarray(cmd);
 		ft_putstr_fd("exit\n", STDOUT_FILENO);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
 	if (cmd[2] != NULL)
 	{
-		trash(cmd);
+		free_strarray(cmd);
 		ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
@@ -61,6 +61,6 @@ void	call_exit(t_data *data, char **cmd)
 	}
 	exit_code = ft_atoi(cmd[1]);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
-	trash(cmd);
+	free_strarray(cmd);
 	exit(clean_exit(data, exit_code));
 }

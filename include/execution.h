@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:44:00 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@
 # define EXIT_FAILURE 1
 # define CHILD 0
 # define PARENT 1
-
-typedef struct s_varlist		t_varlist;
 # define BUILT_IN 2
 
-void	trash(char **array);
+typedef struct s_varlist		t_varlist;
+
+typedef struct s_pid_data		t_pid_data;
+typedef struct s_pid_data
+{
+	pid_t		pid;
+	t_pid_data	*next;
+}	t_pid_data;
+
 void	handle_error(char *message, int code, t_data *data);
 void	execute_cmd(char *cmd, t_data *data);
 char	**build_env(t_varlist *vars);
@@ -36,10 +42,12 @@ int		count_commands(t_parser *data);
 int		process_files(t_parser *table);
 int		get_redirections(t_parser *roaming, char *redirection[]);
 void	check_pipes(t_parser *table, int pipe_status[]);
+int		add_pid_node(t_data *data, int pid);
 
 int		execute_data(t_data *data);
 int		execute_commands(t_data *data, int std_fds[]);
 int		process_command(t_parser *p, t_data *data, int std_fd[]);
 int		redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fd[]);
+int		redirect_parent(int p_fd[]);
 
 #endif

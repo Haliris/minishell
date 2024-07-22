@@ -3,25 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 17:00:53 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:31:33 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-void	free_strarray(char **array)
-{
-	size_t	i;
-
-	i = 0;
-	while (array && array[i])
-		free(array[i++]);
-	if (array)
-		free(array);
-}
 
 void	free_tokens(t_token *token)
 {
@@ -82,6 +71,22 @@ void	free_env(t_data *data)
 	}
 }
 
+void	free_piddata(t_data *data)
+{
+	t_pid_data	*roaming;
+	t_pid_data	*temp;
+
+	if (!data->piddata)
+		return ;
+	roaming = data->piddata;
+	while (roaming)
+	{
+		temp = roaming;
+		roaming = roaming->next;
+		free(temp);
+	}
+}
+
 int	clean_exit(t_data *data, int exit_code)
 {
 	free_lexmem(data);
@@ -94,6 +99,8 @@ int	clean_exit(t_data *data, int exit_code)
 	}
 	if (data->heredata)
 		unlink_heredocs(data);
+	if (data->piddata)
+		free_piddata(data);
 	free(data->heredata);
 	return (exit_code);
 }

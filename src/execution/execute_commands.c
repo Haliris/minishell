@@ -3,28 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:14:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	wait_for_children(int index, t_data *data)
+void	wait_for_children(t_data *data)
 {
-	int	status;
-	int	error_code;
+	int			status;
+	t_pid_data	*roaming;
+	int			error_code;
 
-	error_code = 0;
+	error_code = SIG_OFFSET;
 	status = 0;
-	while (index > 0)
+	roaming = data->piddata;
+	while (roaming)
 	{
-		wait(&status);
-		error_code = WEXITSTATUS(status);
-		index--;
+		waitpid(roaming->pid, &status, 0);
+		roaming = roaming->next;
 	}
+	if (WIFSIGNALED(status))
+		error_code += WTERMSIG(status);
+	else
+		error_code = WEXITSTATUS(status);
 	data->errcode = error_code;
 }
 
@@ -49,14 +54,12 @@ int	count_commands(t_parser *data)
 int	execute_commands(t_data *data, int std_fds[])
 {
 	int				cmd_count;
-	int				index;
 	t_parser		*roaming;
 	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data->parsedata);
-	index = cmd_count;
 	roaming = data->parsedata;
-	while (roaming && index)
+	while (roaming && cmd_count)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
@@ -65,12 +68,12 @@ int	execute_commands(t_data *data, int std_fds[])
 				execute_builtin(cmd_table->cmd, data, PARENT);
 			else if (process_command(roaming, data, std_fds) == PANIC)
 				return (PANIC);
-			index--;
+			cmd_count--;
 		}
 		if (data->parsedata)
 			roaming = roaming->next;
 	}
-	wait_for_children(cmd_count, data);
+	wait_for_children(data);
 	return (EXIT_SUCCESS);
 }
 

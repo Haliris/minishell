@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:45:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:26:05 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ int	init(t_data *data, char **env)
 	data->parsedata->table = NULL;
 	data->parsedata->next = NULL;
 	data->heredata = NULL;
+	data->piddata = NULL;
+	g_sig_offset = 0;
 	if (init_env(data, env))
 		return (PANIC);
 	add_dummies(data);

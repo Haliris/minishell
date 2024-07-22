@@ -6,6 +6,7 @@ LDFLAGS = -lreadline
 SRCDIR	= src
 OBJDIR	= obj
 CFILES	= main.c \
+		  main_utils.c \
 		  init.c \
 		  cleanup.c \
 		  get_prompt.c \
