@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 12:11:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:29:22 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	execute_cmd(char *cmd, t_data *data)
 	{
 		if (command)
 			free_strarray(command);
-		handle_error("127: command not found", PATH_ERROR, data);
+		handle_error("127: command not found", PATH_ERROR, data, NULL);
 	}
 	env = build_env(data->env_vars);
 	if (access(command[0], F_OK) != 0)
@@ -31,9 +31,8 @@ void	execute_cmd(char *cmd, t_data *data)
 		data->errcode = CANNOT_EXECUTE;
 	else
 		execve(command[0], command, env);
-	free_strarray(command);
 	free_strarray(env);
-	handle_error(strerror(errno), data->errcode, data);
+	handle_error(strerror(errno), data->errcode, data, command);
 }
 
 int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
@@ -85,7 +84,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	if (pid_child == 0)
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
-			handle_error(strerror(errno), errno, data);
+			handle_error(strerror(errno), errno, data, NULL);
 		execute_child(cmd_table->cmd, data);
 	}
 	else
