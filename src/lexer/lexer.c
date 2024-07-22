@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 16:52:47 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:00:14 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 				(*i) += 2;
 		}
 		else if (input[*i] == '$' && input[(*i) + 1]
-			&& input[(*i) + 1] != '$'
+			&& !in(input[(*i) + 1], "$?")
 			&& !is_space(input[(*i) + 1])
 			&& (!ft_isalpha(input[(*i) + 1]) && input[(*i) + 1] != '_'))
-			(*i) += 2;
+			(*i) += 1 + (1 * (!in(input[(*i) + 1], "\"\'")));
 		else
 			return ;
 	}

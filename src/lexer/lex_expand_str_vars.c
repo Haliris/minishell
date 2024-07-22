@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 16:26:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:12:59 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,14 @@ void	expand_string_var(t_data *data, char **str)
 {
 	size_t	i;
 	char	expanded[4096];
+	char	*exit_code_str;
 
+	if (ft_strcmp(*str, "$?") == 0)
+	{
+		exit_code_str = ft_itoa(data->errcode);
+		replace_str(str, exit_code_str);
+		return ;
+	}
 	i = 0;
 	ft_bzero(expanded, 4096);
 	while ((*str) && (*str)[i] && i < 4096)
