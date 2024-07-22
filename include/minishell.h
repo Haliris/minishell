@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:37:30 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:13:42 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void		copy_and_cat(char *out, char *cpy_src, char *cat_src, int len);
 
 void		add_heredoc_node(t_heredoc *heredoc, t_data *data);
 void		unlink_heredocs(t_data *data);
+void		print_heredoc_warning(int index, char *limiter);
+
 int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);

@@ -46,6 +46,16 @@ void	copy_and_cat(char *out, char *cpy_src, char *cat_src, int len)
 	out[i] = '\0';
 }
 
+void	print_heredoc_warning(int index, char *limiter)
+{
+	ft_putstr_fd("minishell: warning: ", STDERR_FILENO);
+	ft_putstr_fd("here-document at line ", STDERR_FILENO);
+	ft_putnbr_fd(index, STDERR_FILENO);
+	ft_putstr_fd(" delimited by end-of-file (wanted '", STDERR_FILENO);
+	ft_putstr_fd(limiter, STDERR_FILENO);
+	ft_putendl_fd("')", STDERR_FILENO);
+}
+
 void	add_heredoc_node(t_heredoc *heredoc, t_data *data)
 {
 	t_heredoc_data	*roaming;
