@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 12:12:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:28:53 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_pid_data
 	t_pid_data	*next;
 }	t_pid_data;
 
-void	handle_error(char *message, int code, t_data *data);
+void	handle_error(char *message, int code, t_data *data, char **cmd);
 void	execute_cmd(char *cmd, t_data *data);
 char	**build_env(t_varlist *vars);
 int		count_commands(t_parser *data);
