@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/15 16:09:14 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 16:22:08 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:27:30 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	create_here_file(t_heredoc *heredoc)
 	return (here_fd);
 }
 
-int	put_line(char *limiter, int here_fd)
+void	put_line(char *limiter, int here_fd)
 {
 	char	*line;
 	int		index;
@@ -88,18 +88,13 @@ int	put_line(char *limiter, int here_fd)
 	while (1)
 	{
 		line = readline("> ");
-		if (g_sig_offset || !line)
+		if (g_sig_offset || !line || ft_strncmp(line, limiter, len) == 0)
 		{
 			if (!line)
 				print_heredoc_warning(index, limiter);
 			if (line)
 				free(line);
-			return (SUCCESS);
-		}
-		if (ft_strncmp(line, limiter, len) == 0)
-		{
-			free(line);
-			return (SUCCESS);
+			return ;
 		}
 		ft_putendl_fd(line, here_fd);
 		index++;
@@ -122,7 +117,8 @@ t_heredoc	*process_here_doc(char *limiter, t_data *data)
 		free(heredoc);
 		return (NULL);
 	}
-	if (put_line(limiter, here_fd) < 0 || g_sig_offset)
+	put_line(limiter, here_fd);
+	if (g_sig_offset)
 	{
 		close(here_fd);
 		unlink(heredoc->path);

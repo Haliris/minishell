@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 14:42:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 16:37:01 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,19 @@ int	parse_data(t_data *data)
 
 int	tokenize_data(t_data *data)
 {
+	int	lex_status;
+
 	if (valid_input(data->input, data))
 	{
-		if (lexer(data))
+		lex_status = lexer(data);
+		if (lex_status == LEXER_ERROR)
 		{
 			throw_lexer_error(data);
+			return (PANIC);
+		}
+		else if (lex_status == HEREDOC_INTERRUPT)
+		{
+			free_lexmem(data);
 			return (PANIC);
 		}
 	}
