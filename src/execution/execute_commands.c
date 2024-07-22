@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:14:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:21:35 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,14 @@ int	count_commands(t_parser *data)
 int	execute_commands(t_data *data, int std_fds[])
 {
 	int				cmd_count;
+	int				index;
 	t_parser		*roaming;
 	t_cmd_table		*cmd_table;
 
 	cmd_count = count_commands(data->parsedata);
+	index = cmd_count;
 	roaming = data->parsedata;
-	while (roaming && cmd_count)
+	while (roaming && index)
 	{
 		if (roaming->type == TK_PARS_CMD)
 		{
@@ -68,7 +70,7 @@ int	execute_commands(t_data *data, int std_fds[])
 				execute_builtin(cmd_table->cmd, data, PARENT);
 			else if (process_command(roaming, data, std_fds) == PANIC)
 				return (PANIC);
-			cmd_count--;
+			index--;
 		}
 		if (data->parsedata)
 			roaming = roaming->next;
