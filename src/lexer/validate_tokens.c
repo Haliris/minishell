@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 13:30:33 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 13:36:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static bool	space_within_lexstr(t_token *token)
 	return (false);
 }
 
-static int	detect_executables(t_data *data)
+static void	detect_executables(t_data *data)
 {
 	t_token	*curr_tk;
 
@@ -76,7 +76,6 @@ static int	detect_executables(t_data *data)
 		}
 		curr_tk = curr_tk->next;
 	}
-	return (0);
 }
 
 /* bultins with invalid flags */
@@ -86,8 +85,8 @@ bool	invalid_tokens(t_data *data)
 	bool	ret;
 
 	token = data->token;
-	ret = (detect_executables(data)
-			|| invalid_tk_exists(token)
+	detect_executables(data);
+	ret = (invalid_tk_exists(token)
 			|| is_orphaned_op(token));
 	return (ret);
 }
