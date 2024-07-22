@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:39:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 13:56:49 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	call_builtin(char **command, t_data *data, int mode)
 			close(FD_STDIN);
 			close(FD_STDOUT);
 		}
-		call_exit(data, command);
+		call_exit(data, command, mode);
 	}
 	else if (ft_strcmp(command[0], "export") == 0)
 		call_export(data, command);

@@ -6,13 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/21 18:39:46 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/22 14:18:44 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_not_number(char *str)
+static int	is_not_number(char *str)
 {
 	int	index;
 
@@ -28,7 +28,7 @@ int	is_not_number(char *str)
 	return (FALSE);
 }
 
-void	exit_error(char **cmd)
+static void	exit_error(char **cmd)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 	ft_putstr_fd(cmd[1], STDERR_FILENO);
@@ -36,22 +36,19 @@ void	exit_error(char **cmd)
 	free_strarray(cmd);
 }
 
-void	call_exit(t_data *data, char **cmd)
+void	call_exit(t_data *data, char **cmd, int mode)
 {
-	int	exit_code;
+	long	exit_code;
 
 	(void)data;
 	exit_code = EXIT_FAILURE;
-	if (!cmd[1])
+	if (!cmd[1] || cmd[2])
 	{
 		free_strarray(cmd);
-		ft_putstr_fd("exit\n", STDOUT_FILENO);
-		exit(clean_exit(data, EXIT_FAILURE));
-	}
-	if (cmd[2] != NULL)
-	{
-		free_strarray(cmd);
-		ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
+		if (mode == PARENT && !cmd[1])
+			ft_putstr_fd("exit\n", STDOUT_FILENO);
+		else if (cmd[1] && cmd[2])
+			ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
 	if (is_not_number(cmd[1]) == TRUE)
@@ -60,7 +57,8 @@ void	call_exit(t_data *data, char **cmd)
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
 	exit_code = ft_atoi(cmd[1]);
-	ft_putstr_fd("exit\n", STDOUT_FILENO);
+	if (mode == PARENT)
+		ft_putstr_fd("exit\n", STDOUT_FILENO);
 	free_strarray(cmd);
 	exit(clean_exit(data, exit_code));
 }
