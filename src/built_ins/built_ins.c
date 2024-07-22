@@ -29,7 +29,7 @@ void	call_builtin(char **command, t_data *data, int mode)
 			close(FD_STDIN);
 			close(FD_STDOUT);
 		}
-		call_exit(data, command);
+		call_exit(data, command, mode);
 	}
 	else if (ft_strcmp(command[0], "export") == 0)
 		call_export(data, command);
