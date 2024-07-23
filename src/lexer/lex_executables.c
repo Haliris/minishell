@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:13:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 14:57:42 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_exec_path(char *input, size_t start_idx)
 		return (NULL);
 	if (!cmd[0])
 		return (free(cmd), NULL);
-	path = getenv("PATH");
+	path = get_env_var("PATH");
 	if (!path)
 		return (free(cmd), NULL);
 	split_path = ft_split(path, ':');
