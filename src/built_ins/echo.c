@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:06:45 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 12:55:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	call_echo(t_data *data, char **cmd)
 	}
 	expand_all_vars(data, cmd, i);
 	out_str = build_echo_str(&cmd[i]);
-	if (out_str)
+	if (out_str && !empty_quote(out_str, 0))
 		ft_printf("%s", out_str);
 	if (is_flagged == FALSE)
 		ft_printf("\n");
