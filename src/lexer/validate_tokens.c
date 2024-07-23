@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 13:36:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 11:47:58 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,19 @@ bool	invalid_tk_exists(t_token *token)
 static bool	is_orphaned_op(t_token *token)
 {
 	t_token	*next;
+	bool	is_echo;
 
+	is_echo = false;
 	while (token)
 	{
 		next = token->next;
+		if (token->type == TK_PIPE || token->type == TK_REDIR)
+			is_echo = false;
+		if (token->type == TK_BUILTIN && ft_strcmp("echo", token->lexstr) == 0)
+			is_echo = true;
 		if (token->type == TK_PIPE && !token->prev)
 			return (true);
-		if (token->type == TK_OPERATOR && !next)
+		if (token->type == TK_OPERATOR && !next && !is_echo)
 			return (true);
 		if (token->type == TK_REDIR && (!next))
 			return (true);

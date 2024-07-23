@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/22 16:33:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:40:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 		else if (input[*i] == '$' && input[(*i) + 1]
 			&& !in(input[(*i) + 1], "$?")
 			&& !is_space(input[(*i) + 1])
-			&& (!ft_isalpha(input[(*i) + 1]) && input[(*i) + 1] != '_'))
+			&& (!ft_isalpha(input[(*i) + 1])
+				&& !in(input[(*i) + 1], ":/,.~^=_")))
 			(*i) += 1 + (1 * (!in(input[(*i) + 1], "\"\'")));
 		else
 			return ;
@@ -83,7 +84,8 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 		skip_invalid_chars(data, input_len, &i);
 		if (i >= input_len)
 			break ;
-		if (data->input[i] == '\"' || data->input[i] == '\'')
+		if ((data->input[i] == '\"' || data->input[i] == '\'')
+			|| (data->input[i] == '$' && in(data->input[i + 1], ":/,.~^=")))
 			curr_tk = get_string_tk(data, data->input, &i);
 		else if (data->input[i] == '|')
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);

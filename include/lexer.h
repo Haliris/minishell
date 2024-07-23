@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:27:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 07:15:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	replace_str(char **old, char *new);
 size_t	get_str_tk_len(char *input, size_t startidx);
 void	get_extended_str(char *input, size_t *startidx,
 			char **outstr, size_t str_tk_len);
+char	*extract_key_from_str(char *str, size_t start);
 
 /* utilities - bools */
 bool	is_builtin(char *input, size_t start_idx);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 08:04:48 by bento             #+#    #+#             */
-/*   Updated: 2024/07/21 17:40:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 14:39:33 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,26 @@ static void	process_empty_str(char **outstr)
 	replace_str(outstr, replacement_str);
 }
 
+static t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
+{
+	char	*outstr;
+
+	outstr = ft_substr(input, *start_idx, 2);
+	(*start_idx) += 2;
+	if (!outstr)
+		return (NULL);
+	return (get_token(data, outstr, NULL, TK_STRING));
+}
+
 t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 {
 	t_token		*str_tk;
 	size_t		token_size;
 	char		*outstr;
 
+	if (input[*start_idx] == '$' && input[(*start_idx) + 1]
+		&& in(input[(*start_idx) + 1], ":/,.~^="))
+		return (get_doll_str_tk(data, input, start_idx));
 	token_size = get_str_tk_len(input, *start_idx);
 	if (!token_size)
 		return (NULL);

@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/20 14:30:47 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:27:23 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "built_ins.h"
 
-static bool	contains_bad_chars(char *s)
+static bool	invalid_key(char *s)
 {
 	size_t	i;
 
@@ -61,15 +61,15 @@ void	call_export(t_data *data, char **cmd)
 	cmd_len = get_cmd_len(cmd);
 	if (cmd_len == 1)
 		return (print_env(data));
-	if (contains_bad_chars(cmd[1]))
+	if (cmd_len < 4 || ft_strcmp(cmd[2], "="))
+		return ;
+	if (invalid_key(cmd[1]))
 	{
 		ft_putstr_fd("minishell: export: '", 2);
 		ft_putstr_fd(cmd[1], 2);
 		ft_putendl_fd("': not a valid identifier", 2);
 		return ;
 	}
-	if (cmd_len < 4 || ft_strcmp(cmd[2], "="))
-		return ;
 	key = ft_strdup(cmd[1]);
 	if (!key)
 		return ;
@@ -77,6 +77,6 @@ void	call_export(t_data *data, char **cmd)
 	if (!val)
 		return (free(key));
 	if (add_var(&data->env_vars, key, val))
-		return (ft_putendl_fd("Error: export allocation failed.", 2),
+		return (ft_putendl_fd("minishell: export: allocation failed.", 2),
 			free(key), free(val));
 }

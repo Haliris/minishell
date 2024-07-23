@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:26:05 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 07:30:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	add_dummies(t_data *data)
 	uid = ft_strdup("UID");
 	if (!uid)
 		return ;
-	val_uid = ft_strdup("VERY_NICE_I_LIKE!");
+	val_uid = ft_strdup("UID_PLACEHOLDER");
 	if (!val_uid)
 		return (free(uid));
 	if (add_var(&data->env_vars, uid, val_uid))

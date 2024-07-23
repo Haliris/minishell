@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 16:12:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:20:26 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ bool	var_in_str(char *s)
 	size_t	i;
 
 	i = 0;
-	if (ft_strcmp("$$", s) == 0)
-		return (true);
 	while (s[i] && s[i + 1])
 	{
-		if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1]))
+		if (s[i] == '$' && in(s[i + 1], "$?"))
+			return (true);
+		else if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1])
+			&& !in(s[i + 1], ":/,.~^="))
 			return (true);
 		i++;
 	}
