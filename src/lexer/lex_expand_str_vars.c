@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:16:04 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:29:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	expand_string_var(t_data *data, char **str)
 	ft_bzero(expanded, 4096);
 	while ((*str) && (*str)[i] && i < 4096)
 	{
-		if ((*str)[i] == '$' && (!is_delim((*str)[i + 1]) || (*str)[i + 1] == '$')
+		if ((*str)[i] == '$' && (!is_delim((*str)[i + 1])
+			|| (*str)[i + 1] == '$')
 			&& expanded[i] == 0)
 		{
 			expand_single_var(data, str, i);
