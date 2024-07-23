@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 15:54:10 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 11:59:01 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	call_builtin(char **command, t_data *data, int mode)
 	else if (ft_strcmp(command[0], "export") == 0)
 		call_export(data, command);
 	else if (ft_strcmp(command[0], "env") == 0)
-		call_env(data);
+		call_env(data, command);
 	else if (ft_strcmp(command[0], "unset") == 0)
 		call_unset(data, command);
 }
