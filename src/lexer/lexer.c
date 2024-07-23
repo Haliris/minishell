@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/22 13:00:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/22 16:33:31 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,10 @@ int	lexer(t_data *data)
 	if (build_heredocs(data) == PANIC)
 	{
 		unlink_heredocs(data);
-		return (1);
+		if (g_sig_offset)
+			return (HEREDOC_INTERRUPT);
+		else
+			return (LEXER_ERROR);
 	}
 	return (0);
 }
