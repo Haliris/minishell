@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:01:52 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 17:09:25 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 06:54:45 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ t_varlist	*get_varlist(char *key, char *val)
 
 char	*get_varval(t_varlist *vlist, char *key)
 {
+	if (!vlist || !key)
+		return (NULL);
 	while (vlist && ft_strcmp(key, vlist->key) != 0)
 		vlist = vlist->next;
-	if (!vlist)
-		return (NULL);
 	return (ft_strdup(vlist->val));
 }
 
@@ -52,7 +52,8 @@ char	*get_nestedval(t_varlist *vlist, char *key)
 		nested_val = get_varval(vlist, val + 1);
 		if (!nested_val || nested_val[0] != '$')
 		{
-			free(val);
+			if (val)
+				free(val);
 			return (nested_val);
 		}
 		if (depth > 0)

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 14:45:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:04:41 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ bool	var_in_str(char *s)
 		return (true);
 	while (s[i] && s[i + 1])
 	{
-		if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1])
+		if (s[i] == '$' && in(s[i + 1], "$?"))
+			return (true);
+		else if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1])
 			&& !in(s[i + 1], ":/,.~^="))
 			return (true);
 		i++;
