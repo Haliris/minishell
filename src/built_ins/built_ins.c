@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/23 11:59:01 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 22:38:33 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,28 @@ void	call_builtin(char **command, t_data *data, int mode)
 		call_unset(data, command);
 }
 
+static int	builtin_redir_parent(char **command, t_data *data)
+{
+	if (process_files(data->parsedata) < 0)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putendl_fd(strerror(errno), STDERR_FILENO);
+		free_strarray(command);
+		return (PANIC);
+	}
+	return (SUCCESS);
+}
+
 void	execute_builtin(char *cmd, t_data *data, int mode)
 {
 	char	**command;
 
 	command = ft_split(cmd, ' ');
 	if (mode == PARENT)
-		process_files(data->parsedata);
+	{
+		if (builtin_redir_parent(command, data) == PANIC)
+			return ;
+	}
 	free_parsed_mem(&data->parsedata);
 	free(data->parsedata);
 	if (!command || !command[0])
