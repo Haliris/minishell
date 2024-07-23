@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/22 14:29:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:35:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,10 @@ int	lexer(t_data *data)
 	if (build_heredocs(data) == PANIC)
 	{
 		unlink_heredocs(data);
-		return (1);
+		if (g_sig_offset)
+			return (HEREDOC_INTERRUPT);
+		else
+			return (LEXER_ERROR);
 	}
 	return (0);
 }
