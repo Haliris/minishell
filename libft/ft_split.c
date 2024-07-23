@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 17:14:10 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/23 15:26:31 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 15:38:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	check_sep(char c, char sep, int quotes)
 {
 	if (c != '\0' && quotes)
 		return (0);
-	if (c == sep || c == '\0')
+	else if (c == sep || c == '\0')
 		return (1);
 	return (0);
 }
@@ -121,6 +121,7 @@ char	**ft_split(char const *s, char c)
 	int		words;
 	int		safety_check;
 
+	s = "echo \'Hello      World\'";
 	words = 0;
 	words = count_words(s, c);
 	split = ft_calloc(words + 1, sizeof(char *));
