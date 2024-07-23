@@ -53,7 +53,6 @@ vpath %.c ./ src/ src/here_doc_parsing src/parser src/lexer/ src/execution src/b
 OBJS	= $(addprefix $(OBJDIR)/, $(CFILES:.c=.o))
 
 all: $(OBJDIR) $(NAME)
-	@echo "Making minishell..."
 
 $(OBJDIR)/%.o: %.c | $(OBJDIR)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
@@ -64,14 +63,15 @@ $(OBJDIR):
 $(NAME): $(OBJS)
 	make -C ./libft all
 	$(CC) $(CFLAGS) $(INCS) -o $(NAME) $(OBJS) -L ./libft/ -lft $(LDFLAGS)
+	@echo "> Minishell build done!"
 
 clean:
-	@echo "Cleaning object files..."
+	@echo "> Cleaning object files..."
 	make -C ./libft/ clean
 	@rm -rf $(OBJDIR)
 
 fclean: clean
-	@echo "Removing minishell..."
+	@echo "> Removing minishell..."
 	rm -f ./libft/libft.a
 	rm -f $(NAME)
 
