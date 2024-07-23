@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 13:12:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 06:46:39 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*extract_key_from_str(char *str, size_t start)
 	return (ft_substr(str, start + 1, end - start - 1));
 }
 
-static char	*prepare_strings(char *str, char *key, size_t key_idx)
+static char	*prepare_strings(char *str, char *key, char *val, size_t key_idx)
 {
 	char	*pre_str;
 	char	*post_str;
@@ -37,14 +37,17 @@ static char	*prepare_strings(char *str, char *key, size_t key_idx)
 		pre_str = ft_strdup("");
 	if (!pre_str)
 		return (NULL);
-	post_str = ft_substr(str, key_idx + ft_strlen(key) + 1,
-			ft_strlen(str) - (key_idx + ft_strlen(key) + 1));
+	if (str[key_idx + ft_strlen(key) + 1] == '\0')
+		post_str = ft_strdup("");
+	else
+		post_str = ft_substr(str, key_idx + ft_strlen(key) + 1,
+				ft_strlen(str) - key_idx - ft_strlen(key) - 1);
 	if (!post_str)
 	{
 		free(pre_str);
 		return (NULL);
 	}
-	result = ft_strjoin(pre_str, post_str);
+	result = ft_strjoin3(pre_str, val, post_str);
 	free(pre_str);
 	free(post_str);
 	return (result);
@@ -52,16 +55,11 @@ static char	*prepare_strings(char *str, char *key, size_t key_idx)
 
 static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 {
-	char	*temp;
 	char	*new_str;
 
-	temp = prepare_strings(*str, key, key_idx);
-	if (!temp)
-		return ;
-	new_str = ft_strjoin(temp, val);
+	new_str = prepare_strings(*str, key, val, key_idx);
 	if (new_str)
 		replace_str(str, new_str);
-	free(temp);
 }
 
 static void	expand_single_var(t_data *data, char **str, size_t key_idx)
