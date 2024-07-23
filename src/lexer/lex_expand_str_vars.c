@@ -6,20 +6,20 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:02:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 07:16:04 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static char	*extract_key_from_str(char *str, size_t start)
+char	*extract_key_from_str(char *str, size_t start)
 {
 	size_t	end;
 
 	if (ft_strncmp(str + start, "$$", 2) == 0)
 		return (ft_strdup("$"));
 	end = start + 1;
-	while (str[end] && !is_delim(str[end]))
+	while (str[end] && (!is_delim(str[end]) && !in(str[end], ";:/,.~^=")))
 		end++;
 	if (end == start + 1)
 		return (NULL);
