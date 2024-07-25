@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:30:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 17:53:09 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:35:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	expand_all_vars(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk == TK_STRING && curr_tk->quote != '\'')
+		if (curr_tk->type == TK_STRING && curr_tk->quote == '\"')
 		{
 			if (var_in_str(curr_tk))
 				expand_string_var(data, &curr_tk->lexstr);
@@ -33,8 +33,56 @@ static void	expand_all_vars(t_data *data)
 	return ;
 }
 
-static int	concat_prev_tk(t_token *tk)
+void	free_tk(t_token *tk)
 {
+	if (tk->lexstr)
+	{
+		free(tk->lexstr);
+		tk->lexstr = NULL;
+	}
+	if (tk->path)
+	{
+		free(tk->path);
+		tk->path = NULL;
+	}
+	free(tk);
+	tk = NULL;
+}
+
+static void	replace_tk(t_data *data, t_token **tk, t_token *prev,
+	t_token *replacement)
+{
+	replacement->prev = prev->prev;
+	replacement->next = (*tk)->next;
+	if (replacement->prev)
+		replacement->prev->next = replacement;
+	if (replacement->next)
+		replacement->next->prev = replacement;
+	if (!prev->prev)
+		data->token = replacement;
+	free_tk(prev);
+	free_tk(*tk);
+	*tk = replacement;
+}
+
+static int	concat_prev_tk(t_data *data, t_token **tk)
+{
+	t_token	*prev;
+	t_token	*replacement;
+	char	*replace_str;
+
+	replacement = get_token(data, NULL, NULL, TK_STRING);
+	if (!replacement)
+		return (PANIC);
+	prev = (*tk)->prev;
+	replace_str = ft_strjoin(prev->lexstr, (*tk)->lexstr);
+	if (!replace_str)
+	{
+		free(replacement);
+		return (PANIC);
+	}
+	replacement->lexstr = replace_str;
+	replace_tk(data, tk, prev, replacement);
 	return (0);
 }
 
@@ -48,12 +96,9 @@ int	concatenate_str_tks(t_data *data)
 	curr_tk = data->token->next;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && curr_tk->prev == TK_STRING)
-		{
-			if (!is_space(data->input[curr_tk->prev->endidx]))
-				if (concat_prev_tk(curr_tk))
-					return (PANIC);
-		}
+		if (!is_delim(data->input[curr_tk->prev->endidx]))
+			if (concat_prev_tk(data, &curr_tk))
+				return (PANIC);
 		curr_tk = curr_tk->next;
 	}
 	return (0);
