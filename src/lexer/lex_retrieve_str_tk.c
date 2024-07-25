@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 12:00:31 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:36:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
 	return (get_token(data, outstr, NULL, TK_STRING));
 }
 
-static void	extract_str(t_data  *data, size_t *startidx, size_t size, t_token *tk)
+static void	extract_str(t_data *data, size_t *startidx,
+	size_t size, t_token *tk)
 {
 	size_t	i;
 	bool	in_quote;

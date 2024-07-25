@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:20:26 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:31:48 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@ bool	is_delim(char c)
 	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
 }
 
-bool	var_in_str(char *s)
+bool	var_in_str(t_token *tk)
 {
 	size_t	i;
+	char	*s;
 
+	if (tk->quote && tk->quote == '\'')
+		return (false);
+	s = tk->lexstr;
 	i = 0;
 	while (s[i] && s[i + 1])
 	{

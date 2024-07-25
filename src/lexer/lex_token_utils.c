@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 10:53:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:33:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 	token->lexstr = lexstr;
 	token->path = path;
 	token->type = type;
+	token->quote = 0;
 	return (token);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:24:31 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:35:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ static void	detect_executables(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (var_in_str(curr_tk->lexstr))
+		if (var_in_str(curr_tk))
 			expand_string_var(data, &curr_tk->lexstr);
 		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(data, curr_tk->lexstr, 0))
@@ -82,7 +82,6 @@ static void	detect_executables(t_data *data)
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}
-		print_token(curr_tk);
 		curr_tk = curr_tk->next;
 	}
 }

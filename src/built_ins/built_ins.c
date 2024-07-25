@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/23 22:38:33 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:35:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void	call_builtin(char **command, t_data *data, int mode)
 {
 	if (ft_strcmp(command[0], "echo") == 0)
-		call_echo(data, command);
+		call_echo(command);
 	else if (ft_strcmp(command[0], "cd") == 0)
 		call_cd(data, command);
 	else if (ft_strcmp(command[0], "pwd") == 0)
