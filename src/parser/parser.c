@@ -6,30 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 12:12:43 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 16:08:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-#include <stdio.h>
-
-void	print_cmd_buff(t_vector *table)
-{
-	unsigned int i;
-
-	i = 0;
-	if (!table->buffer)
-		return ;
-	printf("size: %ld\n", table->size);
-	printf("word_count: %ld\n", table->word_count);
-	while (i < table->size)
-	{
-		printf("%c", table->buffer[i]);
-		i++;
-	}
-	printf("\n");
-}
 
 t_vector	*assemble_cmd(t_token *roaming)
 {
@@ -42,11 +23,10 @@ t_vector	*assemble_cmd(t_token *roaming)
 	{
 		if (roaming->type != TK_RESERVED)
 		{
-			cmd->buffer = build_cmd_buffer(cmd, cmd->buffer, roaming);
+			cmd->buffer = build_cmd_buff(cmd, cmd->buffer, roaming);
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
-		print_cmd_buff(cmd);
 	}
 	return (cmd);
 }

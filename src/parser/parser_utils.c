@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 13:24:44 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 16:12:39 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ char	*join_strings_vector(char *str, char *add, t_vector *vector)
 	new_str = ft_calloc(len + 2, sizeof(char));
 	if (!new_str)
 		return (free(str), NULL);
-	while (str_index < vector->size)	
-		new_str[new_index++] = str[str_index++];	
+	while (str_index < vector->size)
+		new_str[new_index++] = str[str_index++];
 	new_str[new_index++] = '\0';
 	free(str);
 	str_index = 0;
 	while (add[str_index])
-		new_str[new_index++] = add[str_index++];	
+		new_str[new_index++] = add[str_index++];
 	new_str[new_index] = '\0';
 	return (new_str);
 }
@@ -53,31 +53,29 @@ char	*vector_dup(char *str, t_vector *vector)
 	dup_str = NULL;
 	dup_str = ft_strdup(str);
 	if (!dup_str)
-		return (NULL) ;
+		return (NULL);
 	vector->word_count += 1;
 	vector->size += ft_strlen(str) + 1;
 	return (dup_str);
 }
 
-
-
-char	*build_cmd_buffer(t_vector *table, char *cmd_buff, t_token *roaming)
+char	*build_cmd_buff(t_vector *t, char *cmd_buff, t_token *roaming)
 {
 	if (cmd_buff)
 	{
 		if ((roaming->path && !roaming->prev) || roaming->type == TK_PATH)
-			cmd_buff = vector_add_back(cmd_buff, roaming->path, table);
+			cmd_buff = vector_add_back(cmd_buff, roaming->path, t);
 		else
-			cmd_buff = vector_add_back(cmd_buff, roaming->lexstr, table);
+			cmd_buff = vector_add_back(cmd_buff, roaming->lexstr, t);
 		if (!cmd_buff)
 			return (NULL);
 	}
 	else
 	{
 		if (roaming->path)
-			cmd_buff = vector_dup(roaming->path, table);
+			cmd_buff = vector_dup(roaming->path, t);
 		else
-			cmd_buff = vector_dup(roaming->lexstr, table);
+			cmd_buff = vector_dup(roaming->lexstr, t);
 	}
 	return (cmd_buff);
 }
