@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 12:17:38 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 13:24:44 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	*join_strings_vector(char *str, char *add, t_vector *vector)
 	str_index = 0;
 	new_index = 0;
 	len = vector->size + ft_strlen(add);
-	new_str = ft_calloc(len + 1, sizeof(char));
+	new_str = ft_calloc(len + 2, sizeof(char));
 	if (!new_str)
 		return (free(str), NULL);
 	while (str_index < vector->size)	
 		new_str[new_index++] = str[str_index++];	
-	new_str[new_index] = '\0';
+	new_str[new_index++] = '\0';
 	free(str);
 	str_index = 0;
 	while (add[str_index])
@@ -41,7 +41,7 @@ char	*vector_add_back(char *str, char *add, t_vector *vector)
 	str = join_strings_vector(str, add, vector);
 	if (!str)
 		return (NULL);
-	vector->size += ft_strlen(add) + 1;
+	vector->size += ft_strlen(add) + 2;
 	vector->word_count += 1;
 	return (str);
 }
@@ -65,9 +65,6 @@ char	*build_cmd_buffer(t_vector *table, char *cmd_buff, t_token *roaming)
 {
 	if (cmd_buff)
 	{
-		cmd_buff = ft_str_rejoin(cmd_buff, " ");
-		if (!cmd_buff)
-			return (NULL);
 		if ((roaming->path && !roaming->prev) || roaming->type == TK_PATH)
 			cmd_buff = vector_add_back(cmd_buff, roaming->path, table);
 		else
