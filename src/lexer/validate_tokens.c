@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 22:51:36 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/23 15:02:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ static void	detect_executables(t_data *data)
 		if (var_in_str(curr_tk->lexstr))
 			expand_string_var(data, &curr_tk->lexstr);
 		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
-			&& is_executable(curr_tk->lexstr, 0))
+			&& is_executable(data, curr_tk->lexstr, 0))
 		{
-			curr_tk->path = get_exec_path(curr_tk->lexstr, 0);
+			curr_tk->path = get_exec_path(data, curr_tk->lexstr, 0);
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 12:13:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:02:53 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static char	*path_join(char *path, char *cmd)
 	return (executable);
 }
 
-char	*get_exec_path(char *input, size_t start_idx)
+char	*get_exec_path(t_data *data, char *input, size_t start_idx)
 {
 	char	*cmd;
 	char	*path;
@@ -46,7 +46,7 @@ char	*get_exec_path(char *input, size_t start_idx)
 		return (NULL);
 	if (!cmd[0])
 		return (free(cmd), NULL);
-	path = getenv("PATH");
+	path = get_varval(data->env_vars, "PATH");
 	if (!path)
 		return (free(cmd), NULL);
 	split_path = ft_split(path, ':');
@@ -70,7 +70,7 @@ t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx)
 		return (NULL);
 	if (access(cmd, X_OK) != -1)
 		return (get_token(data, cmd, ft_strdup(cmd), TK_EXECUTABLE));
-	exec_path = get_exec_path(input, start_idx);
+	exec_path = get_exec_path(data, input, start_idx);
 	if (!exec_path)
 	{
 		free(cmd);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:15:12 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 15:02:10 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_substr(char *input, size_t start_idx);
 void	lex_add_token(t_data *data, t_token *token);
 void	print_token(t_token *token);
 char	*get_env_var(char *var_str);
-char	*get_exec_path(char *input, size_t start_idx);
+char	*get_exec_path(t_data *data, char *input, size_t start_idx);
 void	replace_str(char **old, char *new);
 size_t	get_str_tk_len(char *input, size_t startidx);
 void	get_extended_str(char *input, size_t *startidx,
@@ -63,7 +63,7 @@ bool	is_builtin(char *input, size_t start_idx);
 bool	is_space(unsigned char c);
 bool	in(unsigned char c, const char *str);
 bool	empty_quote(char *input, size_t start_idx);
-bool	is_executable(char *input, size_t start_idx);
+bool	is_executable(t_data *data, char *input, size_t start_idx);
 bool	is_delim(char c);
 bool	invalid_path_char(char c);
 
