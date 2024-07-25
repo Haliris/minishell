@@ -3,30 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:09:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:28:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*assemble_cmd(t_token *roaming)
+t_vector	*assemble_cmd(t_token *roaming)
 {
-	char	*cmd_buff;
+	t_vector	cmd;
+	char		*buffer;
 
-	cmd_buff = NULL;
+	cmd = ft_calloc(1, sizeof(t_vector));
+	if (!cmd)
+		return (NULL);
+	buffer = NULL;
+	cmd->buffer = buffer;
 	while (roaming && roaming->type != TK_PIPE)
 	{
 		if (roaming->type != TK_RESERVED)
 		{
-			cmd_buff = build_cmd_buffer(cmd_buff, roaming);
+			buffer = build_cmd_buffer(cmd, buffer, roaming);
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
 	}
-	return (cmd_buff);
+	return (cmd);
 }
 
 void	parse_command(t_parser *parsed, t_token *roaming)
@@ -38,7 +43,7 @@ void	parse_command(t_parser *parsed, t_token *roaming)
 		return ;
 	while (roaming->prev && roaming->prev->type != TK_PIPE)
 		roaming = roaming->prev;
-	table->cmd = assemble_cmd(roaming);
+	table->cmd_buff = assemble_cmd(roaming);
 	if (table->cmd)
 		parsed_add_back(parsed, table, TK_PARS_CMD);
 	else

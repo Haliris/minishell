@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:08:38 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:23:36 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,18 @@ typedef enum e_redir_token
 	TK_PARS_HEREDOC,
 }	t_redir_token;
 
+typedef struct s_vector
+{
+	char	*buffer;
+	size_t	size;
+	size_t	word_count;
+}	t_vector;
+
 typedef struct s_cmd_table
 {
-	char	*cmd;
+	t_vector	*cmd_buff;
 }	t_cmd_table;
+
 typedef struct s_redirect_table
 {
 	char			*redir_str;
