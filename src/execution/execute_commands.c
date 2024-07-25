@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 16:29:14 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:54:28 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	execute_commands(t_data *data, int std_fds[])
 		{
 			cmd_table = roaming->table;
 			if (cmd_count == 1 && is_builtin(cmd_table->cmd_buff->buffer, 0))
-				execute_builtin(cmd_table->cmd_buff, data, PARENT);
+				execute_builtin(cmd_table->cmd_buff, data, PARENT, 0);
 			else if (process_command(roaming, data, std_fds) == PANIC)
 				return (PANIC);
 			index--;

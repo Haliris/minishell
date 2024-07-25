@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 18:13:23 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:44:57 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 	return (SUCCESS);
 }
 
-void	execute_child(t_vector *cmd_vector, t_data *data)
+void	execute_child(t_vector *cmd_vector, t_data *data, int has_pipe[])
 {
 	if (is_builtin(cmd_vector->buffer, 0))
-		execute_builtin(cmd_vector, data, CHILD);
+		execute_builtin(cmd_vector, data, CHILD, has_pipe);
 	else
 		execute_cmd(cmd_vector, data);
 	exit(clean_exit(data, data->errcode));
@@ -86,7 +86,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
 			handle_error(strerror(errno), errno, data, NULL);
-		execute_child(cmd_table->cmd_buff, data);
+		execute_child(cmd_table->cmd_buff, data, has_pipe);
 	}
 	else
 		return (handle_parent(data, pid_child, pipe_fd));
