@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_clean_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 11:36:53 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:53:41 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ void	free_tables(t_parser *r)
 	{
 		cmd_table = r->table;
 		if (cmd_table)
-			free(cmd_table->cmd);
+		{
+			if (cmd_table->cmd_buff)
+				free(cmd_table->cmd_buff->buffer);
+			free(cmd_table->cmd_buff);
+		}
 		free(cmd_table);
 		cmd_table = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 11:28:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 11:49:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_vector	*assemble_cmd(t_token *roaming)
 {
-	t_vector	cmd;
+	t_vector	*cmd;
 	char		*buffer;
 
 	cmd = ft_calloc(1, sizeof(t_vector));
@@ -44,7 +44,7 @@ void	parse_command(t_parser *parsed, t_token *roaming)
 	while (roaming->prev && roaming->prev->type != TK_PIPE)
 		roaming = roaming->prev;
 	table->cmd_buff = assemble_cmd(roaming);
-	if (table->cmd)
+	if (table->cmd_buff->buffer)
 		parsed_add_back(parsed, table, TK_PARS_CMD);
 	else
 		free(table);

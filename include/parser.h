@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:17:51 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 11:23:36 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 11:49:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ typedef struct s_parser
 
 int				interprete_lexer(t_data *data);
 int				build_redirect_table(t_parser *parsed, t_token *lexer);
-char			*build_cmd_buffer(char *cmd_buff, t_token *roaming);
+char			*build_cmd_buffer(t_vector *table, char *cmd_buff, t_token *roaming);
 int				parsed_add_back(t_parser *p, void *t, t_parsed_token type);
 void			free_parsed_mem(t_parser **data);
 void			panic(t_parser *parsed);
