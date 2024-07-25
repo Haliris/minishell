@@ -6,37 +6,29 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 11:52:08 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 12:17:38 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	panic(t_parser *parsed)
+char	*join_strings_vector(char *str, char *add, t_vector *vector)
 {
-	(void)parsed;
-	ft_putstr_fd("free my parsed linked list please\n", STDERR_FILENO);
-	ft_putstr_fd("probably exit the process too\n", STDERR_FILENO);
-}
-
-char	*join_strings_vector(char *str, char *add)
-{
-	char	*new_str;
-	size_t	len;
-	int		str_index;
-	int		new_index;
+	char		*new_str;
+	size_t		len;
+	size_t		str_index;
+	size_t		new_index;
 
 	str_index = 0;
 	new_index = 0;
-	len = ft_strlen(str + 1) + ft_strlen(add);
+	len = vector->size + ft_strlen(add);
 	new_str = ft_calloc(len + 1, sizeof(char));
 	if (!new_str)
 		return (free(str), NULL);
-	while (str[str_index])	
+	while (str_index < vector->size)	
 		new_str[new_index++] = str[str_index++];	
-	new_str[new_index++] = '\0';
+	new_str[new_index] = '\0';
 	free(str);
-	new_index++;
 	str_index = 0;
 	while (add[str_index])
 		new_str[new_index++] = add[str_index++];	
@@ -46,10 +38,10 @@ char	*join_strings_vector(char *str, char *add)
 
 char	*vector_add_back(char *str, char *add, t_vector *vector)
 {
-	str = join_strings_vector(str, add);
+	str = join_strings_vector(str, add, vector);
 	if (!str)
 		return (NULL);
-	vector->size += ft_strlen(add);
+	vector->size += ft_strlen(add) + 1;
 	vector->word_count += 1;
 	return (str);
 }
@@ -60,12 +52,14 @@ char	*vector_dup(char *str, t_vector *vector)
 
 	dup_str = NULL;
 	dup_str = ft_strdup(str);
-	if (!vector->buffer)
+	if (!dup_str)
 		return (NULL) ;
 	vector->word_count += 1;
-	vector->size += ft_strlen(str);
+	vector->size += ft_strlen(str) + 1;
 	return (dup_str);
 }
+
+
 
 char	*build_cmd_buffer(t_vector *table, char *cmd_buff, t_token *roaming)
 {

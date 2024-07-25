@@ -6,30 +6,47 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 11:49:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 12:12:43 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+#include <stdio.h>
+
+void	print_cmd_buff(t_vector *table)
+{
+	unsigned int i;
+
+	i = 0;
+	if (!table->buffer)
+		return ;
+	printf("size: %ld\n", table->size);
+	printf("word_count: %ld\n", table->word_count);
+	while (i < table->size)
+	{
+		printf("%c", table->buffer[i]);
+		i++;
+	}
+	printf("\n");
+}
+
 t_vector	*assemble_cmd(t_token *roaming)
 {
 	t_vector	*cmd;
-	char		*buffer;
 
 	cmd = ft_calloc(1, sizeof(t_vector));
 	if (!cmd)
 		return (NULL);
-	buffer = NULL;
-	cmd->buffer = buffer;
 	while (roaming && roaming->type != TK_PIPE)
 	{
 		if (roaming->type != TK_RESERVED)
 		{
-			buffer = build_cmd_buffer(cmd, buffer, roaming);
+			cmd->buffer = build_cmd_buffer(cmd, cmd->buffer, roaming);
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;
+		print_cmd_buff(cmd);
 	}
 	return (cmd);
 }
@@ -57,7 +74,7 @@ void	collect_redir_tk(t_parser *parsed, t_token *roaming)
 		if (roaming->type == TK_REDIR || roaming->type == TK_HEREDOC)
 		{
 			if (build_redirect_table(parsed, roaming) == PANIC)
-				panic(parsed);
+				return ;
 			roaming->type = TK_RESERVED;
 		}
 		roaming = roaming->next;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 14:29:22 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:55:12 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	{
 		if (redir_child(p, pipe_fd, has_pipe, std_fd) == PANIC)
 			handle_error(strerror(errno), errno, data, NULL);
-		execute_child(cmd_table->cmd, data);
+		execute_child(cmd_table->cmd_buff->buffer, data);
 	}
 	else
 		return (handle_parent(data, pid_child, pipe_fd));
