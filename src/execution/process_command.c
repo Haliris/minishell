@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 17:00:25 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:13:23 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 	if (open_pipes(p, pipe_fd, has_pipe) == -1)
 		return (PANIC);
 	signal(SIGINT, interrupt_exec);
+	signal(SIGQUIT, quit_exec);
 	pid_child = fork();
 	if (pid_child < 0)
 		return (PANIC);
