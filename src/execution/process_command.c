@@ -6,15 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 16:46:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 17:00:25 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-
-
 
 void	execute_cmd(t_vector *cmd_vector, t_data *data)
 {

@@ -21,7 +21,8 @@ static int	is_empty_vector(t_vector *vector)
 		index++;
 	if (index == vector->size)
 		return (TRUE);
-	return (FALSE);
+	else
+		return (FALSE);
 }
 
 static void	copy_vector_str(char *string, t_vector *vector, size_t vector_index)
@@ -31,10 +32,9 @@ static void	copy_vector_str(char *string, t_vector *vector, size_t vector_index)
 	str_index = 0;
 	while (vector->buffer[vector_index])
 	{
-		string[str_index] = vector->buffer[vector_index];
+		string[str_index++] = vector->buffer[vector_index];
 		vector->buffer[vector_index] = '\0';
 		vector_index++;
-		str_index++;
 	}
 	string[str_index] = '\0';
 }
@@ -62,7 +62,7 @@ static char	*split_cmd_strings(t_vector *vector)
 	return (string);
 }
 
-char **make_command_array(t_vector *vector)
+char	**make_command_array(t_vector *vector)
 {
 	size_t	words;
 	size_t	array_index;
@@ -75,7 +75,7 @@ char **make_command_array(t_vector *vector)
 	array_index = 0;
 	while (array_index < words)
 	{
-		cmd_array[array_index] = split_cmd_strings(vector);	
+		cmd_array[array_index] = split_cmd_strings(vector);
 		if (!cmd_array[array_index])
 		{
 			free_strarray(cmd_array);
