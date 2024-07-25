@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 11:29:51 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/23 23:02:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,22 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
 	t_token	*token;
 
-	if (data->token && type == TK_PIPE)
+	if (type == TK_PIPE)
 	{
+		if (!data->token)
+			return (free(lexstr), NULL);
 		token = data->token;
 		while (token->next)
 			token = token->next;
 		if (token->type == TK_PIPE || token->type == TK_REDIR)
-		{
-			free(lexstr);
-			return (NULL);
-		}
+			return (free(lexstr), NULL);
 	}
-	token = (t_token *)malloc(sizeof(t_token));
+	token = ft_calloc(1, sizeof(t_token));
 	if (!token)
 	{
-		write(2, "Error: bad malloc\n", 19);
+		write(STDERR_FILENO, "Error: bad malloc\n", 19);
 		exit(clean_exit(data, 1));
 	}
-	ft_bzero(token, sizeof(t_token));
 	token->lexstr = lexstr;
 	token->path = path;
 	token->type = type;

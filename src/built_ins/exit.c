@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 19:27:00 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/22 14:18:44 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/23 22:07:20 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	call_exit(t_data *data, char **cmd, int mode)
 	exit_code = EXIT_FAILURE;
 	if (!cmd[1] || cmd[2])
 	{
-		free_strarray(cmd);
 		if (mode == PARENT && !cmd[1])
 			ft_putstr_fd("exit\n", STDOUT_FILENO);
 		else if (cmd[1] && cmd[2])
 			ft_putstr_fd("minishell: exit: too may arguments\n", STDERR_FILENO);
+		free_strarray(cmd);
 		exit(clean_exit(data, EXIT_FAILURE));
 	}
 	if (is_not_number(cmd[1]) == TRUE)
