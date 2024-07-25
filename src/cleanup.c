@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 18:31:33 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/25 18:12:39 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,7 @@ void	free_tokens(t_token *token)
 	while (token)
 	{
 		tmp = token->next;
-		if (token->lexstr)
-			free(token->lexstr);
-		if (token->path)
-			free(token->path);
-		free(token);
-		token = NULL;
+		free_tk(token);
 		token = tmp;
 	}
 }
