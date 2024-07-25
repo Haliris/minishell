@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 10:56:23 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:02:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_token
 	t_token		*prev;
 }	t_token;
 
-int		lexer(t_data *data);
+int			lexer(t_data *data);
 /* utilities - general */
 char		*get_substr(char *input, size_t start_idx);
 void		lex_add_token(t_data *data, t_token *token);
@@ -75,7 +75,8 @@ bool		invalid_tokens(t_data *data);
 bool		is_invalid_export(t_data *data, size_t curr_idx);
 
 /* token retrieval */
-t_token		*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
+t_token		*get_token(t_data *data, char *lexstr,
+				char *path, t_tokentype type);
 t_token		*lex_get_last_token(t_data *data);
 t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
