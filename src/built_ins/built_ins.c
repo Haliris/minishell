@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 14:35:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 15:45:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ static int	builtin_redir_parent(char **command, t_data *data)
 	return (SUCCESS);
 }
 
-void	execute_builtin(char *cmd, t_data *data, int mode)
+void	execute_builtin(t_vector *cmd_vector, t_data *data, int mode)
 {
 	char	**command;
 
-	command = ft_split(cmd, ' ');
+	command = make_command_array(cmd_vector);
 	if (mode == PARENT)
 	{
 		if (builtin_redir_parent(command, data) == PANIC)

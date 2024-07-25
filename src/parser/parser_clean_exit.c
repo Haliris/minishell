@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parser_clean_exit.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/13 19:21:20 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/20 11:36:53 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:11:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_vector(t_vector *vector)
+{
+	if (!vector)
+		return ;
+	if (vector->buffer)
+	{
+		free(vector->buffer);
+		vector->buffer = NULL;
+	}
+	vector->size = 0;
+	vector->word_count = 0;
+	free(vector);
+}
 
 void	free_tables(t_parser *r)
 {
@@ -23,7 +37,10 @@ void	free_tables(t_parser *r)
 	{
 		cmd_table = r->table;
 		if (cmd_table)
-			free(cmd_table->cmd);
+		{
+			free_vector(cmd_table->cmd_buff);
+			cmd_table->cmd_buff = NULL;
+		}
 		free(cmd_table);
 		cmd_table = NULL;
 	}
