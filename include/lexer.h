@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 11:02:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:10:35 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_token
 	t_tokentype	type;
 	char		*lexstr;
 	char		*path;
+	char		quote;
 	t_heredoc	*heredoc;
 	t_token		*next;
 	t_token		*prev;

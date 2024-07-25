@@ -6,58 +6,11 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 10:47:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 12:00:31 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-void	get_extended_str(char *input, size_t *startidx,
-	char **outstr, size_t str_tk_len)
-{
-	bool	in_quote;
-	char	quote;
-	size_t	i;
-
-	i = 0;
-	in_quote = false;
-	quote = 0;
-	while (input[*startidx] && i < str_tk_len)
-	{
-		if (!in_quote && in(input[*startidx], "\'\""))
-		{
-			in_quote = true;
-			quote = input[*startidx];
-		}
-		else if (in_quote && input[*startidx] == quote)
-			in_quote = false;
-		else if (!in_quote && is_delim(input[*startidx]))
-			break ;
-		else
-			(*outstr)[i++] = input[*startidx];
-		(*startidx)++;
-	}
-	if (in_quote)
-		(*startidx)++;
-}
-
-static void	process_empty_str(char **outstr)
-{
-	size_t	i;
-	char	*replacement_str;
-
-	i = 0;
-	while (*outstr && (*outstr)[i])
-	{
-		if (!is_space((*outstr)[i]))
-			return ;
-		i++;
-	}
-	replacement_str = ft_strjoin3("\'", *outstr, "\'");
-	if (!replacement_str)
-		return ;
-	replace_str(outstr, replacement_str);
-}
 
 static t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
 {
@@ -70,11 +23,37 @@ static t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
 	return (get_token(data, outstr, NULL, TK_STRING));
 }
 
+static void	extract_str(t_data  *data, size_t *startidx, size_t size, t_token *tk)
+{
+	size_t	i;
+	bool	in_quote;
+	char	*outstr;
+
+	outstr = (char *)ft_calloc(size + 1, 1);
+	if (!outstr)
+		return ;
+	i = 0;
+	tk->quote = 0;
+	in_quote = (in(data->input[*startidx], "\"\'"));
+	if (in_quote)
+		tk->quote = data->input[(*startidx)++];
+	while (data->input[*startidx])
+	{
+		if (in_quote && data->input[*startidx] == tk->quote)
+			break ;
+		if (!in_quote && is_delim(data->input[*startidx]))
+			break ;
+		(outstr)[i++] = data->input[(*startidx)++];
+	}
+	if (in_quote)
+		(*startidx)++;
+	tk->lexstr = outstr;
+}
+
 t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 {
 	t_token		*str_tk;
 	size_t		token_size;
-	char		*outstr;
 
 	if (input[*start_idx] == '$' && input[(*start_idx) + 1]
 		&& in(input[(*start_idx) + 1], ":/,.~^="))
@@ -82,18 +61,9 @@ t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
 	token_size = get_str_tk_len(input, *start_idx);
 	if (!token_size)
 		return (NULL);
-	outstr = (char *)ft_calloc(token_size + 1, 1);
-	if (!outstr)
-		return (NULL);
-	get_extended_str(input, start_idx, &outstr, token_size);
-	if (!*outstr)
-	{
-		free(outstr);
-		return (NULL);
-	}
-	process_empty_str(&outstr);
-	str_tk = get_token(data, outstr, NULL, TK_STRING);
+	str_tk = get_token(data, NULL, NULL, TK_STRING);
 	if (!str_tk)
-		free(outstr);
+		return (NULL);
+	extract_str(data, start_idx, token_size, str_tk);
 	return (str_tk);
 }

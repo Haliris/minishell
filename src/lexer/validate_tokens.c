@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 22:51:36 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 12:01:56 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ bool	invalid_tk_exists(t_token *token)
 		if (token->type == TK_INVALID)
 			return (true);
 		if (token->type == TK_HEREDOC && !token->heredoc)
+			return (true);
+		if (!token->lexstr)
 			return (true);
 		token = token->next;
 	}
@@ -80,6 +82,7 @@ static void	detect_executables(t_data *data)
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}
+		print_token(curr_tk);
 		curr_tk = curr_tk->next;
 	}
 }
