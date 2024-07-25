@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:26:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:44:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ typedef struct s_token
 	char		*lexstr;
 	char		*path;
 	char		quote;
+	size_t		startidx;
+	size_t		endidx;
 	t_heredoc	*heredoc;
 	t_token		*next;
 	t_token		*prev;
@@ -58,7 +60,7 @@ size_t		get_str_tk_len(char *input, size_t startidx);
 void		get_extended_str(char *input, size_t *startidx,
 				char **outstr, size_t str_tk_len);
 char		*extract_key_from_str(char *str, size_t start);
-t_tokentype	check_prev_tk(t_data *data);
+t_tokentype	get_last_tk_type(t_data *data);
 void		remove_lim_node(t_token *node);
 
 /* utilities - bools */
