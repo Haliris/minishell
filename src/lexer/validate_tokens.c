@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
 /*   Updated: 2024/07/23 15:02:21 by bthomas          ###   ########.fr       */
@@ -39,7 +39,7 @@ static bool	is_orphaned_op(t_token *token)
 			is_echo = false;
 		if (token->type == TK_BUILTIN && ft_strcmp("echo", token->lexstr) == 0)
 			is_echo = true;
-		if (token->type == TK_PIPE && !token->prev)
+		if (token->type == TK_PIPE && (!token->prev || !token->next))
 			return (true);
 		if (token->type == TK_OPERATOR && !next && !is_echo)
 			return (true);
