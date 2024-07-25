@@ -3,14 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   lex_token_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 23:02:48 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 14:33:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+t_tokentype	check_prev_tk(t_data *data)
+{
+	t_token	*last;
+
+	last = lex_get_last_token(data);
+	if (!last)
+		return (TK_INVALID);
+	return (last->type);
+}
 
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
@@ -35,6 +45,7 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 	token->lexstr = lexstr;
 	token->path = path;
 	token->type = type;
+	token->quote = 0;
 	return (token);
 }
 

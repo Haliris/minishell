@@ -1,27 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lex_retrieve_tk2.c                                 :+:      :+:    :+:   */
+/*   lex_retrieve_tk.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 19:17:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/25 10:46:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_tokentype	check_prev_tk(t_data *data)
+t_token	*get_num_tk(t_data *data, char *input, size_t start_idx)
 {
-	t_token	*roaming;
+	size_t	i;
 
-	if (!data->token)
-		return (TK_INVALID);
-	roaming = data->token;
-	while (roaming && roaming->next)
-		roaming = roaming->next;
-	return (roaming->type);
+	i = start_idx;
+	while (ft_isdigit(input[i]))
+		i++;
+	return (get_token(data, ft_substr(input, start_idx, i - start_idx),
+			NULL, TK_NUMBER));
 }
 
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
@@ -49,7 +48,7 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 }
 
 /* no null validation for path, because invalid paths are NULL */
-t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
+t_token	*get_var_tk(t_data *data, char *input, size_t start_idx)
 {
 	char	*search_str;
 	char	*path;
@@ -74,24 +73,6 @@ t_token	*get_path_tk(t_data *data, char *input, size_t start_idx)
 	path = get_varval(data->env_vars, search_str);
 	search_str--;
 	return (get_token(data, search_str, path, TK_PATH));
-}
-
-/* problem chars: & | < > ; ( ) \ " '
-	but, bash allows them */
-static void	remove_lim_node(t_token *node)
-{
-	if (node->prev && node->next)
-	{
-		node->prev->next = node->next;
-		node->next->prev = node->prev;
-	}
-	else if (node->prev)
-		node->prev->next = node->next;
-	else if (node->next)
-		node->next->prev = node->prev;
-	if (node->lexstr)
-		free(node->lexstr);
-	free(node);
 }
 
 int	get_heredoc_tk(t_token *roaming, t_data *data)

@@ -24,8 +24,8 @@ CFILES	= main.c \
 		  lex_bools1.c \
 		  lex_bools2.c \
 		  lex_executables.c \
-		  lex_retrieve_tk1.c \
-		  lex_retrieve_tk2.c \
+		  lex_retrieve_str_tk.c \
+		  lex_retrieve_tk.c \
 		  lex_token_utils.c \
 		  lex_expand_str_vars.c \
 		  lex_utils.c \

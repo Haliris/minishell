@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 15:02:10 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:26:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,48 +40,52 @@ typedef struct s_token
 	t_tokentype	type;
 	char		*lexstr;
 	char		*path;
+	char		quote;
 	t_heredoc	*heredoc;
 	t_token		*next;
 	t_token		*prev;
 }	t_token;
 
-int		lexer(t_data *data);
+int			lexer(t_data *data);
 /* utilities - general */
-char	*get_substr(char *input, size_t start_idx);
-void	lex_add_token(t_data *data, t_token *token);
-void	print_token(t_token *token);
-char	*get_env_var(char *var_str);
-char	*get_exec_path(t_data *data, char *input, size_t start_idx);
-void	replace_str(char **old, char *new);
-size_t	get_str_tk_len(char *input, size_t startidx);
-void	get_extended_str(char *input, size_t *startidx,
-			char **outstr, size_t str_tk_len);
-char	*extract_key_from_str(char *str, size_t start);
+char		*get_substr(char *input, size_t start_idx);
+void		lex_add_token(t_data *data, t_token *token);
+void		print_token(t_token *token);
+char		*get_env_var(char *var_str);
+char		*get_exec_path(t_data *data, char *input, size_t start_idx);
+void		replace_str(char **old, char *new);
+size_t		get_str_tk_len(char *input, size_t startidx);
+void		get_extended_str(char *input, size_t *startidx,
+				char **outstr, size_t str_tk_len);
+char		*extract_key_from_str(char *str, size_t start);
+t_tokentype	check_prev_tk(t_data *data);
+void		remove_lim_node(t_token *node);
 
 /* utilities - bools */
-bool	is_builtin(char *input, size_t start_idx);
-bool	is_space(unsigned char c);
-bool	in(unsigned char c, const char *str);
-bool	empty_quote(char *input, size_t start_idx);
-bool	is_executable(t_data *data, char *input, size_t start_idx);
-bool	is_delim(char c);
-bool	invalid_path_char(char c);
+bool		is_builtin(char *input, size_t start_idx);
+bool		is_space(unsigned char c);
+bool		in(unsigned char c, const char *str);
+bool		empty_quote(char *input, size_t start_idx);
+bool		is_executable(t_data *data, char *input, size_t start_idx);
+bool		is_delim(char c);
+bool		invalid_path_char(char c);
 
 /* input validation */
-bool	valid_input(char *input, t_data *data);
-bool	invalid_tokens(t_data *data);
-bool	is_invalid_export(t_data *data, size_t curr_idx);
+bool		valid_input(char *input, t_data *data);
+bool		invalid_tokens(t_data *data);
+bool		is_invalid_export(t_data *data, size_t curr_idx);
 
 /* token retrieval */
-t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type);
-t_token	*lex_get_last_token(t_data *data);
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx);
-t_token	*get_flag_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_exec_tk(t_data *data, char *input, size_t start_idx);
-t_token	*get_path_tk(t_data *data, char *input, size_t start_idx);
-int		get_heredoc_tk(t_token *roaming, t_data *data);
+t_token		*get_token(t_data *data, char *lexstr,
+				char *path, t_tokentype type);
+t_token		*lex_get_last_token(t_data *data);
+t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
+t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
+t_token		*get_string_tk(t_data *data, char *input, size_t *start_idx);
+t_token		*get_flag_tk(t_data *data, char *input, size_t start_idx);
+t_token		*get_redir_tk(t_data *data, char *input, size_t start_idx);
+t_token		*get_exec_tk(t_data *data, char *input, size_t start_idx);
+t_token		*get_var_tk(t_data *data, char *input, size_t start_idx);
+int			get_heredoc_tk(t_token *roaming, t_data *data);
 
 #endif

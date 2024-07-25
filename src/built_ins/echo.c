@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 12:55:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:34:54 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ static bool	is_nflag(char *s)
 		i++;
 	}
 	return (true);
-}
-
-void	expand_all_vars(t_data *data, char **cmd, size_t i)
-{
-	while (cmd[i])
-	{
-		if (var_in_str(cmd[i]))
-			expand_string_var(data, &cmd[i]);
-		i++;
-	}
 }
 
 char	*build_echo_str(char **cmd)
@@ -64,7 +54,7 @@ char	*build_echo_str(char **cmd)
 	return (out_str);
 }
 
-void	call_echo(t_data *data, char **cmd)
+void	call_echo(char **cmd)
 {
 	char	*out_str;
 	size_t	i;
@@ -80,7 +70,6 @@ void	call_echo(t_data *data, char **cmd)
 		is_flagged = TRUE;
 		i++;
 	}
-	expand_all_vars(data, cmd, i);
 	out_str = build_echo_str(&cmd[i]);
 	if (out_str && !empty_quote(out_str, 0))
 		ft_printf("%s", out_str);

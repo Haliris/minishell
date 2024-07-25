@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:58:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 13:13:51 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 15:44:56 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	execute_builtin(t_vector *vector, t_data *data, int mode);
 
-void	call_echo(t_data *data, char **cmd);
+void	call_echo(char **cmd);
 void	call_cd(t_data *data, char **cmd);
 void	call_exit(t_data *data, char **cmd, int mode);
 void	call_pwd(void);

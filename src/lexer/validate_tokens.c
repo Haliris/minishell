@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 15:02:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:35:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ bool	invalid_tk_exists(t_token *token)
 		if (token->type == TK_INVALID)
 			return (true);
 		if (token->type == TK_HEREDOC && !token->heredoc)
+			return (true);
+		if (!token->lexstr)
 			return (true);
 		token = token->next;
 	}
@@ -71,7 +73,7 @@ static void	detect_executables(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (var_in_str(curr_tk->lexstr))
+		if (var_in_str(curr_tk))
 			expand_string_var(data, &curr_tk->lexstr);
 		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(data, curr_tk->lexstr, 0))
