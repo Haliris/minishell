@@ -17,6 +17,7 @@ CFILES	= main.c \
 		  execute_commands.c \
 		  execution_utils.c \
 		  build_env.c \
+		  vector_split.c \
 		  process_command.c \
 		  redir_child.c \
 		  parse_here_doc.c \
