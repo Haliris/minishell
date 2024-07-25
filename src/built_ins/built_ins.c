@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 15:45:16 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:53:07 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,22 @@
 #define FD_STDIN 3
 #define FD_STDOUT 4
 
-void	call_builtin(char **command, t_data *data, int mode)
+static void	read_and_discard_pipein(int pipe[])
 {
+	char	buffer[1024];
+	int		status;
+
+	if (!pipe[0])
+		return ;
+	status = 1;
+	while (status > 0)
+		status = read(STDIN_FILENO, &buffer, sizeof(buffer));
+}
+
+void	call_builtin(char **command, t_data *data, int mode, int pipe[])
+{
+	if (mode == CHILD)
+		read_and_discard_pipein(pipe);
 	if (ft_strcmp(command[0], "echo") == 0)
 		call_echo(command);
 	else if (ft_strcmp(command[0], "cd") == 0)
@@ -51,11 +65,11 @@ static int	builtin_redir_parent(char **command, t_data *data)
 	return (SUCCESS);
 }
 
-void	execute_builtin(t_vector *cmd_vector, t_data *data, int mode)
+void	execute_builtin(t_vector *vector, t_data *data, int mode, int pipe[])
 {
 	char	**command;
 
-	command = make_command_array(cmd_vector);
+	command = make_command_array(vector);
 	if (mode == PARENT)
 	{
 		if (builtin_redir_parent(command, data) == PANIC)
@@ -72,7 +86,7 @@ void	execute_builtin(t_vector *cmd_vector, t_data *data, int mode)
 		else
 			return ;
 	}
-	call_builtin(command, data, mode);
+	call_builtin(command, data, mode, pipe);
 	if (command)
 		free_strarray(command);
 }

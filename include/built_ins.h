@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:58:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 15:44:56 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/25 18:50:18 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define BUILT_INS_H
 # include "minishell.h"
 
-void	execute_builtin(t_vector *vector, t_data *data, int mode);
+void	execute_builtin(t_vector *vector, t_data *data, int mode, int pipe[]);
 
 void	call_echo(char **cmd);
 void	call_cd(t_data *data, char **cmd);
