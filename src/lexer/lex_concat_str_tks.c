@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:30:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 18:35:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:42:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ int	concatenate_str_tks(t_data *data)
 {
 	t_token	*curr_tk;
 
-	if (!data->token)
+	if (!data->token || !data->token->lexstr)
 		return (0);
 	expand_all_vars(data);
 	curr_tk = data->token->next;
 	while (curr_tk)
 	{
-		if (!is_delim(data->input[curr_tk->prev->endidx]))
+		if (!is_delim(data->input[curr_tk->startidx - 1]))
 			if (concat_prev_tk(data, &curr_tk))
 				return (PANIC);
 		curr_tk = curr_tk->next;
