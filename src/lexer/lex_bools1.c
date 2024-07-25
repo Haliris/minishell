@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_bools1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:50:09 by bento             #+#    #+#             */
-/*   Updated: 2024/07/19 12:11:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:24:27 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool	is_builtin(char *input, size_t start_idx)
 	return (ret);
 }
 
-bool	is_executable(char *input, size_t start_idx)
+bool	is_executable(t_data *data, char *input, size_t start_idx)
 {
 	char	*cmd;
 	char	*substr;
@@ -85,7 +85,7 @@ bool	is_executable(char *input, size_t start_idx)
 			return (true);
 	}
 	cmd = NULL;
-	cmd = get_exec_path(input, start_idx);
+	cmd = get_exec_path(data, input, start_idx);
 	if (cmd)
 	{
 		free(cmd);
