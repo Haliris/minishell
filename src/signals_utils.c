@@ -28,6 +28,12 @@ void	interrupt_exec(int status)
 	write(STDERR_FILENO, "\n", 1);
 }
 
+void	quit_exec(int status)
+{
+	(void)status;
+	write(STDERR_FILENO,"QUIT\n", 5);
+}
+
 void	interrupt_main(int status)
 {
 	write(STDIN_FILENO, "\n", 1);
