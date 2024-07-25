@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:30:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 18:47:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:51:20 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,16 @@ static int	concat_prev_tk(t_data *data, t_token **tk)
 
 	replacement = get_token(data, NULL, NULL, TK_STRING);
 	if (!replacement)
+	{
+		ft_putendl_fd("minishell: memory allocation error.", 2);
 		return (PANIC);
+	}
 	prev = (*tk)->prev;
 	replace_str = ft_strjoin(prev->lexstr, (*tk)->lexstr);
 	if (!replace_str)
 	{
 		free(replacement);
+		ft_putendl_fd("minishell: memory allocation error.", 2);
 		return (PANIC);
 	}
 	replacement->lexstr = replace_str;
