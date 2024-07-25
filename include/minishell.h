@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 14:33:27 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:09:26 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ void		init_signals(void);
 void		interrupt_heredoc(int status);
 void		interrupt_main(int status);
 void		interrupt_exec(int status);
+void		quit_exec(int status);
 t_heredoc	*process_here_doc(char *limiter, t_data *data);
 void		throw_lexer_error(t_data *data);
 
