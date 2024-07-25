@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/22 14:34:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 10:56:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,22 @@ size_t	get_str_tk_len(char *input, size_t startidx)
 		startidx++;
 	}
 	return (len);
+}
+
+/* problem chars: & | < > ; ( ) \ " '
+	but, bash allows them */
+void	remove_lim_node(t_token *node)
+{
+	if (node->prev && node->next)
+	{
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+	}
+	else if (node->prev)
+		node->prev->next = node->next;
+	else if (node->next)
+		node->next->prev = node->prev;
+	if (node->lexstr)
+		free(node->lexstr);
+	free(node);
 }
