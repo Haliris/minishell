@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:25:48 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:34:54 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:15:40 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ char	*build_echo_str(char **cmd)
 		}
 		else
 		{
+			out_str = ft_str_rejoin(out_str, " ");
 			out_str = ft_str_rejoin(out_str, cmd[index]);
 			if (!out_str)
 				return (NULL);
