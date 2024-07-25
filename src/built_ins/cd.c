@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/19 19:09:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 14:32:14 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ void	call_cd(t_data *data, char **cmd)
 	if (!cmd[1] || ft_strcmp(cmd[1], "-") == 0)
 		return ;
 	p = cmd[1];
-	if (var_in_str(cmd[1]))
-		expand_string_var(data, &p);
 	update_pwd(data, true);
 	if (chdir(p) != 0)
 	{

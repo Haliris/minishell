@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/22 14:34:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 11:45:22 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,22 +59,36 @@ size_t	get_str_tk_len(char *input, size_t startidx)
 	char	quote;
 
 	len = 0;
-	in_quote = false;
-	quote = input[startidx];
+	quote = 0;
+	in_quote = (in(input[startidx], "\'\""));
+	if (in_quote)
+		quote = input[startidx++];
 	while (input[startidx])
 	{
-		if (!in_quote && in(input[startidx], "\'\""))
-		{
-			in_quote = true;
-			quote = input[startidx];
-		}
-		else if (in_quote && input[startidx] == quote)
-			in_quote = false;
-		else if (!in_quote && is_delim(input[startidx]))
+		if (in_quote && input[startidx] == quote)
 			break ;
-		else
-			len++;
+		if (!in_quote && is_delim(input[startidx]))
+			break ;
 		startidx++;
+		len++;
 	}
 	return (len);
+}
+
+/* problem chars: & | < > ; ( ) \ " '
+	but, bash allows them */
+void	remove_lim_node(t_token *node)
+{
+	if (node->prev && node->next)
+	{
+		node->prev->next = node->next;
+		node->next->prev = node->prev;
+	}
+	else if (node->prev)
+		node->prev->next = node->next;
+	else if (node->next)
+		node->next->prev = node->prev;
+	if (node->lexstr)
+		free(node->lexstr);
+	free(node);
 }
