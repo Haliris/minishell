@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:36:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:47:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,22 @@ static void	extract_str(t_data *data, size_t *startidx,
 	tk->lexstr = outstr;
 }
 
-t_token	*get_string_tk(t_data *data, char *input, size_t *start_idx)
+t_token	*get_string_tk(t_data *data, size_t *start_idx)
 {
 	t_token		*str_tk;
 	size_t		token_size;
 
-	if (input[*start_idx] == '$' && input[(*start_idx) + 1]
-		&& in(input[(*start_idx) + 1], ":/,.~^="))
-		return (get_doll_str_tk(data, input, start_idx));
-	token_size = get_str_tk_len(input, *start_idx);
+	if (data->input[*start_idx] == '$' && data->input[(*start_idx) + 1]
+		&& in(data->input[(*start_idx) + 1], ":/,.~^="))
+		return (get_doll_str_tk(data, data->input, start_idx));
+	token_size = get_str_tk_len(data->input, *start_idx);
 	if (!token_size)
 		return (NULL);
 	str_tk = get_token(data, NULL, NULL, TK_STRING);
 	if (!str_tk)
 		return (NULL);
+	str_tk->startidx = *start_idx;
 	extract_str(data, start_idx, token_size, str_tk);
+	str_tk->endidx = *start_idx;
 	return (str_tk);
 }

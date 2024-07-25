@@ -6,13 +6,13 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:33:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:45:55 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_tokentype	check_prev_tk(t_data *data)
+t_tokentype	get_last_tk_type(t_data *data)
 {
 	t_token	*last;
 
@@ -46,6 +46,8 @@ t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 	token->path = path;
 	token->type = type;
 	token->quote = 0;
+	token->startidx = 0;
+	token->endidx = 0;
 	return (token);
 }
 

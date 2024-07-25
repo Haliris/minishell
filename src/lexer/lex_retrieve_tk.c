@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 10:46:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 17:40:56 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 	char	*lexstr;
 
 	lexstr = NULL;
-	if (check_prev_tk(data) == TK_REDIR)
+	if (get_last_tk_type(data) == TK_REDIR)
 		return (NULL);
 	if (input[start_idx] == '<')
 	{

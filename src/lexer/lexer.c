@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/25 14:24:30 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:20:45 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	else if (data->input[*i] == '$' && data->input[*i + 1])
 		curr_tk = get_var_tk(data, data->input, *i);
 	else
-		curr_tk = get_string_tk(data, data->input, i);
+		curr_tk = get_string_tk(data, i);
 	return (curr_tk);
 }
 
@@ -86,7 +86,7 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 			break ;
 		if ((data->input[i] == '\"' || data->input[i] == '\'')
 			|| (data->input[i] == '$' && in(data->input[i + 1], ":/,.~^=")))
-			curr_tk = get_string_tk(data, data->input, &i);
+			curr_tk = get_string_tk(data, &i);
 		else if (data->input[i] == '|')
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);
 		else
@@ -125,6 +125,8 @@ int	lexer(t_data *data)
 
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
+		return (1);
+	if (concatenate_str_tks(data))
 		return (1);
 	if (invalid_tokens(data))
 		return (1);
