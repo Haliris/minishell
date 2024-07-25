@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lex_executables.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 18:08:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:24:28 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/25 16:00:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ char	*get_exec_path(t_data *data, char *input, size_t start_idx)
 		exec_path = path_join(split_path[i], cmd);
 	free_strarray(split_path);
 	free(cmd);
+	free(path);
 	return (exec_path);
 }
 
