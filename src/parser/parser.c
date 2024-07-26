@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 13:10:03 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:03:33 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,33 +84,6 @@ void	parse_operators(t_parser *parsed, t_token *tokens)
 			}
 		}
 	}
-}
-
-int	check_infiles(t_parser *parser)
-{
-	t_parser			*roaming;
-	t_redirect_table	*redir;
-	roaming = parser;
-	if (!roaming)
-		return (PANIC);
-	while (roaming)
-	{
-		if (roaming->type == TK_PARS_REDIR)
-		{
-			redir = roaming->table;
-			if (redir->type != TK_PARS_IN)
-				continue ;
-			if (access(redir->redir_str, F_OK) != 0)
-			{
-				ft_putstr_fd("minishell: ", STDERR_FILENO);
-				ft_putstr_fd(redir->redir_str, STDERR_FILENO);
-				ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-				return (PANIC);
-			}
-		}
-		roaming = roaming->next;
-	}
-	return (SUCCESS);
 }
 
 int	interprete_lexer(t_data *data)

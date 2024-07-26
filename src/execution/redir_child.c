@@ -6,11 +6,13 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 13:11:24 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:34:36 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define STD_FILEIN 3
+#define STD_FILEOUT 4
 
 int	redir_files(int file_fd[])
 {
@@ -94,17 +96,59 @@ int	redirect_pipe(int p_fd[], int has_pipe[])
 	return (dup_status);
 }
 
-int	redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fds[])
+char	*check_infiles(t_parser *parser)
 {
-	close(std_fds[0]);
-	close(std_fds[1]);
+	char				*bad_file;
+	t_parser			*roaming;
+	t_redirect_table	*redir;
+
+	roaming = parser;
+	bad_file = NULL;
+	if (!roaming)
+		return (bad_file);
+	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
+	while (roaming)
+	{
+		if (roaming->type == TK_PARS_REDIR)
+		{
+			redir = roaming->table;
+			if (redir->type != TK_PARS_IN)
+				continue ;
+			if (access(redir->redir_str, F_OK) != 0)
+			{
+				bad_file = redir->redir_str;
+				return (bad_file);
+			}
+		}
+		roaming = roaming->next;
+	}
+	return (bad_file);
+}
+
+void	throw_bad_file(t_data *data, char *bad_file)
+{
+	ft_putstr_fd("minishell: ", STDERR_FILENO);
+	ft_putstr_fd(bad_file, STDERR_FILENO);
+	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+	handle_error(NULL, EXIT_FAILURE, data, NULL);
+}
+
+int	redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[])
+{
+	char	*bad_file;
+
+	bad_file = NULL;
+	close(STD_FILEIN);
+	close(STD_FILEOUT);
 	if (redirect_pipe(p_fd, has_pipe) < 0)
 		return (PANIC);
-	if (check_infiles(p) == PANIC)
-	{
-
-	}
+	bad_file = check_infiles(p);
+	if (bad_file)
+		throw_bad_file(data, bad_file);
 	if (process_files(p) < 0)
 		return (PANIC);
 	return (SUCCESS);
 }
+
+#undef STD_FILEIN
+#undef STD_FILEOUT
