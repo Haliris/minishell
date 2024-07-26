@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 13:08:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:26:17 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,10 @@ static char	*prepare_strings(char *str, char *key, char *val, size_t key_idx)
 	pre_str = ft_substr(str, 0, key_idx);
 	if (!pre_str)
 		return (NULL);
-	if (str[key_idx + ft_strlen(key) + 1] == '\0')
-		post_str = ft_strdup("");
-	else
-		post_str = ft_substr(str, key_idx + ft_strlen(key) + 1
-				- 1 * (ft_strcmp("$?", key) == 0),
-				ft_strlen(str) - key_idx - ft_strlen(key) - 1
-				+ 1 * (ft_strcmp("$?", key) == 0));
+	post_str = ft_substr(str, key_idx + ft_strlen(key) + 1
+			- 1 * (ft_strcmp("$?", key) == 0),
+			ft_strlen(str) - key_idx - ft_strlen(key) - 1
+			+ 1 * (ft_strcmp("$?", key) == 0));
 	if (!post_str)
 	{
 		free(pre_str);
