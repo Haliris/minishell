@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/25 11:45:22 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 14:01:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void	replace_str(char **old, char *new)
 {
 	if (!old || !*old)
 		return ;
-	free(*old);
+	if (*old)
+		free(*old);
 	*old = new;
 }
 
