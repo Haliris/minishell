@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 12:38:28 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:24:15 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 08:21:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	replace_var(t_varlist **vlist, char *key, char *val)
 			free(curr->val);
 		curr->val = val;
 	}
+	free(key);
 	return (0);
 }
 
