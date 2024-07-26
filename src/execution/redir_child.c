@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 15:34:36 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:20:23 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,13 +107,17 @@ char	*check_infiles(t_parser *parser)
 	if (!roaming)
 		return (bad_file);
 	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
-	while (roaming)
+		roaming = roaming->prev;
+	while (roaming && roaming->type != TK_PARS_PIPE)
 	{
 		if (roaming->type == TK_PARS_REDIR)
 		{
 			redir = roaming->table;
 			if (redir->type != TK_PARS_IN)
+			{
+				roaming = roaming->next;
 				continue ;
+			}
 			if (access(redir->redir_str, F_OK) != 0)
 			{
 				bad_file = redir->redir_str;
