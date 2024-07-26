@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:09:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:11:24 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ int	redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fds[])
 	close(std_fds[1]);
 	if (redirect_pipe(p_fd, has_pipe) < 0)
 		return (PANIC);
+	if (check_infiles(p) == PANIC)
+	{
+
+	}
 	if (process_files(p) < 0)
 		return (PANIC);
 	return (SUCCESS);

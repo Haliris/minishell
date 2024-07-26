@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 13:21:33 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 12:07:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:10:03 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,5 @@ int	interprete_lexer(t_data *data)
 	tokens_list = data->token;
 	parse_operators(parsed, tokens_list);
 	data->parsedata = parsed;
-	if (check_infiles(data->parsedata) == PANIC)
-		return (PANIC);
 	return (SUCCESS);
 }
