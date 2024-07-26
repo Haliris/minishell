@@ -12,6 +12,7 @@
 
 #include "minishell.h"
 
+/*
 static int	is_empty_vector(t_vector *vector)
 {
 	size_t	index;
@@ -24,6 +25,7 @@ static int	is_empty_vector(t_vector *vector)
 	else
 		return (FALSE);
 }
+*/
 
 static void	copy_vector_str(char *string, t_vector *vector, size_t vector_index)
 {
@@ -46,8 +48,6 @@ static char	*split_cmd_strings(t_vector *vector)
 	size_t	len;
 	char	*string;
 
-	if (is_empty_vector(vector))
-		return (NULL);
 	vector_index = 0;
 	len = 0;
 	while (vector_index < vector->size && !vector->buffer[vector_index])
