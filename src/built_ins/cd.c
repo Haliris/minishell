@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 14:32:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 08:30:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,29 +41,19 @@ char	*get_cwd(void)
 
 static int	update_pwd(t_data *data, bool is_old)
 {
-	char	*key;
 	char	*val;
-	char	*placeholder;
+	char	*key;
 
-	placeholder = "PWD";
-	if (is_old)
-		placeholder = "OLDPWD";
+	if (!is_old)
+		key = ft_strdup("PWD");
+	else
+		key = ft_strdup("OLDPWD");
+	if (!key)
+		return (1);
 	val = get_cwd();
 	if (!val)
-		return (1);
-	if (in_vlist(data->env_vars, placeholder))
-		key = placeholder;
-	else
-	{
-		key = ft_strdup(placeholder);
-		if (!key)
-		{
-			free(val);
-			return (1);
-		}
-		return (add_var(&data->env_vars, key, val));
-	}
-	return (replace_var(&data->env_vars, key, val));
+		return (free(key), 1);
+	return (add_var(&data->env_vars, key, val));
 }
 
 void	call_cd(t_data *data, char **cmd)

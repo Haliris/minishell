@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:29:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 13:08:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,23 @@ static char	*prepare_strings(char *str, char *key, char *val, size_t key_idx)
 	char	*post_str;
 	char	*result;
 
-	pre_str = NULL;
-	if (key_idx > 0)
-		pre_str = ft_substr(str, 0, key_idx);
-	else
-		pre_str = ft_strdup("");
+	pre_str = ft_substr(str, 0, key_idx);
 	if (!pre_str)
 		return (NULL);
 	if (str[key_idx + ft_strlen(key) + 1] == '\0')
 		post_str = ft_strdup("");
 	else
-		post_str = ft_substr(str, key_idx + ft_strlen(key) + 1,
-				ft_strlen(str) - key_idx - ft_strlen(key) - 1);
+		post_str = ft_substr(str, key_idx + ft_strlen(key) + 1
+				- 1 * (ft_strcmp("$?", key) == 0),
+				ft_strlen(str) - key_idx - ft_strlen(key) - 1
+				+ 1 * (ft_strcmp("$?", key) == 0));
 	if (!post_str)
 	{
 		free(pre_str);
 		return (NULL);
 	}
 	result = ft_strjoin3(pre_str, val, post_str);
-	free(pre_str);
-	free(post_str);
+	(free(pre_str), free(post_str));
 	return (result);
 }
 
@@ -59,6 +56,8 @@ static void	impute_var_val(char **str, char *val, char *key, size_t key_idx)
 {
 	char	*new_str;
 
+	if (!key)
+		return ;
 	new_str = prepare_strings(*str, key, val, key_idx);
 	if (new_str)
 		replace_str(str, new_str);
@@ -86,27 +85,22 @@ static void	expand_single_var(t_data *data, char **str, size_t key_idx)
 void	expand_string_var(t_data *data, char **str)
 {
 	size_t	i;
-	char	expanded[4096];
 	char	*exit_code_str;
 
-	if (ft_strcmp(*str, "$?") == 0)
-	{
-		exit_code_str = ft_itoa(data->errcode);
-		replace_str(str, exit_code_str);
-		return ;
-	}
 	i = 0;
-	ft_bzero(expanded, 4096);
 	while ((*str) && (*str)[i] && i < 4096)
 	{
-		if ((*str)[i] == '$' && (!is_delim((*str)[i + 1])
-			|| (*str)[i + 1] == '$')
-			&& expanded[i] == 0)
+		if ((*str)[i] == '$' && (*str)[i + 1] == '?')
 		{
-			expand_single_var(data, str, i);
-			expanded[i] = 1;
+			exit_code_str = ft_itoa(data->errcode);
+			if (!exit_code_str)
+				continue ;
+			impute_var_val(str, exit_code_str, "$?\0", i);
+			free(exit_code_str);
 		}
-		else
-			i++;
+		else if ((*str)[i] == '$' && (!is_delim((*str)[i + 1])
+			|| (*str)[i + 1] == '$'))
+			expand_single_var(data, str, i);
+		i++;
 	}
 }

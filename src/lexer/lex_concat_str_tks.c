@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 17:30:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 18:51:20 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 08:15:55 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ static void	expand_all_vars(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && curr_tk->quote == '\"')
+		if (curr_tk->type == TK_EXITSTATUS)
+			expand_string_var(data, &curr_tk->lexstr);
+		else if (curr_tk->type == TK_STRING && curr_tk->quote == '\"')
 		{
 			if (var_in_str(curr_tk))
 				expand_string_var(data, &curr_tk->lexstr);
