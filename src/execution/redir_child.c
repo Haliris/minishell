@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 16:20:23 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:31:12 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,47 +94,6 @@ int	redirect_pipe(int p_fd[], int has_pipe[])
 		close(p_fd[1]);
 	}
 	return (dup_status);
-}
-
-char	*check_infiles(t_parser *parser)
-{
-	char				*bad_file;
-	t_parser			*roaming;
-	t_redirect_table	*redir;
-
-	roaming = parser;
-	bad_file = NULL;
-	if (!roaming)
-		return (bad_file);
-	while (roaming->prev && roaming->prev->type != TK_PARS_PIPE)
-		roaming = roaming->prev;
-	while (roaming && roaming->type != TK_PARS_PIPE)
-	{
-		if (roaming->type == TK_PARS_REDIR)
-		{
-			redir = roaming->table;
-			if (redir->type != TK_PARS_IN)
-			{
-				roaming = roaming->next;
-				continue ;
-			}
-			if (access(redir->redir_str, F_OK) != 0)
-			{
-				bad_file = redir->redir_str;
-				return (bad_file);
-			}
-		}
-		roaming = roaming->next;
-	}
-	return (bad_file);
-}
-
-void	throw_bad_file(t_data *data, char *bad_file)
-{
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	ft_putstr_fd(bad_file, STDERR_FILENO);
-	ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-	handle_error(NULL, EXIT_FAILURE, data, NULL);
 }
 
 int	redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[])
