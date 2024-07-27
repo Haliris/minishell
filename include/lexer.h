@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 18:20:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 14:19:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,6 @@ t_token		*get_redir_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_var_tk(t_data *data, char *input, size_t start_idx);
 int			get_heredoc_tk(t_token *roaming, t_data *data);
+t_token		*get_doll_str_tk(t_data *data, char *input, size_t *start_idx);
 
 #endif

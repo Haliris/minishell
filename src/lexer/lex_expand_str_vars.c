@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 14:18:31 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 16:46:28 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,12 @@ static void	expand_single_var(t_data *data, char **str, size_t key_idx)
 
 void	expand_string_var(t_data *data, char **str)
 {
-	size_t	len;
 	size_t	i;
 	char	*exit_code_str;
 
 	i = 0;
 	if (!str || !*str)
 		return ;
-	len = ft_strlen(*str);
 	while (i < ft_strlen(*str))
 	{
 		if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] == '?')

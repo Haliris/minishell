@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 18:09:26 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/27 16:34:29 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			clean_exit(t_data *data, int exit_code);
 char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
 
-bool		var_in_str(t_token *tk);
+bool		var_in_str(char *s, char quote);
 int			count_str_vars(char *str);
 
 #endif
