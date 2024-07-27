@@ -20,6 +20,7 @@ CFILES	= main.c \
 		  vector_split.c \
 		  process_command.c \
 		  redir_child.c \
+		  redir_child_utils.c \
 		  parse_here_doc.c \
 		  here_doc_utils.c \
 		  lex_bools1.c \
