@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 12:30:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 16:49:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:47:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_tokens(t_token *token)
 			free(token->path);
 			token->path = NULL;
 		}
+		free(token);
 		token = tmp;
 	}
 }
