@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redir_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/18 17:09:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 16:31:12 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#define STD_FILEIN 3
+#define STD_FILEOUT 4
 
 int	redir_files(int file_fd[])
 {
@@ -94,13 +96,22 @@ int	redirect_pipe(int p_fd[], int has_pipe[])
 	return (dup_status);
 }
 
-int	redir_child(t_parser *p, int p_fd[], int has_pipe[], int std_fds[])
+int	redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[])
 {
-	close(std_fds[0]);
-	close(std_fds[1]);
+	char	*bad_file;
+
+	bad_file = NULL;
+	close(STD_FILEIN);
+	close(STD_FILEOUT);
 	if (redirect_pipe(p_fd, has_pipe) < 0)
 		return (PANIC);
+	bad_file = check_infiles(p);
+	if (bad_file)
+		throw_bad_file(data, bad_file);
 	if (process_files(p) < 0)
 		return (PANIC);
 	return (SUCCESS);
 }
+
+#undef STD_FILEIN
+#undef STD_FILEOUT

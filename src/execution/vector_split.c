@@ -12,21 +12,6 @@
 
 #include "minishell.h"
 
-/*
-static int	is_empty_vector(t_vector *vector)
-{
-	size_t	index;
-
-	index = 0;
-	while (index < vector->size && !vector->buffer[index])
-		index++;
-	if (index == vector->size)
-		return (TRUE);
-	else
-		return (FALSE);
-}
-*/
-
 static void	copy_vector_str(char *string, t_vector *vector, size_t vector_index)
 {
 	size_t	str_index;
@@ -52,6 +37,13 @@ static char	*split_cmd_strings(t_vector *vector)
 	len = 0;
 	while (vector_index < vector->size && !vector->buffer[vector_index])
 		vector_index++;
+	if (vector_index == vector->size)
+	{
+		string = ft_strdup("");
+		if (!string)
+			return (NULL);
+		return (string);
+	}
 	word_index = vector_index;
 	while (vector->buffer[word_index++])
 		len++;
@@ -66,7 +58,7 @@ char	**make_command_array(t_vector *vector)
 {
 	size_t	words;
 	size_t	array_index;
-	char	**cmd_array;	
+	char	**cmd_array;
 
 	words = vector->word_count;
 	cmd_array = ft_calloc(words + 1, sizeof(char *));

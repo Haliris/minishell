@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 18:54:28 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/26 15:34:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	count_commands(t_parser *data)
 	return (cmd_count);
 }
 
-int	execute_commands(t_data *data, int std_fds[])
+int	execute_commands(t_data *data)
 {
 	int				cmd_count;
 	int				index;
@@ -68,7 +68,7 @@ int	execute_commands(t_data *data, int std_fds[])
 			cmd_table = roaming->table;
 			if (cmd_count == 1 && is_builtin(cmd_table->cmd_buff->buffer, 0))
 				execute_builtin(cmd_table->cmd_buff, data, PARENT, 0);
-			else if (process_command(roaming, data, std_fds) == PANIC)
+			else if (process_command(roaming, data) == PANIC)
 				return (PANIC);
 			index--;
 		}
@@ -92,7 +92,7 @@ int	execute_data(t_data *data)
 	if (std_fd[0] < 0 || std_fd[1] < 0)
 		return (PANIC);
 	if (data->parsedata->table)
-		status = execute_commands(data, std_fd);
+		status = execute_commands(data);
 	if (data->parsedata)
 		free_parsed_mem(&data->parsedata);
 	dup_status += dup2(std_fd[0], STDIN_FILENO);
