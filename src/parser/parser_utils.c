@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/27 14:49:35 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/27 15:19:37 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ char	*join_strings_vector(char *str, char *add, t_vector *vector)
 	new_index = 0;
 	if (!add)
 		return (str);
-	len = vector->size + ft_strlen(add);
-	new_str = ft_calloc(len + 2, sizeof(char));
+	len = vector->size + (ft_strlen(add) + 1);
+	new_str = ft_calloc(len + 1, sizeof(char));
 	if (!new_str)
 		return (free(str), NULL);
 	while (str_index < vector->size)
 		new_str[new_index++] = str[str_index++];
 	free(str);
 	str_index = 0;
-	while (add[str_index])
+	while (new_index < len)
 		new_str[new_index++] = add[str_index++];
 	new_str[new_index] = '\0';
 	return (new_str);
@@ -39,11 +39,14 @@ char	*join_strings_vector(char *str, char *add, t_vector *vector)
 
 char	*vector_add_back(char *str, char *add, t_vector *vector)
 {
+	if (!add)
+		return (str);
 	str = join_strings_vector(str, add, vector);
 	if (!str)
 		return (NULL);
 	if (add)
-		vector->size += ft_strlen(add) + 1;
+		vector->size += ft_strlen(add);
+	vector->size += 1;
 	vector->word_count += 1;
 	return (str);
 }
