@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 15:00:24 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 17:14:47 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/27 14:49:35 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@ char	*join_strings_vector(char *str, char *add, t_vector *vector)
 
 	str_index = 0;
 	new_index = 0;
+	if (!add)
+		return (str);
 	len = vector->size + ft_strlen(add);
 	new_str = ft_calloc(len + 2, sizeof(char));
 	if (!new_str)
 		return (free(str), NULL);
 	while (str_index < vector->size)
 		new_str[new_index++] = str[str_index++];
-	new_str[new_index++] = '\0';
 	free(str);
 	str_index = 0;
 	while (add[str_index])
@@ -41,7 +42,8 @@ char	*vector_add_back(char *str, char *add, t_vector *vector)
 	str = join_strings_vector(str, add, vector);
 	if (!str)
 		return (NULL);
-	vector->size += ft_strlen(add) + 2;
+	if (add)
+		vector->size += ft_strlen(add) + 1;
 	vector->word_count += 1;
 	return (str);
 }
