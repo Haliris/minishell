@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/27 13:17:10 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 13:19:00 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,6 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 		skip_invalid_chars(data, input_len, &i);
 		if (i >= input_len)
 			break ;
-		if ((data->input[i] == '\"' || data->input[i] == '\'')
-			|| (data->input[i] == '$' && in(data->input[i + 1], ":/,.~^=")))
-			curr_tk = get_string_tk(data, &i);
 		else if (data->input[i] == '|')
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);
 		else
@@ -118,8 +115,6 @@ int	lexer(t_data *data)
 
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
-		return (1);
-	if (concatenate_str_tks(data))
 		return (1);
 	if (invalid_tokens(data))
 		return (1);
