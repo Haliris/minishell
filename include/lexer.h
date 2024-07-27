@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 14:19:11 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:08:09 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void		get_extended_str(char *input, size_t *startidx,
 char		*extract_key_from_str(char *str, size_t start);
 t_tokentype	get_last_tk_type(t_data *data);
 void		remove_lim_node(t_token *node);
-void		free_tk(t_token *tk);
-int			concatenate_str_tks(t_data *data);
 
 /* utilities - bools */
 bool		is_builtin(char *input, size_t start_idx);
@@ -83,12 +81,8 @@ bool		is_invalid_export(t_data *data, size_t curr_idx);
 t_token		*get_token(t_data *data, char *lexstr,
 				char *path, t_tokentype type);
 t_token		*lex_get_last_token(t_data *data);
-t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
-t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_string_tk(t_data *data, size_t *start_idx);
-t_token		*get_flag_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_redir_tk(t_data *data, char *input, size_t start_idx);
-t_token		*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_var_tk(t_data *data, char *input, size_t start_idx);
 int			get_heredoc_tk(t_token *roaming, t_data *data);
 t_token		*get_doll_str_tk(t_data *data, char *input, size_t *start_idx);

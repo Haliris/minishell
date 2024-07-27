@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 16:56:24 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:09:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static size_t	get_word_len(t_data *data, size_t startidx)
 	return (len);
 }
 
-static char *extract_word(t_data *data, size_t *startidx)
+static char	*extract_word(t_data *data, size_t *startidx)
 {
 	size_t	i;
 	bool	in_quote;

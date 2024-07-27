@@ -6,22 +6,11 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 17:40:56 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:07:13 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-t_token	*get_num_tk(t_data *data, char *input, size_t start_idx)
-{
-	size_t	i;
-
-	i = start_idx;
-	while (ft_isdigit(input[i]))
-		i++;
-	return (get_token(data, ft_substr(input, start_idx, i - start_idx),
-			NULL, TK_NUMBER));
-}
 
 t_token	*get_redir_tk(t_data *data, char *input, size_t start_idx)
 {
