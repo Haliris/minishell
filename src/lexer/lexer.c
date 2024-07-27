@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/25 18:20:45 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 13:17:10 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,9 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	curr_tk = NULL;
 	if (in(data->input[*i], "<>"))
 		curr_tk = get_redir_tk(data, data->input, *i);
-	else if (is_builtin(data->input, *i))
-		curr_tk = get_token(data, get_substr(data->input, *i),
-				NULL, TK_BUILTIN);
 	else if (data->input[*i] == '=')
 		curr_tk = get_token(data, ft_strdup("="),
 				NULL, TK_OPERATOR);
-	else if (is_executable(data, data->input, *i))
-		curr_tk = get_exec_tk(data, data->input, *i);
-	else if (data->input[*i] == '$' && data->input[(*i) + 1] == '$')
-		curr_tk = get_var_tk(data, data->input, *i);
 	else if (data->input[*i] == '$'
 		&& (!data->input[*i + 1] || is_space(data->input[*i + 1])))
 		curr_tk = get_token(data, ft_strdup("$"), NULL, TK_NUMBER);
