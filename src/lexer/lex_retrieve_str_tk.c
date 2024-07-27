@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 16:52:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 16:56:24 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static void	get_all_words(t_data *data, size_t *startidx, t_token *tk)
 		}
 		if (var_in_str(word, quote))
 			expand_string_var(data, &word);
-		tk->lexstr = ft_strreplacejoin(&word, &tk->lexstr);
+		tk->lexstr = ft_strreplacejoin(&tk->lexstr, &word);
 		if (is_space(data->input[(*startidx)]))
 			break ;
 	}
