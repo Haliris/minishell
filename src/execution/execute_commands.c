@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_commands.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 17:45:26 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/28 20:59:11 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,6 @@ int	count_commands(t_parser *data)
 	return (cmd_count);
 }
 
-#include <stdio.h>
-
-
-int	reset_terminal(int std_fd[])
-{
-	int	dup_status;
-
-	dup_status = 0;
-	dup_status += dup2(std_fd[0], STDIN_FILENO);
-	dup_status += dup2(std_fd[1], STDOUT_FILENO);
-	printf("terminal reset!\n");
-	printf("std_fd[0]: %d\n", std_fd[0]);
-	printf("std_fd[1]: %d\n", std_fd[1]);
-	if (dup_status < 0)
-		return (PANIC);
-	return (SUCCESS);
-}
-
 int	execute_commands(t_data *data, int std_fd[])
 {
 	int				cmd_count;
@@ -86,9 +68,7 @@ int	execute_commands(t_data *data, int std_fd[])
 			cmd_table = roaming->table;
 			if (cmd_count == 1 && is_builtin(cmd_table->cmd_buff->buffer, 0))
 				execute_builtin(cmd_table->cmd_buff, data, PARENT, 0);
-			else if (process_command(roaming, data) == PANIC)
-				return (PANIC);
-			if (reset_terminal(std_fd) == PANIC)
+			else if (process_command(roaming, data, std_fd) == PANIC)
 				return (PANIC);
 			index--;
 		}
@@ -115,7 +95,11 @@ int	execute_data(t_data *data)
 		free_parsed_mem(&data->parsedata);
 	close(std_fd[0]);
 	close(std_fd[1]);
-	close(data->prev_fd);
+	if (data->prev_fd != STDIN_FILENO)
+		close(data->prev_fd);
+	if (data->piddata)
+		free_piddata(data);
+	data->piddata = NULL;
 	data->prev_fd = STDIN_FILENO;
 	return (status);
 }
