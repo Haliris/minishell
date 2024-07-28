@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 15:29:04 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/28 14:41:53 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,18 @@ void	handle_error(char *message, int code, t_data *data, char **cmd)
 	exit(clean_exit(data, code));
 }
 
-int	redirect_parent(int p_fd[])
+int	redirect_parent(int p_fd[], int has_pipe[])
 {
 	int	status;
 
 	status = SUCCESS;
 	if (p_fd[0] != -1)
 	{
-		if (dup2(p_fd[0], STDIN_FILENO) < 0)
-			status = PANIC;
+		if (has_pipe[1] == TRUE)
+		{
+			if (dup2(p_fd[0], STDIN_FILENO) < 0)
+				status = PANIC;
+		}
 		close(p_fd[0]);
 	}
 	if (p_fd[1] != -1)

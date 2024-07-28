@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 15:33:23 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:19:37 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 
 void	execute_child(t_vector *cmd_vector, t_data *data, int has_pipe[])
 {
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(cmd_vector->buffer, 0))
 		execute_builtin(cmd_vector, data, CHILD, has_pipe);
 	else
@@ -57,10 +59,10 @@ void	execute_child(t_vector *cmd_vector, t_data *data, int has_pipe[])
 	exit(clean_exit(data, data->errcode));
 }
 
-int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[])
+int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[], int has_pipe[])
 {
 	if (add_pid_node(data, pid_child) == PANIC
-		|| redirect_parent(pipe_fd) == PANIC)
+		|| redirect_parent(pipe_fd, has_pipe) == PANIC)
 		return (PANIC);
 	return (SUCCESS);
 }
@@ -89,6 +91,6 @@ int	process_command(t_parser *p, t_data *data)
 		execute_child(cmd_table->cmd_buff, data, has_pipe);
 	}
 	else
-		return (handle_parent(data, pid_child, pipe_fd));
+		return (handle_parent(data, pid_child, pipe_fd, has_pipe));
 	return (SUCCESS);
 }
