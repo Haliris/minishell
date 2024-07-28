@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 13:01:52 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:08:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 14:25:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,17 @@ t_varlist	*get_varlist(char *key, char *val)
 {
 	t_varlist	*node;
 
+	if (!key || !val)
+		return (NULL);
 	node = malloc(sizeof(t_varlist));
 	if (!node)
 		return (NULL);
-	node->key = key;
-	node->val = val;
+	node->key = NULL;
+	if (key)
+		node->key = key;
+	node->val = NULL;
+	if (val)
+		node->val = val;
 	node->next = NULL;
 	node->prev = NULL;
 	return (node);

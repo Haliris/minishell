@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 17:09:05 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:37:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
 	return (get_token(data, outstr, NULL, TK_STRING));
 }
 
-static size_t	get_word_len(t_data *data, size_t startidx)
+static size_t	get_word_len(t_data *data, size_t startidx, bool echo_str)
 {
 	size_t	len;
 	size_t	i;
@@ -40,7 +40,7 @@ static size_t	get_word_len(t_data *data, size_t startidx)
 	{
 		if ((!in_quote && in(data->input[i], "\'\""))
 			|| (in_quote && data->input[i] == quote)
-			|| (!in_quote && is_delim(data->input[i])))
+			|| (!in_quote && is_delim(data->input[i], echo_str)))
 			break ;
 		else
 			len++;
@@ -49,7 +49,7 @@ static size_t	get_word_len(t_data *data, size_t startidx)
 	return (len);
 }
 
-static char	*extract_word(t_data *data, size_t *startidx)
+static char	*extract_word(t_data *data, size_t *startidx, bool echo_str)
 {
 	size_t	i;
 	bool	in_quote;
@@ -57,7 +57,7 @@ static char	*extract_word(t_data *data, size_t *startidx)
 	char	*word;
 
 	i = 0;
-	word = (char *)ft_calloc(get_word_len(data, *startidx) + 1, 1);
+	word = (char *)ft_calloc(get_word_len(data, *startidx, echo_str) + 1, 1);
 	if (!word)
 		return (NULL);
 	in_quote = in(data->input[*startidx], "\'\"");
@@ -68,7 +68,7 @@ static char	*extract_word(t_data *data, size_t *startidx)
 	{
 		if ((!in_quote && in(data->input[*startidx], "\'\""))
 			|| (in_quote && data->input[*startidx] == quote)
-			|| (!in_quote && is_delim(data->input[*startidx])))
+			|| (!in_quote && is_delim(data->input[*startidx], echo_str)))
 			break ;
 		else
 			word[i++] = data->input[(*startidx)++];
@@ -78,7 +78,8 @@ static char	*extract_word(t_data *data, size_t *startidx)
 	return (word);
 }
 
-static void	get_all_words(t_data *data, size_t *startidx, t_token *tk)
+static void	get_all_words(t_data *data, size_t *startidx, t_token *tk,
+	bool echo_str)
 {
 	char	quote;
 	char	*word;
@@ -92,7 +93,7 @@ static void	get_all_words(t_data *data, size_t *startidx, t_token *tk)
 		else
 			quote = 0;
 		old_idx = *startidx;
-		word = extract_word(data, startidx);
+		word = extract_word(data, startidx, echo_str);
 		if (old_idx == *startidx)
 		{
 			if (word)
@@ -110,12 +111,14 @@ static void	get_all_words(t_data *data, size_t *startidx, t_token *tk)
 t_token	*get_string_tk(t_data *data, size_t *start_idx)
 {
 	t_token		*str_tk;
+	bool		echo_str;
 
+	echo_str = in_echo(lex_get_last_token(data));
 	str_tk = get_token(data, NULL, NULL, TK_STRING);
 	if (!str_tk)
 		return (NULL);
 	str_tk->startidx = *start_idx;
-	get_all_words(data, start_idx, str_tk);
+	get_all_words(data, start_idx, str_tk, echo_str);
 	str_tk->endidx = *start_idx;
 	return (str_tk);
 }

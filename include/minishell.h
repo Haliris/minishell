@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/27 16:34:29 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:36:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ t_varlist	*get_varlist(char *key, char *val);
 char		*get_varval(t_varlist *vlist, char *key);
 int			add_var(t_varlist **vlist, char *key, char *val);
 void		del_varlist(t_varlist *head);
-void		del_varlist_node(t_varlist **head, t_varlist *node);
-void		del_varlist_key(t_varlist *vlist_head, char *key);
+void		del_varlist_node(t_varlist **head, t_varlist **node);
+void		del_varlist_key(t_varlist **vlist_head, char *key);
 bool		in_vlist(t_varlist *vlist, char *key);
 char		*get_nestedval(t_varlist *vlist, char *key);
 int			replace_var(t_varlist **vlist, char *key, char *val);
@@ -128,6 +128,5 @@ char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
 
 bool		var_in_str(char *s, char quote);
-int			count_str_vars(char *str);
 
 #endif

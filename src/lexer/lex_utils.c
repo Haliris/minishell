@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/27 17:10:52 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:49:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_substr(char *input, size_t start_idx)
 	size_t	i;
 
 	i = start_idx;
-	while (input[i] && !is_delim(input[i]))
+	while (input[i] && !is_delim(input[i], false))
 		i++;
 	if (i == start_idx)
 		return (NULL);
@@ -37,20 +37,26 @@ char	*get_substr(char *input, size_t start_idx)
 	return (substr);
 }
 
-int	count_str_vars(char *str)
+bool	in_echo(t_token *tk)
 {
-	int		count;
-	size_t	i;
+	t_token	*prev;
 
-	count = 0;
-	i = 0;
-	while (str && str[i])
+	if (!tk)
+		return (false);
+	while (tk)
 	{
-		if (str[i] == '$' && str[i + 1] && !is_delim(str[i + 1]))
-			count++;
-		i++;
+		prev = tk->prev;
+		if (tk->type == TK_PIPE || tk->type == TK_REDIR
+			|| tk->type == TK_HEREDOC)
+			return (false);
+		if (ft_strcmp("echo", tk->lexstr) == 0
+			&& (!prev || !prev->prev || (prev->prev->type == TK_PIPE
+					|| prev->prev->type == TK_REDIR
+					|| prev->prev->type == TK_HEREDOC)))
+			return (true);
+		tk = prev;
 	}
-	return (count);
+	return (false);
 }
 
 /* problem chars: & | < > ; ( ) \ " '
@@ -69,4 +75,18 @@ void	remove_lim_node(t_token *node)
 	if (node->lexstr)
 		free(node->lexstr);
 	free(node);
+}
+
+bool	space_within_lexstr(t_token *token)
+{
+	size_t	i;
+
+	i = 0;
+	while (token->lexstr && token->lexstr[i])
+	{
+		if (is_space(token->lexstr[i]))
+			return (true);
+		i++;
+	}
+	return (false);
 }
