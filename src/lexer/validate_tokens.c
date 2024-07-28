@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_tokens.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 08:16:18 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 13:47:19 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static bool	is_orphaned_op(t_token *token)
 			return (true);
 		if (token->type == TK_REDIR && (!next))
 			return (true);
+		if (token->type == TK_PATH && !token->path)
+			return (true);
 		token = next;
 	}
 	return (false);
@@ -73,13 +75,17 @@ static void	detect_executables(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
+		if (is_builtin(curr_tk->lexstr, 0))
+			curr_tk->type = TK_BUILTIN;
+		else if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(data, curr_tk->lexstr, 0))
 		{
 			curr_tk->path = get_exec_path(data, curr_tk->lexstr, 0);
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}
+		if (curr_tk->type == TK_PATH && !curr_tk->path)
+			curr_tk->path = ft_strdup("");
 		curr_tk = curr_tk->next;
 	}
 }
