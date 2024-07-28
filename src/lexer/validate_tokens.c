@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 15:09:10 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 14:20:35 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ static void	detect_executables(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
+		if (curr_tk->type == TK_EXITSTATUS)
+			expand_string_var(data, &curr_tk->lexstr);
+		if (is_builtin(curr_tk->lexstr, 0))
+			curr_tk->type = TK_BUILTIN;
+		else if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(data, curr_tk->lexstr, 0))
 		{
 			curr_tk->path = get_exec_path(data, curr_tk->lexstr, 0);
