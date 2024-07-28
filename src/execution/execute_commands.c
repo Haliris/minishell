@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 15:34:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/28 17:45:26 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,25 @@ int	count_commands(t_parser *data)
 	return (cmd_count);
 }
 
-int	execute_commands(t_data *data)
+#include <stdio.h>
+
+
+int	reset_terminal(int std_fd[])
+{
+	int	dup_status;
+
+	dup_status = 0;
+	dup_status += dup2(std_fd[0], STDIN_FILENO);
+	dup_status += dup2(std_fd[1], STDOUT_FILENO);
+	printf("terminal reset!\n");
+	printf("std_fd[0]: %d\n", std_fd[0]);
+	printf("std_fd[1]: %d\n", std_fd[1]);
+	if (dup_status < 0)
+		return (PANIC);
+	return (SUCCESS);
+}
+
+int	execute_commands(t_data *data, int std_fd[])
 {
 	int				cmd_count;
 	int				index;
@@ -70,6 +88,8 @@ int	execute_commands(t_data *data)
 				execute_builtin(cmd_table->cmd_buff, data, PARENT, 0);
 			else if (process_command(roaming, data) == PANIC)
 				return (PANIC);
+			if (reset_terminal(std_fd) == PANIC)
+				return (PANIC);
 			index--;
 		}
 		if (data->parsedata)
@@ -83,23 +103,19 @@ int	execute_data(t_data *data)
 {
 	int			status;
 	int			std_fd[2];
-	int			dup_status;
 
 	status = SUCCESS;
 	std_fd[0] = dup(STDIN_FILENO);
 	std_fd[1] = dup(STDOUT_FILENO);
-	dup_status = 0;
 	if (std_fd[0] < 0 || std_fd[1] < 0)
 		return (PANIC);
 	if (data->parsedata->table)
-		status = execute_commands(data);
+		status = execute_commands(data, std_fd);
 	if (data->parsedata)
 		free_parsed_mem(&data->parsedata);
-	dup_status += dup2(std_fd[0], STDIN_FILENO);
-	dup_status += dup2(std_fd[1], STDOUT_FILENO);
-	if (dup_status < 0)
-		return (PANIC);
 	close(std_fd[0]);
 	close(std_fd[1]);
+	close(data->prev_fd);
+	data->prev_fd = STDIN_FILENO;
 	return (status);
 }
