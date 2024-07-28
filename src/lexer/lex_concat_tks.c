@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:23:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 18:06:19 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 18:20:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	join_prev_tk(t_token *tk)
 	free(tk->prev->lexstr);
 	tk->prev->lexstr = replace_str;
 	tk->prev->type = TK_STRING;
+	tk->prev->endidx = tk->endidx;
 }
 
 static void	change_start_idx(t_data *data, t_token **token)
@@ -85,17 +86,15 @@ void	join_tks(t_data *data)
 	tk = data->token;
 	while (tk)
 	{
+		if (tk->type == TK_EXITSTATUS)
+			expand_string_var(data, &tk->lexstr);
 		next = tk->next;
 		prev = tk->prev;
 		change_start_idx(data, &tk);
-		if (prev && (tk->type == TK_PATH || tk->type == TK_STRING)
-			&& (prev->type == TK_PATH || prev->type == TK_STRING))
+		if (tk->prev && tk->prev->endidx == tk->startidx)
 		{
-			if (tk->prev->endidx == tk->startidx)
-			{
-				join_prev_tk(tk);
-				delete_tk(&data->token, &tk);
-			}
+			join_prev_tk(tk);
+			delete_tk(&data->token, &tk);
 		}
 		tk = next;
 	}
