@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 18:20:14 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 17:11:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,11 @@ int			lexer(t_data *data);
 char		*get_substr(char *input, size_t start_idx);
 void		lex_add_token(t_data *data, t_token *token);
 void		print_token(t_token *token);
-char		*get_env_var(char *var_str);
 char		*get_exec_path(t_data *data, char *input, size_t start_idx);
 void		replace_str(char **old, char *new);
-size_t		get_str_tk_len(char *input, size_t startidx);
-void		get_extended_str(char *input, size_t *startidx,
-				char **outstr, size_t str_tk_len);
 char		*extract_key_from_str(char *str, size_t start);
 t_tokentype	get_last_tk_type(t_data *data);
 void		remove_lim_node(t_token *node);
-void		free_tk(t_token *tk);
-int			concatenate_str_tks(t_data *data);
 
 /* utilities - bools */
 bool		is_builtin(char *input, size_t start_idx);
@@ -83,13 +77,10 @@ bool		is_invalid_export(t_data *data, size_t curr_idx);
 t_token		*get_token(t_data *data, char *lexstr,
 				char *path, t_tokentype type);
 t_token		*lex_get_last_token(t_data *data);
-t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
-t_token		*get_num_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_string_tk(t_data *data, size_t *start_idx);
-t_token		*get_flag_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_redir_tk(t_data *data, char *input, size_t start_idx);
-t_token		*get_exec_tk(t_data *data, char *input, size_t start_idx);
 t_token		*get_var_tk(t_data *data, char *input, size_t start_idx);
 int			get_heredoc_tk(t_token *roaming, t_data *data);
+t_token		*get_doll_str_tk(t_data *data, char *input, size_t *start_idx);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/03/24 16:14:13 by jteissie          #+#    #+#              #
-#    Updated: 2024/07/19 10:32:43 by bthomas          ###   ########.fr        #
+#    Updated: 2024/07/27 14:01:00 by bthomas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRC = 		ft_atoi.c \
 		ft_tolower.c \
 		ft_toupper.c \
 		ft_strjoin3.c \
+		ft_strreplacejoin.c \
 		ft_printf/ft_printf.c \
 		ft_printf/format_triage.c \
 		ft_printf/write_utils.c 
