@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 13:26:17 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/27 16:46:28 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ static void	expand_single_var(t_data *data, char **str, size_t key_idx)
 	key = extract_key_from_str(*str, key_idx);
 	if (!key)
 		return ;
-	val = get_nestedval(data->env_vars, key);
+	if (in_vlist(data->env_vars, key))
+		val = get_nestedval(data->env_vars, key);
+	else
+		val = ft_strdup("");
 	if (val)
 	{
 		impute_var_val(str, val, key, key_idx);
@@ -85,9 +88,11 @@ void	expand_string_var(t_data *data, char **str)
 	char	*exit_code_str;
 
 	i = 0;
-	while ((*str) && (*str)[i] && i < 4096)
+	if (!str || !*str)
+		return ;
+	while (i < ft_strlen(*str))
 	{
-		if ((*str)[i] == '$' && (*str)[i + 1] == '?')
+		if ((*str)[i] == '$' && (*str)[i + 1] && (*str)[i + 1] == '?')
 		{
 			exit_code_str = ft_itoa(data->errcode);
 			if (!exit_code_str)

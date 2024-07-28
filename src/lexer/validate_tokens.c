@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 08:16:18 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/26 15:09:10 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ static bool	is_orphaned_op(t_token *token)
 			return (true);
 		if (token->type == TK_REDIR && (!next))
 			return (true);
+		if (token->type == TK_PATH && !token->path)
+			return (true);
 		token = next;
 	}
 	return (false);
@@ -80,6 +82,8 @@ static void	detect_executables(t_data *data)
 			if (curr_tk->path)
 				curr_tk->type = TK_EXECUTABLE;
 		}
+		if (curr_tk->type == TK_PATH && !curr_tk->path)
+			curr_tk->path = ft_strdup("");
 		curr_tk = curr_tk->next;
 	}
 }
