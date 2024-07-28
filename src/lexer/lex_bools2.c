@@ -6,15 +6,18 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 16:34:17 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:35:08 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-bool	is_delim(char c)
+bool	is_delim(char c, bool echo_str)
 {
-	return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
+	if (!echo_str)
+		return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
+	else
+		return (in(c, "$ \t\n\v\f\r()<>|\"\'"));
 }
 
 bool	var_in_str(char *s, char quote)
@@ -28,7 +31,7 @@ bool	var_in_str(char *s, char quote)
 	{
 		if (s[i] == '$' && in(s[i + 1], "$?"))
 			return (true);
-		else if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1])
+		else if (s[i] == '$' && s[i + 1] && !is_delim(s[i + 1], false)
 			&& !in(s[i + 1], ":/,.~^="))
 			return (true);
 		i++;

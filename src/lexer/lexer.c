@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/27 14:20:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 16:14:06 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	if (in(data->input[*i], "<>"))
 		curr_tk = get_redir_tk(data, data->input, *i);
 	else if (data->input[*i] == '=')
-		curr_tk = get_token(data, ft_strdup("="),
-				NULL, TK_OPERATOR);
+		curr_tk = get_token(data, ft_strdup("="), NULL, TK_OPERATOR);
 	else if (data->input[*i] == '$' && data->input[(*i) + 1]
 		&& in(data->input[(*i) + 1], ":/,.~^="))
 		return (get_doll_str_tk(data, data->input, i));
@@ -71,7 +70,6 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 	size_t	i;
 	t_token	*curr_tk;
 
-	curr_tk = NULL;
 	i = 0;
 	while (i < input_len)
 	{
@@ -86,7 +84,10 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 			curr_tk = build_tokenlist2(data, &i);
 		if (!curr_tk || !curr_tk->lexstr)
 			return (1);
+		if (curr_tk->type != TK_STRING)
+			curr_tk->startidx = i;
 		i += ft_strlen(curr_tk->lexstr) * (curr_tk->type != TK_STRING);
+		curr_tk->endidx = i;
 		lex_add_token(data, curr_tk);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 14:35:15 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:36:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,5 @@ char		*get_prompt(char *orig_prompt);
 void		expand_string_var(t_data *data, char **str);
 
 bool		var_in_str(char *s, char quote);
-int			count_str_vars(char *str);
 
 #endif

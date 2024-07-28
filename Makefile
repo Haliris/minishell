@@ -31,6 +31,7 @@ CFILES	= main.c \
 		  lex_token_utils.c \
 		  lex_expand_str_vars.c \
 		  lex_utils.c \
+		  lex_concat_tks.c \
 		  lexer.c \
 		  validate_input.c \
 		  validate_tokens.c \
