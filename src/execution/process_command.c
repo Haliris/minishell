@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 15:19:37 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/28 15:34:13 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,13 @@ int	open_pipes(t_parser *parsed, int p_fd[], int has_pipe[])
 	check_pipes(parsed, has_pipe);
 	p_fd[0] = -1;
 	p_fd[1] = -1;
-	if (has_pipe[1] == TRUE)
-	{
-		if (pipe(p_fd) < 0)
-			return (-1);
-	}
+	if (pipe(p_fd) < 0)
+		return (-1);
 	return (SUCCESS);
 }
 
 void	execute_child(t_vector *cmd_vector, t_data *data, int has_pipe[])
 {
-	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 	if (is_builtin(cmd_vector->buffer, 0))
 		execute_builtin(cmd_vector, data, CHILD, has_pipe);
