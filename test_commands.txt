@@ -1,11 +1,29 @@
-echo "HELLO       WORLD"
-echo Hello World What
-echo $?
-echo $PATH
-echo '$PATH'
-echo "$PATH"
-echo $HOME"yo"
-echo "Annoying"' '"quotes"
-ls
-ls -a
-cat Makefile | grep SRC | wc -l
+echo "Hello, World!"
+echo Hello World
+echo $USER
+echo $HOME
+echo "This is a test"
+echo 'This is a test'
+echo $HOME
+echo "$HOME is the home directory"
+echo '$HOME is the home directory'
+echo "Hello, World!" | tr '[:lower:]' '[:upper:]'
+ls | grep minishell
+cat /etc/passwd | wc -l
+ls -l | grep minishell | wc -l
+echo "Hello, World!" > output.txt
+cat output.txt
+cat < output.txt
+echo "Appending to file" >> output.txt
+cat output.txt
+rm output.txt
+export TEST_VAR="test"
+echo $TEST_VAR
+unset TEST_VAR
+echo $TEST_VAR
+ls -la
+mkdir test_dir
+cd test_dir
+pwd
+cd ..
+rmdir test_dir

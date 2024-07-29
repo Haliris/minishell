@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/29 12:03:06 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 22:43:30 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	reset_terminal(t_data *data)
+{
+	int	dup_status;
+
+	dup_status = 0;
+	dup_status += dup2(data->std_fd[0], STDIN_FILENO);
+	dup_status += dup2(data->std_fd[1], STDOUT_FILENO);
+	if (dup_status < 0)
+		return (PANIC);
+	return (SUCCESS);	
+}
 
 static void	read_and_discard_pipein(int pipe[])
 {
@@ -87,4 +99,6 @@ void	execute_builtin(t_vector *vector, t_data *data, int mode, int pipe[])
 	call_builtin(command, data, mode, pipe);
 	if (command)
 		free_strarray(command);
+	if (mode == PARENT && reset_terminal(data) == PANIC)
+		return ;
 }
