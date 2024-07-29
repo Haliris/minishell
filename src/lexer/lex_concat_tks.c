@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:23:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 18:26:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 11:03:16 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,21 @@ static void	change_start_idx(t_data *data, t_token **token)
 	}
 }
 
+static bool	joinable(t_token *prev_tk, t_token *curr_tk)
+{
+	if (!prev_tk || !curr_tk)
+		return (false);
+	if (prev_tk->endidx < curr_tk->startidx)
+		return (false);
+	if (!in_builtin(curr_tk, "echo"))
+	{
+		if (ft_strcmp(curr_tk->lexstr, "=") == 0
+			|| ft_strcmp(prev_tk->lexstr, "=") == 0)
+			return (false);
+	}
+	return (true);
+}
+
 void	join_tks(t_data *data)
 {
 	t_token	*next;
@@ -91,7 +106,7 @@ void	join_tks(t_data *data)
 		next = tk->next;
 		prev = tk->prev;
 		change_start_idx(data, &tk);
-		if (prev && prev->endidx == tk->startidx)
+		if (joinable(prev, tk))
 		{
 			join_prev_tk(tk);
 			delete_tk(&data->token, &tk);
