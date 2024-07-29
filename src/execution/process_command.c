@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   process_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:07:11 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 20:57:45 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 12:04:11 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,13 @@ void	execute_child(t_vector *cmd_vector, t_data *data, int has_pipe[])
 
 int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[], int has_pipe[])
 {
+	int	dup_status;
+
+	dup_status = 0;
+	dup_status += dup2(data->std_fd[0], STDIN_FILENO);
+	dup_status += dup2(data->std_fd[1], STDOUT_FILENO);
+	if (dup_status < 0)
+		return (PANIC);
 	if (add_pid_node(data, pid_child) == PANIC)
 		return (PANIC);
 	if (redirect_parent(data, pipe_fd, has_pipe) == PANIC)
@@ -72,19 +79,7 @@ int	handle_parent(t_data *data, pid_t pid_child, int pipe_fd[], int has_pipe[])
 	return (SUCCESS);
 }
 
-int	reset_terminal(int std_fd[])
-{
-	int	dup_status;
-
-	dup_status = 0;
-	dup_status += dup2(std_fd[0], STDIN_FILENO);
-	dup_status += dup2(std_fd[1], STDOUT_FILENO);
-	if (dup_status < 0)
-		return (PANIC);
-	return (SUCCESS);
-}
-
-int	process_command(t_parser *p, t_data *data, int std_fd[])
+int	process_command(t_parser *p, t_data *data)
 {
 	int			pipe_fd[2];
 	int			has_pipe[2];
@@ -108,9 +103,6 @@ int	process_command(t_parser *p, t_data *data, int std_fd[])
 		execute_child(cmd_table->cmd_buff, data, has_pipe);
 	}
 	else
-	{
-		reset_terminal(std_fd);
 		return (handle_parent(data, pid_child, pipe_fd, has_pipe));
-	}
 	return (SUCCESS);
 }

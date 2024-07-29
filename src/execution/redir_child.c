@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redir_child.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 14:00:07 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 20:55:30 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 12:01:27 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define STD_FILEIN 3
-#define STD_FILEOUT 4
 
 int	redir_files(int file_fd[])
 {
@@ -102,8 +100,8 @@ int	redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[])
 	char	*bad_file;
 
 	bad_file = NULL;
-	close(STD_FILEIN);
-	close(STD_FILEOUT);
+	close(data->std_fd[0]);
+	close(data->std_fd[1]);
 	if (redirect_pipe(p_fd, has_pipe) < 0)
 		return (PANIC);
 	bad_file = check_infiles(p);
@@ -113,6 +111,3 @@ int	redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[])
 		return (PANIC);
 	return (SUCCESS);
 }
-
-#undef STD_FILEIN
-#undef STD_FILEOUT

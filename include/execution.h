@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 20:36:00 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 12:00:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int		add_pid_node(t_data *data, int pid);
 
 int		execute_data(t_data *data);
 char	**make_command_array(t_vector *vector);
-int		execute_commands(t_data *data, int std_fd[]);
-int		process_command(t_parser *p, t_data *data, int std_fd[]);
+int		execute_commands(t_data *data);
+int		process_command(t_parser *p, t_data *data);
 int		redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[]);
 char	*check_infiles(t_parser *parser);
 void	throw_bad_file(t_data *data, char *bad_file);

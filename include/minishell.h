@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/21 16:47:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/29 11:55:56 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:58:51 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_data
 	char			**env;
 	int				errcode;
 	int				prev_fd;
+	int				std_fd[2];
 	char			*prompt;
 	t_token			*token;
 	t_varlist		*env_vars;
