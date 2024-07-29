@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 11:17:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 13:32:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ int	tokenize_data(t_data *data)
 int	get_input(t_data *data, char *prompt)
 {
 	data->input = readline(prompt);
+	if (g_sig_offset)
+	{
+		data->errcode = SIG_OFFSET + 2;
+		g_sig_offset = 0;
+	}
 	if (data->input)
 		add_history(data->input);
 	else
@@ -78,11 +83,6 @@ int	main(int argc, char **argv, char **env)
 		data.prompt = get_prompt(data.prompt);
 		if (get_input(&data, data.prompt) == PANIC)
 			break ;
-		if (g_sig_offset)
-		{
-			data.errcode = SIG_OFFSET + 2;
-			g_sig_offset = 0;
-		}
 		if (tokenize_data(&data) == PANIC)
 			continue ;
 		parse_data(&data);
