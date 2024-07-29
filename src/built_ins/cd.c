@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:29:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 08:30:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:26:31 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,16 @@ void	call_cd(t_data *data, char **cmd)
 
 	if (!cmd[1] || ft_strcmp(cmd[1], "-") == 0)
 		return ;
+	if (cmd[2])
+		return (ft_putendl_fd("minishell: cd: too many arguments", 2));
 	p = cmd[1];
 	update_pwd(data, true);
 	if (chdir(p) != 0)
 	{
-		ft_printf("Error: invalid path for cd '%s': %s\n", p, strerror(errno));
+		ft_putstr_fd("Error: invalid path for cd '", 2);
+		ft_putstr_fd(p, 2);
+		ft_putstr_fd("': ", 2);
+		ft_putendl_fd(strerror(errno), 2);
 		return ;
 	}
 	update_pwd(data, false);
