@@ -1,2 +1,11 @@
 echo "HELLO       WORLD"
 echo Hello World What
+echo $?
+echo $PATH
+echo '$PATH'
+echo "$PATH"
+echo $HOME"yo"
+echo "Annoying"' '"quotes"
+ls
+ls -a
+cat Makefile | grep SRC | wc -l
