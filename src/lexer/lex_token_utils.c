@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 11:46:10 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/25 17:45:55 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 14:56:59 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,14 @@ t_tokentype	get_last_tk_type(t_data *data)
 t_token	*get_token(t_data *data, char *lexstr, char *path, t_tokentype type)
 {
 	t_token	*token;
+	t_token	*last;
 
-	if (type == TK_PIPE)
+	last = lex_get_last_token(data);
+	if (last && last->type == TK_PIPE && lexstr && *lexstr == '|')
 	{
-		if (!data->token)
-			return (free(lexstr), NULL);
-		token = data->token;
-		while (token->next)
-			token = token->next;
-		if (token->type == TK_PIPE || token->type == TK_REDIR)
-			return (free(lexstr), NULL);
+		free(lexstr);
+		lexstr = NULL;
+		return (NULL);
 	}
 	token = ft_calloc(1, sizeof(t_token));
 	if (!token)

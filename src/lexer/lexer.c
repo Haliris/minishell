@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/28 16:14:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 14:56:01 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,9 @@ int	lexer(t_data *data)
 
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
-		return (1);
+		return (LEXER_ERROR);
 	if (invalid_tokens(data))
-		return (1);
+		return (LEXER_ERROR);
 	if (build_heredocs(data) == PANIC)
 	{
 		unlink_heredocs(data);
