@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 16:53:36 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 16:30:48 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:00:20 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int		process_command(t_parser *p, t_data *data);
 int		redir_child(t_parser *p, t_data *data, int p_fd[], int has_pipe[]);
 char	*check_infiles(t_parser *parser);
 void	throw_bad_file(t_data *data, char *bad_file);
-int		redirect_parent(int p_fd[]);
+int		redirect_parent(t_data *data, int p_fd[], int has_pipe[]);
+void	free_piddata(t_data *data);
 
 #endif
