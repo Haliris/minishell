@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 11:55:59 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 13:41:33 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 bool	is_delim(char c, bool echo_str)
 {
 	if (!echo_str)
-		return (in(c, "$ \t\n\v\f\r=()<>|\"\'"));
+		return (in(c, "$ \t\n\v\f\r=<>|\"\'"));
 	else
-		return (in(c, "$ \t\n\v\f\r()<>|\"\'"));
+		return (in(c, "$ \t\n\v\f\r<>|\"\'"));
 }
 
 bool	var_in_str(char *s, char quote)
