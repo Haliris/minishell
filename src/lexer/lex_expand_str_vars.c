@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 16:46:28 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:36:48 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ char	*extract_key_from_str(char *str, size_t start)
 	if (ft_strncmp(str + start, "$$", 2) == 0)
 		return (ft_strdup("$"));
 	end = start + 1;
-	while (str[end] && (!is_delim(str[end]) && !in(str[end], ";:/,.~^=")))
+	while (str[end] && (!is_delim(str[end], false)
+			&& !in(str[end], ";:/,.~^=")))
 		end++;
 	if (end == start + 1)
 		return (NULL);
@@ -100,7 +101,7 @@ void	expand_string_var(t_data *data, char **str)
 			impute_var_val(str, exit_code_str, "$?\0", i);
 			free(exit_code_str);
 		}
-		else if ((*str)[i] == '$' && (!is_delim((*str)[i + 1])
+		else if ((*str)[i] == '$' && (!is_delim((*str)[i + 1], false)
 			|| (*str)[i + 1] == '$'))
 			expand_single_var(data, str, i);
 		i++;

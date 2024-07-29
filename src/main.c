@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/22 16:37:01 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 11:17:40 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	tokenize_data(t_data *data)
 		lex_status = lexer(data);
 		if (lex_status == LEXER_ERROR)
 		{
+			free_lexmem(data);
 			throw_lexer_error(data);
 			return (PANIC);
 		}

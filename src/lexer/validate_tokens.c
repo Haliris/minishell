@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 15:09:10 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 18:11:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,6 @@ static bool	is_orphaned_op(t_token *token)
 	return (false);
 }
 
-static bool	space_within_lexstr(t_token *token)
-{
-	size_t	i;
-
-	i = 0;
-	while (token->lexstr && token->lexstr[i])
-	{
-		if (is_space(token->lexstr[i]))
-			return (true);
-		i++;
-	}
-	return (false);
-}
-
 static void	detect_executables(t_data *data)
 {
 	t_token	*curr_tk;
@@ -75,7 +61,9 @@ static void	detect_executables(t_data *data)
 	curr_tk = data->token;
 	while (curr_tk)
 	{
-		if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
+		if (is_builtin(curr_tk->lexstr, 0))
+			curr_tk->type = TK_BUILTIN;
+		else if (curr_tk->type == TK_STRING && !space_within_lexstr(curr_tk)
 			&& is_executable(data, curr_tk->lexstr, 0))
 		{
 			curr_tk->path = get_exec_path(data, curr_tk->lexstr, 0);
@@ -95,6 +83,7 @@ bool	invalid_tokens(t_data *data)
 	bool	ret;
 
 	token = data->token;
+	join_tks(data);
 	detect_executables(data);
 	ret = (invalid_tk_exists(token)
 			|| is_orphaned_op(token));

@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 13:38:30 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/27 17:07:13 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 15:50:46 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ t_token	*get_var_tk(t_data *data, char *input, size_t start_idx)
 	end_idx = start_idx + 1;
 	if (!search_str && !ft_isalpha(input[end_idx]) && input[end_idx] != '_' )
 		return (NULL);
-	while (input[end_idx] && !is_delim(input[end_idx])
+	while (input[end_idx] && !is_delim(input[end_idx], false)
 		&& !invalid_path_char(input[end_idx]))
 		end_idx++;
 	if (end_idx == start_idx + 1 && !search_str)
