@@ -2,7 +2,7 @@
 
 MINISHELL_PATH="./minishell"
 TEST_COMMANDS="test_commands.txt"
-TEMP_DIR="/tmp/shell_comparison"
+TEMP_DIR="./shell_comparison"
 
 mkdir -p "$TEMP_DIR"
 
@@ -14,6 +14,8 @@ do
 
     bash -c "$cmd" > "$TEMP_DIR/bash_output" 2> "$TEMP_DIR/bash_error"
 
+	echo Coproc_ID $MINISHELL_PID
+	echo Parent_ID $$
     echo "$cmd" >&${MINISHELL[1]}
     read -r output <&${MINISHELL[0]}
     echo "$output" > "$TEMP_DIR/minishell_output"
@@ -32,5 +34,6 @@ do
 
 done < "$TEST_COMMANDS"
 
-kill $COPROC_PID
-rm -rf "$TEMP_DIR"
+pkill -P $MINISHELL_PID
+rm -rf $TEMP_DIR
+
