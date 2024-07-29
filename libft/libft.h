@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 16:02:39 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/27 14:01:25 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 11:40:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void		ft_putstr_fd(char *s, int fd);
 
 char		*ft_strjoin3(char *s1, char *s2, char *s3);
 char		*ft_strreplacejoin(char **s1, char **s2);
+char		*ft_strarrjoin(char **arr, size_t num_entries);
 
 typedef struct s_list
 {

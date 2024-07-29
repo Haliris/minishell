@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/26 08:19:07 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 12:05:18 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,29 @@ static void	print_env(t_data *data)
 	}
 }
 
+static char	*get_export_val(char **cmd, int cmd_len)
+{
+	char	*ret;
+	size_t	i;
+
+	if (!cmd || !*cmd)
+		return (NULL);
+	if (cmd_len < 4)
+		return (ft_strdup(""));
+	ret = ft_strdup(cmd[3]);
+	i = 0;
+	while (ret[i])
+	{
+		if (invalid_path_char(ret[i]))
+		{
+			free(ret);
+			return (NULL);
+		}
+		i++;
+	}
+	return (ret);
+}
+
 /* unfinished, need to add in / replace var */
 void	call_export(t_data *data, char **cmd)
 {
@@ -61,8 +84,6 @@ void	call_export(t_data *data, char **cmd)
 	cmd_len = get_cmd_len(cmd);
 	if (cmd_len == 1)
 		return (print_env(data));
-	if (cmd_len < 4 || ft_strcmp(cmd[2], "="))
-		return ;
 	if (invalid_key(cmd[1]))
 	{
 		ft_putstr_fd("minishell: export: '", 2);
@@ -73,7 +94,7 @@ void	call_export(t_data *data, char **cmd)
 	key = ft_strdup(cmd[1]);
 	if (!key)
 		return ;
-	val = ft_strdup(cmd[3]);
+	val = get_export_val(cmd, cmd_len);
 	if (!val)
 		return (free(key));
 	if (add_var(&data->env_vars, key, val))

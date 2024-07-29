@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 12:26:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 18:11:12 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 12:00:47 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static bool	is_orphaned_op(t_token *token)
 			is_echo = true;
 		if (token->type == TK_PIPE && (!token->prev || !token->next))
 			return (true);
-		if (token->type == TK_OPERATOR && !next && !is_echo)
+		if (token->type == TK_OPERATOR && !next && !is_echo
+			&& !in_builtin(token, "export"))
 			return (true);
 		if (token->type == TK_REDIR && (!next))
 			return (true);

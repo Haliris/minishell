@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 15:35:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 11:55:59 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ bool	is_invalid_export(t_data *data, size_t curr_idx)
 	last_tk = lex_get_last_token(data);
 	if (last_tk && ft_strcmp("=", last_tk->lexstr) == 0)
 	{
-		if (last_tk->prev && last_tk->prev->prev
-			&& ft_strcmp("export", last_tk->prev->prev->lexstr) == 0)
+		if (in_builtin(last_tk, "export"))
 		{
-			if (is_space(data->input[curr_idx]))
-				return (true);
-			else if (space_before_last_equals(data->input, curr_idx))
+			if (space_before_last_equals(data->input, curr_idx))
 				return (true);
 		}
 	}
