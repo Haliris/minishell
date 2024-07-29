@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/29 22:43:30 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 22:47:45 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	reset_terminal(t_data *data)
 	dup_status += dup2(data->std_fd[1], STDOUT_FILENO);
 	if (dup_status < 0)
 		return (PANIC);
-	return (SUCCESS);	
+	return (SUCCESS);
 }
 
 static void	read_and_discard_pipein(int pipe[])
