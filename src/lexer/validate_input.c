@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/07 16:48:14 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/21 15:30:27 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 13:41:11 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static bool	special_chars(char *input, size_t len)
 			while (i < len && input[i] != quote)
 				i++;
 		}
-		if (input[i] == '\\' || input[i] == ';' || !ft_isascii(input[i]))
+		if (in(input[i], "\\;") || !ft_isascii(input[i]))
 			return (true);
 		i++;
 	}
