@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/28 16:14:06 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 14:49:31 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 		curr_tk = get_token(data, ft_strdup("$?"), NULL, TK_EXITSTATUS);
 	else if (data->input[*i] == '$' && data->input[*i + 1])
 		curr_tk = get_var_tk(data, data->input, *i);
+	else if (data->input[*i] == '|')
+		return (NULL);
 	else
 		curr_tk = get_string_tk(data, i);
 	return (curr_tk);
@@ -78,7 +80,8 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 		skip_invalid_chars(data, input_len, &i);
 		if (i >= input_len)
 			break ;
-		else if (data->input[i] == '|')
+		else if (data->input[i] == '|' && lex_get_last_token(data)
+			&& lex_get_last_token(data)->type != TK_PIPE)
 			curr_tk = get_token(data, ft_strdup("|"), NULL, TK_PIPE);
 		else
 			curr_tk = build_tokenlist2(data, &i);
@@ -119,9 +122,9 @@ int	lexer(t_data *data)
 
 	input_len = ft_strlen(data->input);
 	if (build_tokenlist1(data, input_len))
-		return (1);
+		return (LEXER_ERROR);
 	if (invalid_tokens(data))
-		return (1);
+		return (LEXER_ERROR);
 	if (build_heredocs(data) == PANIC)
 	{
 		unlink_heredocs(data);
