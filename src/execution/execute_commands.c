@@ -6,7 +6,7 @@
 /*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 14:19:59 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/26 15:34:20 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 12:00:11 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,24 +82,23 @@ int	execute_commands(t_data *data)
 int	execute_data(t_data *data)
 {
 	int			status;
-	int			std_fd[2];
-	int			dup_status;
 
 	status = SUCCESS;
-	std_fd[0] = dup(STDIN_FILENO);
-	std_fd[1] = dup(STDOUT_FILENO);
-	dup_status = 0;
-	if (std_fd[0] < 0 || std_fd[1] < 0)
+	data->std_fd[0] = dup(STDIN_FILENO);
+	data->std_fd[1] = dup(STDOUT_FILENO);
+	if (data->std_fd[0] < 0 || data->std_fd[1] < 0)
 		return (PANIC);
 	if (data->parsedata->table)
 		status = execute_commands(data);
 	if (data->parsedata)
 		free_parsed_mem(&data->parsedata);
-	dup_status += dup2(std_fd[0], STDIN_FILENO);
-	dup_status += dup2(std_fd[1], STDOUT_FILENO);
-	if (dup_status < 0)
-		return (PANIC);
-	close(std_fd[0]);
-	close(std_fd[1]);
+	close(data->std_fd[0]);
+	close(data->std_fd[1]);
+	if (data->prev_fd != STDIN_FILENO)
+		close(data->prev_fd);
+	if (data->piddata)
+		free_piddata(data);
+	data->piddata = NULL;
+	data->prev_fd = STDIN_FILENO;
 	return (status);
 }

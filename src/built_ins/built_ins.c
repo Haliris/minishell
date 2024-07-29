@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/16 17:59:53 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/25 18:53:07 by marvin           ###   ########.fr       */
+/*   Updated: 2024/07/29 12:03:06 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#define FD_STDIN 3
-#define FD_STDOUT 4
 
 static void	read_and_discard_pipein(int pipe[])
 {
@@ -40,8 +38,8 @@ void	call_builtin(char **command, t_data *data, int mode, int pipe[])
 	{
 		if (mode == PARENT)
 		{
-			close(FD_STDIN);
-			close(FD_STDOUT);
+			close(data->std_fd[0]);
+			close(data->std_fd[1]);
 		}
 		call_exit(data, command, mode);
 	}
@@ -90,6 +88,3 @@ void	execute_builtin(t_vector *vector, t_data *data, int mode, int pipe[])
 	if (command)
 		free_strarray(command);
 }
-
-#undef FD_STDIN
-#undef FT_STDOUT

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/23 07:30:21 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/28 17:11:22 by jteissie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ int	init(t_data *data, char **env)
 	data->parsedata->next = NULL;
 	data->heredata = NULL;
 	data->piddata = NULL;
+	data->prev_fd = STDIN_FILENO;
 	g_sig_offset = 0;
 	if (init_env(data, env))
 		return (PANIC);

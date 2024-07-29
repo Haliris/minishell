@@ -31,7 +31,7 @@ void	interrupt_exec(int status)
 void	quit_exec(int status)
 {
 	(void)status;
-	write(STDERR_FILENO, "QUIT\n", 5);
+	write(STDERR_FILENO, "QUIT (core dumped)\n", 19);
 }
 
 void	interrupt_main(int status)
