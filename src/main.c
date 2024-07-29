@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:43:42 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 11:17:40 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 13:32:12 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,10 @@ int	tokenize_data(t_data *data)
 		lex_status = lexer(data);
 		if (lex_status == LEXER_ERROR)
 		{
-			free_lexmem(data);
 			throw_lexer_error(data);
 			return (PANIC);
 		}
-		else if (lex_status == HEREDOC_INTERRUPT)
+		else if (lex_status)
 		{
 			free_lexmem(data);
 			return (PANIC);
