@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 16:32:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:24:37 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ bool		is_executable(t_data *data, char *input, size_t start_idx);
 bool		is_delim(char c, bool echo_str);
 bool		invalid_path_char(char c);
 bool		space_within_lexstr(t_token *token);
-bool		in_echo(t_token *tk);
+bool		in_builtin(t_token *tk, char *lexstr);
 
 /* input validation */
 bool		valid_input(char *input, t_data *data);

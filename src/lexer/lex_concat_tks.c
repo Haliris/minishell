@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:23:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 18:26:42 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:41:17 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void	join_tks(t_data *data)
 		next = tk->next;
 		prev = tk->prev;
 		change_start_idx(data, &tk);
-		if (prev && prev->endidx == tk->startidx)
+		if (!(in_builtin(tk, "echo"))
+			&& !(ft_strcmp(tk->lexstr, "=")
+				|| ft_strcmp(prev->lexstr, "="))
+			&& (prev && prev->endidx >= tk->startidx))
 		{
 			join_prev_tk(tk);
 			delete_tk(&data->token, &tk);

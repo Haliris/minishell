@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 15:37:11 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:24:50 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_token	*get_string_tk(t_data *data, size_t *start_idx)
 	t_token		*str_tk;
 	bool		echo_str;
 
-	echo_str = in_echo(lex_get_last_token(data));
+	echo_str = in_builtin(lex_get_last_token(data), "echo");
 	str_tk = get_token(data, NULL, NULL, TK_STRING);
 	if (!str_tk)
 		return (NULL);

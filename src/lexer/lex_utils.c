@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 19:52:36 by bento             #+#    #+#             */
-/*   Updated: 2024/07/28 16:49:08 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 10:24:25 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*get_substr(char *input, size_t start_idx)
 	return (substr);
 }
 
-bool	in_echo(t_token *tk)
+bool	in_builtin(t_token *tk, char *lexstr)
 {
 	t_token	*prev;
 
@@ -49,7 +49,7 @@ bool	in_echo(t_token *tk)
 		if (tk->type == TK_PIPE || tk->type == TK_REDIR
 			|| tk->type == TK_HEREDOC)
 			return (false);
-		if (ft_strcmp("echo", tk->lexstr) == 0
+		if (ft_strcmp(lexstr, tk->lexstr) == 0
 			&& (!prev || !prev->prev || (prev->prev->type == TK_PIPE
 					|| prev->prev->type == TK_REDIR
 					|| prev->prev->type == TK_HEREDOC)))
