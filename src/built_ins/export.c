@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 15:18:38 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 16:02:44 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static bool	invalid_key(char *s)
 			return (true);
 		i++;
 	}
+	if (i == 0)
+		return (true);
 	return (false);
 }
 
@@ -53,12 +55,14 @@ static void	print_env(t_data *data)
 	}
 }
 
-static char	*get_export_val(char **cmd, int cmd_len)
+static char	*get_export_val(t_data *data, char *key, char **cmd, int cmd_len)
 {
 	char	*ret;
 	size_t	i;
 
 	if (!cmd || !*cmd)
+		return (NULL);
+	if (cmd_len == 2 && in_vlist(data->env_vars, key))
 		return (NULL);
 	if (cmd_len < 4)
 		return (ft_strdup(""));
@@ -96,7 +100,7 @@ void	call_export(t_data *data, char **cmd)
 	key = ft_strdup(cmd[1]);
 	if (!key)
 		return ;
-	val = get_export_val(cmd, cmd_len);
+	val = get_export_val(data, key, cmd, cmd_len);
 	if (!val)
 		return (free(key));
 	if (add_var(&data->env_vars, key, val))
