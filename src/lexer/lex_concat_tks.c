@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:23:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 11:03:16 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/29 12:17:02 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,14 @@ static void	change_start_idx(t_data *data, t_token **token)
 static bool	joinable(t_token *prev_tk, t_token *curr_tk)
 {
 	if (!prev_tk || !curr_tk)
+		return (false);
+	if (prev_tk->type == TK_PIPE
+		|| prev_tk->type == TK_REDIR
+		|| prev_tk->type == TK_HEREDOC)
+		return (false);
+	if (curr_tk->type == TK_PIPE
+		|| curr_tk->type == TK_REDIR
+		|| curr_tk->type == TK_HEREDOC)
 		return (false);
 	if (prev_tk->endidx < curr_tk->startidx)
 		return (false);
