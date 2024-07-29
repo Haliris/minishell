@@ -49,8 +49,6 @@ do
     # Process minishell output
     sed '1d;/minishell>/d' "$TEMP_DIR/minishell_output" > "$TEMP_DIR/minishell_processed"
 
-    cat "$TEMP_DIR/minishell_processed"
-
     if ! diff -q "$TEMP_DIR/bash_output" "$TEMP_DIR/minishell_processed" >/dev/null
     then 
         echo "Difference in stdout for command: $cmd"
