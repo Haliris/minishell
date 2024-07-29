@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 18:14:25 by jteissie          #+#    #+#             */
-/*   Updated: 2024/07/28 17:34:45 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/29 14:18:47 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	handle_error(char *message, int code, t_data *data, char **cmd)
 		ft_putstr_fd(cmd[0], STDERR_FILENO);
 	if (message)
 	{
+		ft_putchar_fd(' ', STDERR_FILENO);
 		ft_putstr_fd(message, STDERR_FILENO);
 		ft_putchar_fd('\n', STDERR_FILENO);
 	}
