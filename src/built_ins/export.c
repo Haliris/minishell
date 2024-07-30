@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/30 13:27:36 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 13:43:17 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	invalid_key(char *s)
 	i = 0;
 	while (s && s[i])
 	{
-		if (i == 0 && !ft_isalpha(s[i]))
+		if (i == 0 && (!ft_isalpha(s[i]) && s[i] != '_'))
 			return (true);
 		if (invalid_path_char(s[i]))
 			return (true);
