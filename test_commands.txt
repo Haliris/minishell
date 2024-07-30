@@ -1,0 +1,32 @@
+echo "Hello, World!"
+echo Hello World
+echo $USER
+echo $HOME
+echo "This is a test"
+echo 'This is a test'
+echo $HOME
+echo "$HOME is the home directory"
+echo '$HOME is the home directory'
+echo "Hello, World!" | tr '[:lower:]' '[:upper:]'
+ls | grep minishell
+cat Makefile | grep SRC | wc -l
+echo $? + $?
+echo "SPACES ARE COOL                      "
+echo "very"'annoying' quotes!
+echo "EVEN MORE ANNOYING $HOMECOUCOU'$HOME'"'$HOME'"$"HOME"$HOME"
+echo "MORE MORE MORE "$DISPLAY$HOME" $? "HOME" $ $ $HOMECOUCOU'$HOME'"'$HOME'"$"HOME"$HOME"
+ls > output2.txt > output3.txt > output4.txt > /dev/stdout
+cat output2.txt
+cat output3.txt
+cat output4.txt
+< Makefile < src/main.c ls > output2.txt -a > output4.txt
+cat output4.txt
+cat /etc/passwd | wc -l
+ls -l | grep minishell | wc -l
+echo "Hello, World!" > output.txt
+cat output.txt
+cat < output.txt
+echo "Appending to file" >> output.txt
+cat output.txt
+ls -la
+pwd
