@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 12:36:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 14:12:46 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 11:34:21 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,7 @@ static bool	space_before_last_equals(char *input, size_t idx)
 {
 	while (input[idx] != '=')
 		idx--;
-	idx--;
-	if (is_space(input[idx - 1]))
+	if (is_space(input[idx - 1]) || is_space(input[idx + 1]))
 		return (true);
 	return (false);
 }

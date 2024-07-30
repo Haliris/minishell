@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/30 11:15:39 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 11:33:32 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	build_tokenlist1(t_data *data, size_t input_len)
 	while (i < input_len)
 	{
 		if (is_invalid_export(data, i))
-			return (PANIC);
+			return (1);
 		skip_invalid_chars(data, input_len, &i);
 		if (i >= input_len)
 			break ;
