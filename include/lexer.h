@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/27 19:30:56 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 10:24:37 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 13:21:30 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define LEXER_H
 
 # include "minishell.h"
+
+# define DOLLAR_LITERAL ";:/,.~^=+-@*"
 
 typedef struct s_data		t_data;
 typedef enum e_tokentype

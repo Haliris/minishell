@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 10:41:19 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 15:36:48 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 13:21:41 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*extract_key_from_str(char *str, size_t start)
 		return (ft_strdup("$"));
 	end = start + 1;
 	while (str[end] && (!is_delim(str[end], false)
-			&& !in(str[end], ";:/,.~^=")))
+			&& !in(str[end], DOLLAR_LITERAL)))
 		end++;
 	if (end == start + 1)
 		return (NULL);

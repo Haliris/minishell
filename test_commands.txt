@@ -30,3 +30,35 @@ echo "Appending to file" >> output.txt
 cat output.txt
 ls -la
 pwd
+echo $
+echo $:
+echo $:====
+echo $HOME
+echo $9HOME
+echo $::":"$":"
+echo ""'$HOME'
+echo "$HOME"
+echo $'WOW'
+echo "$"awooga""
+echo "$notreal" $HOME
+echo "$notreal""wow"
+echo $LESS$VAR
+unset ++++++
+expr $? + $?
+ls | exit
+echo '$notreal'
+echo "":$::::????"$HOME"
+echo "simple string with no worries"
+echo simple string with no worries
+echo $VAR:$:$VAR::$:
+echo "$HOME$PATH:${UNSET:-default}"
+echo '$HOME'"$HOME"'$HOME'
+echo ::::???'''""$PATH""'''????::::
+echo $HOME::::$USER::::$PATH
+echo $VAR:$VAR::"$VAR"::$VAR
+echo $1 $2 $3 $@ $*
+echo ${#HOME} ${HOME#/} ${HOME%/}
+echo $+
+echo $-
+echo $`
+echo $~

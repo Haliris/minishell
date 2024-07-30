@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 16:23:45 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 12:17:02 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 12:44:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,9 @@ static void	change_start_idx(t_data *data, t_token **token)
 	quote = 0;
 	while ((*token)->startidx > 1)
 	{
+		if (in(data->input[(*token)->startidx], "\'\"")
+			&& data->input[(*token)->startidx - 1] == '$')
+			(*token)->startidx -= 1;
 		if (in(data->input[(*token)->startidx - 1], "\'\""))
 			quote = data->input[(*token)->startidx - 1];
 		if (data->input[(*token)->startidx - 2] == quote)

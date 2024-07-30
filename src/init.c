@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jteissie <jteissie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 16:48:40 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/28 17:11:22 by jteissie         ###   ########.fr       */
+/*   Updated: 2024/07/30 12:55:52 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	init(t_data *data, char **env)
 	data->errcode = EXIT_SUCCESS;
 	data->parsedata = ft_calloc(1, sizeof(t_parser));
 	if (!data->parsedata)
-		return (PANIC);
+		return (1);
 	data->parsedata->table = NULL;
 	data->parsedata->next = NULL;
 	data->heredata = NULL;
@@ -95,7 +95,7 @@ int	init(t_data *data, char **env)
 	data->prev_fd = STDIN_FILENO;
 	g_sig_offset = 0;
 	if (init_env(data, env))
-		return (PANIC);
+		return (1);
 	add_dummies(data);
 	return (0);
 }
