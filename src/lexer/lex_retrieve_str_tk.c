@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 10:40:12 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 14:44:11 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 10:47:58 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 t_token	*get_doll_str_tk(t_data *data, char *input, size_t *start_idx)
 {
+	t_token	*doll_tk;
 	char	*outstr;
 
 	outstr = ft_substr(input, *start_idx, 2);
-	(*start_idx) += 2;
 	if (!outstr)
 		return (NULL);
-	return (get_token(data, outstr, NULL, TK_STRING));
+	doll_tk = get_token(data, outstr, NULL, TK_STRING);
+	if (!doll_tk)
+		return (NULL);
+	doll_tk->startidx = *start_idx;
+	(*start_idx) += 2;
+	return (doll_tk);
 }
 
 static size_t	get_word_len(t_data *data, size_t startidx, bool echo_str)
