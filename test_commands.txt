@@ -50,3 +50,15 @@ echo '$notreal'
 echo "":$::::????"$HOME"
 echo "simple string with no worries"
 echo simple string with no worries
+echo $VAR:$:$VAR::$:
+echo "$HOME$PATH:${UNSET:-default}"
+echo '$HOME'"$HOME"'$HOME'
+echo ::::???'''""$PATH""'''????::::
+echo $HOME::::$USER::::$PATH
+echo $VAR:$VAR::"$VAR"::$VAR
+echo $1 $2 $3 $@ $*
+echo ${#HOME} ${HOME#/} ${HOME%/}
+echo $+
+echo $-
+echo $`
+echo $~

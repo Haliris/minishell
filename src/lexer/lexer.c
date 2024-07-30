@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:48:06 by bento             #+#    #+#             */
-/*   Updated: 2024/07/30 11:33:32 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 13:22:05 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	skip_invalid_chars(t_data *data, size_t input_len, size_t *i)
 			&& !in(input[(*i) + 1], "$?")
 			&& !is_space(input[(*i) + 1])
 			&& (!ft_isalpha(input[(*i) + 1])
-				&& !in(input[(*i) + 1], ":/,.~^=_")))
+				&& !in(input[(*i) + 1], DOLLAR_LITERAL)))
 			(*i) += 1 + (1 * ft_isdigit(input[*i + 1]));
 		else
 			return ;
@@ -50,7 +50,7 @@ static t_token	*build_tokenlist2(t_data *data, size_t *i)
 	else if (data->input[*i] == '=')
 		curr_tk = get_token(data, ft_strdup("="), NULL, TK_OPERATOR);
 	else if (data->input[*i] == '$' && data->input[(*i) + 1]
-		&& in(data->input[(*i) + 1], ":/,.~^="))
+		&& in(data->input[(*i) + 1], DOLLAR_LITERAL))
 		return (get_doll_str_tk(data, data->input, i));
 	else if (data->input[*i] == '$'
 		&& (!data->input[*i + 1] || is_space(data->input[*i + 1])))

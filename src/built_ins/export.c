@@ -6,7 +6,7 @@
 /*   By: bthomas <bthomas@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 20:32:33 by bthomas           #+#    #+#             */
-/*   Updated: 2024/07/29 16:02:44 by bthomas          ###   ########.fr       */
+/*   Updated: 2024/07/30 13:27:36 by bthomas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,13 @@ static char	*get_export_val(t_data *data, char *key, char **cmd, int cmd_len)
 	i = 0;
 	while (ret[i])
 	{
-		if (invalid_path_char(ret[i]))
+		if (!is_space(ret[i]) && !ft_isalnum(ret[i]))
 		{
-			free(ret);
-			return (NULL);
+			if (!in(ret[i], DOLLAR_LITERAL))
+			{
+				free(ret);
+				return (NULL);
+			}
 		}
 		i++;
 	}
