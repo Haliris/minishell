@@ -11,24 +11,33 @@ TEST_COMMANDS="test_commands.txt"
 TEMP_DIR="./shell_comparison"
 FIFO_PATH="$TEMP_DIR/minishell_fifo"
 
+if [ ! -f "$MINISHELL_PATH" ]; then
+	echo -e "${RED} No minishell executable found! Aborting. ${NC}"
+	exit
+fi
+
 mkdir -p "$TEMP_DIR"
 
 if [ ! -f "$TEST_COMMANDS" ]; then
     cat <<EOL > "$TEST_COMMANDS"
 # This file contains the commands to be tested in minishell.
 # Add one command per line.
-# The file is named test_commands.txt, the script checks for its name so do not rename it.
 # Lines starting with # are comments and will be ignored. Empty lines will be ignored.
 
-# Adding 'remove' as the last line will make the script remove it after it is done running. Otherwise the file will remain in the current working directory
-# and can be edited at will in between runs.
+# The file is named test_commands.txt, the script checks for its name so do not rename it.
+# Adding 'remove' as the last line will make the script remove it after it is done running. 
+# Otherwise, the file will remain in the working directory and can be editted at will between runs.
 
-# The script will NOT remove any files your minishell has created. By default, it will try to rm output1.txt up to output4.txt.
-# If you want to edit the way the script cleans up, just edit the cleanup() function.
+# The script will NOT remove any files your minishell has created unless specified in the cleanup() function. By default, it will try to rm output1.txt up to output4.txt.
+
+# The script does not handle commands that expect errors to be printed as error messages are typically custom.
+# The script will run once you exit vim.
+
 # Example commands:
 echo "Hello, World!"
 ls -l
 pwd
+cat Makefile | grep SRC | wc -l
 EOL
     vim "$TEST_COMMANDS"
 fi
