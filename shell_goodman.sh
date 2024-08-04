@@ -1,26 +1,76 @@
 #!/bin/bash
 
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m' 
+
 MINISHELL_PATH="./minishell"
 TEST_COMMANDS="test_commands.txt"
 TEMP_DIR="./shell_comparison"
 FIFO_PATH="$TEMP_DIR/minishell_fifo"
 
 mkdir -p "$TEMP_DIR"
+
+if [ ! -f "$TEST_COMMANDS" ]; then
+    cat <<EOL > "$TEST_COMMANDS"
+# This file contains the commands to be tested in minishell.
+# Add one command per line.
+# The file is named test_commands.txt, the script checks for its name so do not rename it.
+# Lines starting with # are comments and will be ignored. Empty lines will be ignored.
+
+# Adding 'remove' as the last line will make the script remove it after it is done running. Otherwise the file will remain in the current working directory
+# and can be edited at will in between runs.
+
+# The script will NOT remove any files your minishell has created. By default, it will try to rm output1.txt up to output4.txt.
+# If you want to edit the way the script cleans up, just edit the cleanup() function.
+# Example commands:
+echo "Hello, World!"
+ls -l
+pwd
+EOL
+    vim "$TEST_COMMANDS"
+fi
+
 mkfifo "$FIFO_PATH"
 
-# Start minishell in the background, reading from the FIFO
+cleanup() {
+	kill $MINISHELL_PID
+	# Add any additional files created by the commands here
+	rm -rf output.txt output2.txt output3.txt output4.txt
+
+	rm -rf "$TEMP_DIR"
+	exit
+}
+
+interrupted() {
+	echo -e "${RED} Script interrupted${NC}"
+	cleanup
+}
+
 $MINISHELL_PATH < "$FIFO_PATH" > "$TEMP_DIR/minishell_output" 2>&1 &
 MINISHELL_PID=$!
 
-echo "
-  _________.__           .__  .__    __________                    .__            
- /   _____/|  |__   ____ |  | |  |   \______   \_________.__. ____ |  |__   ____  
- \_____  \ |  |  \_/ __ \|  | |  |    |     ___/  ___<   |  |/ ___\|  |  \ /  _ \ 
- /        \|   Y  \  ___/|  |_|  |__  |    |   \___ \ \___  \  \___|   Y  (  <_> )
-/_______  /|___|  /\___  >____/____/  |____|  /____  >/ ____|\___  >___|  /\____/ 
-        \/      \/     \/                          \/ \/         \/     \/        
-"
-echo                         "....... ...............................    ..........................',;,,,'.................'''''',,,,,,;;;;;;::::ccccclllloo
+trap interrupted SIGINT
+
+echo -e " ${YELLOW}
+
+
+		  _____ _   _        _____ _          _ _    _____                 _                       
+		 |_   _| | ( )      / ____| |        | | |  / ____|               | |                      
+		   | | | |_|/ ___  | (___ | |__   ___| | | | |  __  ___   ___   __| |_ __ ___   __ _ _ __  
+		   | | | __| / __|  \___ \| '_ \ / _ \ | | | | |_ |/ _ \ / _ \ / _| | |_ | _ \ / _| | \_ \ 
+		  _| |_| |_  \__ \  ____) | | | |  __/ | | | |__| | (_) | (_) | (_| | | | | | | (_| | | | |
+		 |_____|\__| |___/ |_____/|_| |_|\___|_|_|  \_____|\___/ \___/ \__,_|_| |_| |_|\__,_|_| |_| 
+
+ 
+ ${NC}"
+
+echo -e                        "${YELLOW}                                                                                                                              
+________________________________________________________________________________________________________________________________________________________
+
+										 ....... ...............................    ..........................',;,,,'.................'''''',,,,,,;;;;;;::::ccccclllloo
                         ............................... .......................................,;;;;:;,'...........''''''',,,,,,;;;;;:::::cccclllllooo
                         .........................   ............................................',;;;cll:,'.......'''''',,,,,,;;;;;::::ccccccllloooood
                         ...........   ........  .................................................'',,;codxdc'....'''''',,,,,,;;;;;::::cccccllllooooddd
@@ -93,49 +143,54 @@ echo                         "....... ...............................    .......
                                       ...''''''',,,,,,;,,,,,,,,''''''''...................................':l:.....,:c:;'.........',,,,'..............
                                       ...''',,,,',,,,,;;;;,,,,,,,,,''''''..................................,;'......;cc:,'...........',;;;;;,'........
                                        ..''',,,;,,,,;;;;;;;,,,,,,,,''''''...................................... .....,::,'................';:c::;,....
-                                       ..''',,;;;;;;;;;;;;;;;;;,,,,'''''''....................................  ......,;;'...................',;clll:;"
+                                       ..''',,;;;;;;;;;;;;;;;;;,,,,'''''''....................................  ......,;;'...................',;clll:;
+									   
+______________________________________________________________________________________________________________________________________________________
+									   ${NC}"
 
-# Function to send a command to minishell
+
 send_command() {
     echo "$1" > "$FIFO_PATH"
     sleep 0.1
 }
 
-# Read and discard the initial prompt
+
+
 send_command ""
 
 while IFS= read -r cmd
 do
-    echo "Testing command: $cmd"
+    if [[ -z "$cmd" || "$cmd" == \#* || "$cmd" == "remove" ]]; then
+        continue
+    fi
+   echo -e "${YELLOW}Testing command: $cmd${NC}"
 
-    # Run in Bash
     bash -c "$cmd" > "$TEMP_DIR/bash_output" 2> "$TEMP_DIR/bash_error"
 
-    # Clear previous minishell output
     truncate -s 0 "$TEMP_DIR/minishell_output"
 
-    # Send command to minishell
     send_command "$cmd"
 
-    # Wait for output
     sleep 0.1
 
-    # Process minishell output
     sed '1d;/minishell>/d' "$TEMP_DIR/minishell_output" > "$TEMP_DIR/minishell_processed"
 
     if ! diff -q "$TEMP_DIR/bash_output" "$TEMP_DIR/minishell_processed" >/dev/null
     then 
-        echo "Diff KO :( : $cmd"
+        echo -e "${RED}Diff KO :(${NC}"
         echo "Diff:"
-        diff "$TEMP_DIR/bash_output" "$TEMP_DIR/minishell_processed"
+        diff --color=always "$TEMP_DIR/bash_output" "$TEMP_DIR/minishell_processed"
         echo 
 	else
-		echo "Diff ok! :)"
+		echo -e "${GREEN}Diff ok! :)${NC}"
     fi  
 
 done < "$TEST_COMMANDS"
 
-# Clean up
-kill $MINISHELL_PID
-rm -rf output.txt output2.txt output3.txt output4.txt
-rm -rf "$TEMP_DIR"
+last_line=$(tail -n 1 "$TEST_COMMANDS")
+if [[ "$last_line" == "remove" ]]; then
+    echo -e "${RED}$TEST_COMMANDS removed${NC}"
+    rm "$TEST_COMMANDS"
+fi
+
+cleanup
